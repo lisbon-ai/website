@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -sL https://lisbonai.xyz/index.html -o /tmp/lisbonai-index.html)",
+      "Read(//tmp/**)"
+    ]
+  }
+}
