@@ -1,6 +1,8 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
+
 import { speakers } from "../data/speakers";
 import { format } from "../data/format";
 import { faqs } from "../data/faqs";
@@ -8,37 +10,7 @@ import { faqs } from "../data/faqs";
 
 <Layout>
     <Header />
-
-    <!-- Hero -->
-    <section class="relative min-h-[90vh] overflow-hidden">
-        <video
-            class="absolute inset-0 h-full w-full object-cover"
-            src="/hero.mp4"
-            autoplay
-            loop
-            muted
-            playsinline
-            preload="auto"></video>
-        <div
-            class="pointer-events-none absolute inset-0 bg-gradient-to-b from-ink/40 via-transparent to-ink"
-        >
-        </div>
-        <div
-            class="relative mx-auto flex min-h-[90vh] max-w-6xl flex-col justify-end px-6 pb-24 pt-16 md:pt-28"
-        >
-            <h1
-                class="font-sans text-[18vw] font-black leading-[0.85] tracking-tight md:text-[14rem]"
-            >
-                LISBON <br class="md:hidden" />AI
-            </h1>
-            <div
-                class="mt-10 max-w-xl text-2xl font-medium leading-snug md:text-3xl"
-            >
-                2 days. 400 builders.<br />
-                Join September 23&ndash;24.
-            </div>
-        </div>
-    </section>
+    <Hero />
 
     <!-- What to expect -->
     <section class="border-t border-white/10">
@@ -47,17 +19,13 @@ import { faqs } from "../data/faqs";
                 <div
                     class="font-mono text-xs uppercase tracking-widest text-muted"
                 >
-                    [ What to expect ]
+                    [What to expect]
                 </div>
             </div>
             <div
                 class="space-y-6 text-xl leading-relaxed md:col-span-8 md:text-2xl"
             >
-                <p>
-                    AI isn't the next big thing&mdash;it <em
-                        class="not-italic font-bold">is</em
-                    > the big thing.
-                </p>
+                <p>AI isn't the next big thing - it is the big thing.</p>
                 <p>
                     Lisbon AI is the annual summit for people shipping AI in the
                     real world. No hype decks, no rubber-chicken dinners &mdash;
@@ -68,7 +36,7 @@ import { faqs } from "../data/faqs";
                     models in production, to chat about where we are now and
                     what's next.
                 </p>
-                <p class="font-mono text-base text-muted">Bring your laptop.</p>
+                <p>Bring your laptop.</p>
             </div>
         </div>
     </section>
@@ -80,7 +48,7 @@ import { faqs } from "../data/faqs";
                 <div
                     class="font-mono text-xs uppercase tracking-widest text-muted"
                 >
-                    [ Format ]
+                    [Format]
                 </div>
             </div>
             <ul class="md:col-span-8">
@@ -98,72 +66,6 @@ import { faqs } from "../data/faqs";
         </div>
     </section>
 
-    <!-- Speakers -->
-    <section id="speakers" class="border-t border-white/10">
-        <div class="mx-auto max-w-6xl px-6 py-20">
-            <div class="mb-12 flex items-baseline justify-between">
-                <div
-                    class="font-mono text-xs uppercase tracking-widest text-muted"
-                >
-                    [ Featured Speakers ]
-                </div>
-            </div>
-            <div class="grid gap-px bg-white/10 md:grid-cols-2 lg:grid-cols-3">
-                {
-                    speakers.map((s) => (
-                        <div class="flex flex-col gap-3 bg-ink p-6">
-                            <div class="font-mono text-[10px] uppercase tracking-widest text-muted">
-                                {s.topic}
-                            </div>
-                            <div class="text-xl font-medium">{s.name}</div>
-                            <div class="font-mono text-xs text-muted">
-                                [ {s.role}
-                                {s.org && (
-                                    <>
-                                        , <span>{s.org}</span>
-                                    </>
-                                )}{" "}
-                                ]
-                            </div>
-                        </div>
-                    ))
-                }
-            </div>
-        </div>
-    </section>
-
-    <!-- Stats -->
-    <section class="border-t border-white/10">
-        <div
-            class="mx-auto grid max-w-6xl grid-cols-3 divide-x divide-white/10 px-6 py-20 text-center"
-        >
-            <div>
-                <div class="text-5xl font-black md:text-7xl">20</div>
-                <div
-                    class="mt-3 font-mono text-xs uppercase tracking-widest text-muted"
-                >
-                    Speakers
-                </div>
-            </div>
-            <div>
-                <div class="text-5xl font-black md:text-7xl">5</div>
-                <div
-                    class="mt-3 font-mono text-xs uppercase tracking-widest text-muted"
-                >
-                    Topics
-                </div>
-            </div>
-            <div>
-                <div class="text-5xl font-black md:text-7xl">2</div>
-                <div
-                    class="mt-3 font-mono text-xs uppercase tracking-widest text-muted"
-                >
-                    Talk Days
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- FAQ -->
     <section class="border-t border-white/10">
         <div class="mx-auto grid max-w-6xl gap-12 px-6 py-20 md:grid-cols-12">
@@ -171,7 +73,7 @@ import { faqs } from "../data/faqs";
                 <div
                     class="font-mono text-xs uppercase tracking-widest text-muted"
                 >
-                    [ FAQ ]
+                    [FAQ]
                 </div>
             </div>
             <div class="md:col-span-8">
@@ -278,8 +180,8 @@ import { faqs } from "../data/faqs";
                 <ul class="space-y-2 text-sm">
                     <li><a href="#" class="hover:text-muted">About</a></li>
                     <li>
-                        <a href="#speakers" class="hover:text-muted"
-                            >Speakers</a>
+                        <a href="#speakers" class="hover:text-muted">Speakers</a
+                        >
                     </li>
                     <li><a href="#" class="hover:text-muted">Sponsors</a></li>
                     <li>
@@ -299,12 +201,14 @@ import { faqs } from "../data/faqs";
                     </li>
                     <li>
                         <a href="https://discord.gg/" class="hover:text-muted"
-                            >Discord</a>
+                            >Discord</a
+                        >
                     </li>
                     <li>
                         <a
                             href="https://x.com/lisbonaiconf"
-                            class="hover:text-muted">X</a>
+                            class="hover:text-muted">X</a
+                        >
                     </li>
                     <li><a href="#" class="hover:text-muted">Privacy</a></li>
                 </ul>
