@@ -6,6 +6,10 @@ import Hero from "../components/Hero.astro";
 import { speakers } from "../data/speakers";
 import { format } from "../data/format";
 import { faqs } from "../data/faqs";
+
+const brailleFrames = ["⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷"];
+const randomBraille = () =>
+    brailleFrames[Math.floor(Math.random() * brailleFrames.length)];
 ---
 
 <Layout>
@@ -16,9 +20,7 @@ import { faqs } from "../data/faqs";
     <section class="border-t border-white/10">
         <div class="mx-auto grid max-w-6xl gap-12 px-6 py-20 md:grid-cols-12">
             <div class="md:col-span-4">
-                <div
-                    class="font-mono text-xs uppercase tracking-widest text-muted"
-                >
+                <div class="font-mono text-xs uppercase text-muted">
                     [What to expect]
                 </div>
             </div>
@@ -45,9 +47,7 @@ import { faqs } from "../data/faqs";
     <section id="format" class="border-t border-white/10">
         <div class="mx-auto grid max-w-6xl gap-12 px-6 py-20 md:grid-cols-12">
             <div class="md:col-span-4">
-                <div
-                    class="font-mono text-xs uppercase tracking-widest text-muted"
-                >
+                <div class="font-mono text-xs uppercase text-muted">
                     [Format]
                 </div>
             </div>
@@ -70,18 +70,19 @@ import { faqs } from "../data/faqs";
     <section class="border-t border-white/10">
         <div class="mx-auto grid max-w-6xl gap-12 px-6 py-20 md:grid-cols-12">
             <div class="md:col-span-4">
-                <div
-                    class="font-mono text-xs uppercase tracking-widest text-muted"
-                >
-                    [FAQ]
-                </div>
+                <div class="font-mono text-xs uppercase text-muted">[FAQ]</div>
             </div>
             <div class="md:col-span-8">
                 {
                     faqs.map((faq) => (
                         <details class="group border-b border-white/10 py-5">
                             <summary class="flex cursor-pointer list-none items-center justify-between text-xl md:text-2xl">
-                                <span>{faq.q}</span>
+                                <span>
+                                    <span class="mr-2 font-mono text-base text-muted md:text-lg">
+                                        {randomBraille()}
+                                    </span>
+                                    {faq.q}
+                                </span>
                                 <span class="font-mono text-xs text-faint transition group-open:rotate-45">
                                     +
                                 </span>
@@ -96,60 +97,21 @@ import { faqs } from "../data/faqs";
         </div>
     </section>
 
-    <!-- Sponsors -->
-    <section class="border-t border-white/10">
-        <div class="mx-auto max-w-6xl px-6 py-20">
-            <div
-                class="mb-12 font-mono text-xs uppercase tracking-widest text-muted"
-            >
-                [ Sponsors ]
-            </div>
-            <div class="space-y-12">
-                <div>
-                    <div
-                        class="mb-4 font-mono text-xs uppercase tracking-widest text-muted"
-                    >
-                        Gold Sponsors
-                    </div>
-                    <div class="text-faint">Coming soon.</div>
-                </div>
-                <div>
-                    <div
-                        class="mb-4 font-mono text-xs uppercase tracking-widest text-muted"
-                    >
-                        Silver Sponsors
-                    </div>
-                    <div class="text-faint">Coming soon.</div>
-                </div>
-                <div>
-                    <div
-                        class="mb-4 font-mono text-xs uppercase tracking-widest text-muted"
-                    >
-                        Community Sponsors
-                    </div>
-                    <div class="text-faint">Coming soon.</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Tickets CTA -->
     <section id="tickets" class="border-t border-white/10">
         <div class="mx-auto grid max-w-6xl gap-12 px-6 py-24 md:grid-cols-12">
             <div class="md:col-span-4">
-                <div
-                    class="font-mono text-xs uppercase tracking-widest text-muted"
-                >
-                    [ Tickets ]
+                <div class="font-mono text-xs uppercase text-muted">
+                    [Tickets]
                 </div>
             </div>
             <div class="md:col-span-8">
                 <p class="max-w-2xl text-2xl leading-snug md:text-3xl">
-                    We're organizing highly curated technical sessions for
-                    engineers, for researchers. Sign up to be part of this.
+                    We're slowly starting to roll out to tickets to the 2026
+                    edition of Lisbon AI. Join the waiting list below.
                 </p>
                 <a
-                    href="#"
+                    href="https://tickets.lisbonai.xyz/registration"
                     class="mt-8 inline-block rounded-full bg-cream-warm px-6 py-3 text-ink hover:bg-cream"
                 >
                     Get tickets &rarr;
@@ -167,22 +129,13 @@ import { faqs } from "../data/faqs";
                 >
                     Lisbon AI
                 </div>
-                <p class="mt-3 max-w-xs text-sm text-muted">
-                    The annual summit for people shipping AI in the real world.
-                </p>
             </div>
             <div>
-                <div
-                    class="mb-3 font-mono text-xs uppercase tracking-widest text-muted"
-                >
+                <div class="mb-3 font-mono text-xs uppercase text-muted">
                     About
                 </div>
                 <ul class="space-y-2 text-sm">
                     <li><a href="#" class="hover:text-muted">About</a></li>
-                    <li>
-                        <a href="#speakers" class="hover:text-muted">Speakers</a
-                        >
-                    </li>
                     <li><a href="#" class="hover:text-muted">Sponsors</a></li>
                     <li>
                         <a href="#" class="hover:text-muted">Code of Conduct</a>
@@ -190,35 +143,35 @@ import { faqs } from "../data/faqs";
                 </ul>
             </div>
             <div>
-                <div
-                    class="mb-3 font-mono text-xs uppercase tracking-widest text-muted"
-                >
+                <div class="mb-3 font-mono text-xs uppercase text-muted">
                     Need help?
                 </div>
                 <ul class="space-y-2 text-sm">
                     <li>
-                        <a href="#tickets" class="hover:text-muted">Tickets</a>
-                    </li>
-                    <li>
-                        <a href="https://discord.gg/" class="hover:text-muted"
-                            >Discord</a
+                        <a
+                            href="https://tickets.lisbonai.xyz/registration"
+                            class="hover:text-muted">Tickets</a
                         >
                     </li>
                     <li>
                         <a
-                            href="https://x.com/lisbonaiconf"
+                            href="https://discord.com/invite/ExnMf8wTPU"
+                            class="hover:text-muted">Discord</a
+                        >
+                    </li>
+                    <li>
+                        <a
+                            href="https://x.com/lisbonai_"
                             class="hover:text-muted">X</a
                         >
                     </li>
-                    <li><a href="#" class="hover:text-muted">Privacy</a></li>
                 </ul>
             </div>
         </div>
         <div
-            class="mx-auto flex max-w-6xl items-center justify-between border-t border-white/10 px-6 py-6 font-mono text-xs uppercase tracking-widest text-muted"
+            class="mx-auto flex items-center justify-between border-t border-white/10 px-8 py-6 font-mono text-xs uppercase text-muted"
         >
             <span>&copy; 2026 Lisbon AI</span>
-            <span>Lisbon &mdash; Portugal</span>
         </div>
     </footer>
 </Layout>
