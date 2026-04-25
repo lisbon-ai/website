@@ -17,3 +17,7 @@
 .small-headline {
     @apply font-mono text-xs uppercase text-muted;
 }
+
+.big-headline {
+    @apply font-display text-8xl font-bold uppercase tracking-tight;
+}
