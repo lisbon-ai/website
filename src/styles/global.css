@@ -1,14 +1,19 @@
 @import "tailwindcss";
 
 @theme {
-	--font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-	--font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
-	--font-display: "Oswald", "Inter", ui-sans-serif, system-ui, sans-serif;
+    --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+    --font-mono:
+        "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    --font-display: "Oswald", "Inter", ui-sans-serif, system-ui, sans-serif;
 
-	--color-ink: #040429;
-	--color-cream: #fffefa;
-	--color-cream-warm: #fcffef;
-	--color-muted: #8989b0;
-	--color-faint: #666686;
-	--color-accent: #0099ff;
+    --color-ink: #040429;
+    --color-cream: #fffefa;
+    --color-cream-warm: #fcffef;
+    --color-muted: #8989b0;
+    --color-faint: #666686;
+    --color-accent: #0099ff;
+}
+
+.small-headline {
+    @apply font-mono text-xs uppercase text-muted;
 }

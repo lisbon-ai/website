@@ -20,9 +20,7 @@ const randomBraille = () =>
     <section class="border-t border-white/10">
         <div class="mx-auto grid max-w-6xl gap-12 px-6 py-20 md:grid-cols-12">
             <div class="md:col-span-4">
-                <div class="font-mono text-xs uppercase text-muted">
-                    [What to expect]
-                </div>
+                <div class="small-headline">[What to expect]</div>
             </div>
             <div
                 class="space-y-6 text-xl leading-relaxed md:col-span-8 md:text-2xl"
@@ -47,9 +45,7 @@ const randomBraille = () =>
     <section id="format" class="border-t border-white/10">
         <div class="mx-auto grid max-w-6xl gap-12 px-6 py-20 md:grid-cols-12">
             <div class="md:col-span-4">
-                <div class="font-mono text-xs uppercase text-muted">
-                    [Format]
-                </div>
+                <div class="small-headline">[Format]</div>
             </div>
             <ul class="md:col-span-8">
                 {
@@ -70,7 +66,7 @@ const randomBraille = () =>
     <section class="border-t border-white/10">
         <div class="mx-auto grid max-w-6xl gap-12 px-6 py-20 md:grid-cols-12">
             <div class="md:col-span-4">
-                <div class="font-mono text-xs uppercase text-muted">[FAQ]</div>
+                <div class="small-headline">[FAQ]</div>
             </div>
             <div class="md:col-span-8">
                 {
@@ -101,9 +97,7 @@ const randomBraille = () =>
     <section id="tickets" class="border-t border-white/10">
         <div class="mx-auto grid max-w-6xl gap-12 px-6 py-24 md:grid-cols-12">
             <div class="md:col-span-4">
-                <div class="font-mono text-xs uppercase text-muted">
-                    [Tickets]
-                </div>
+                <div class="small-headline">[Tickets]</div>
             </div>
             <div class="md:col-span-8">
                 <p class="max-w-2xl text-2xl leading-snug md:text-3xl">
@@ -122,37 +116,37 @@ const randomBraille = () =>
 
     <!-- Footer -->
     <footer class="border-t border-white/10">
-        <div class="mx-auto grid max-w-6xl gap-10 px-6 py-16 md:grid-cols-4">
-            <div class="md:col-span-2">
-                <div
-                    class="font-mono text-sm font-medium uppercase tracking-widest"
-                >
-                    Lisbon AI
-                </div>
-            </div>
+        <div class="mx-auto grid grid-cols-3 max-w-6xl gap-10 px-6 py-16">
+            <div class="small-headline">&copy; 2025-2026 Lisbon AI</div>
             <div>
                 <div class="mb-3 font-mono text-xs uppercase text-muted">
                     About
                 </div>
                 <ul class="space-y-2 text-sm">
-                    <li><a href="#" class="hover:text-muted">About</a></li>
-                    <li><a href="#" class="hover:text-muted">Sponsors</a></li>
-                    <li>
-                        <a href="#" class="hover:text-muted">Code of Conduct</a>
-                    </li>
-                </ul>
-            </div>
-            <div>
-                <div class="mb-3 font-mono text-xs uppercase text-muted">
-                    Need help?
-                </div>
-                <ul class="space-y-2 text-sm">
+                    <li><a href="/about" class="hover:text-muted">About</a></li>
                     <li>
                         <a
                             href="https://tickets.lisbonai.xyz/registration"
                             class="hover:text-muted">Tickets</a
                         >
                     </li>
+                    <li>
+                        <a
+                            href="https://sponsors.lisbonai.xyz"
+                            class="hover:text-muted">Sponsors</a
+                        >
+                    </li>
+                    <li>
+                        <a href="#" class="hover:text-muted">Code of Conduct</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div>
+                <div class="mb-3 font-mono text-xs uppercase text-muted">
+                    Get in touch
+                </div>
+                <ul class="space-y-2 text-sm">
                     <li>
                         <a
                             href="https://discord.com/invite/ExnMf8wTPU"
@@ -162,16 +156,11 @@ const randomBraille = () =>
                     <li>
                         <a
                             href="https://x.com/lisbonai_"
-                            class="hover:text-muted">X</a
+                            class="hover:text-muted">X / Twitter</a
                         >
                     </li>
                 </ul>
             </div>
-        </div>
-        <div
-            class="mx-auto flex items-center justify-between border-t border-white/10 px-8 py-6 font-mono text-xs uppercase text-muted"
-        >
-            <span>&copy; 2026 Lisbon AI</span>
         </div>
     </footer>
 </Layout>
