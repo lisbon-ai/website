@@ -1,7 +1,10 @@
 <header
     class="mx-auto flex items-center justify-between px-8 py-5 border-b border-white/10"
 >
-    <a href="/" class="flex items-center gap-2 font-mono text-xs uppercase">
+    <a
+        href={import.meta.env.BASE_URL}
+        class="flex items-center gap-2 font-mono text-xs uppercase"
+    >
         <span class="braille-spinner inline-block text-muted" aria-hidden="true"
             >⣾</span
         >
