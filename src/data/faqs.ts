@@ -7,7 +7,7 @@ export const faqs: Faq[] = [
   },
   {
     q: "Where is the conference being held?",
-    a: "In Lisbon, Portugal. Venue details will be shared with ticket holders closer to the event.",
+    a: "The 2026 edition of LisbonAI will be at the Center for the Unknown at Fundação Champalimaud in Lisbon. The name couldn't be more appropriate, in the current times.",
   },
   {
     q: "Who can attend?",
