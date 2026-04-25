@@ -1,13 +1,12 @@
+---
+import LatentField from "./LatentField.astro";
+---
+
 <!-- Hero -->
 <section class="relative min-h-[90vh] overflow-hidden">
-    <video
-        class="absolute inset-y-0 right-0 h-full md:w-4/5 object-cover"
-        src={`${import.meta.env.BASE_URL}hero.mp4`}
-        autoplay
-        loop
-        muted
-        playsinline
-        preload="auto"></video>
+    <LatentField
+        class="absolute inset-y-0 right-0 h-full w-full md:w-4/5"
+    />
 
     <div
         class="relative mx-auto flex min-h-[90vh] flex-col justify-end px-8 pb-24 pt-16 md:pt-28"
