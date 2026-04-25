@@ -37,7 +37,7 @@ const { class: className } = Astro.props;
         const fsSrc = `
             precision highp float;
             uniform vec2 uResolution;
-            uniform vec2 uTiles;
+            uniform float uTileSize;
             uniform float uTime;
             uniform float uPitch;
 
@@ -96,11 +96,11 @@ const { class: className } = Astro.props;
             void main() {
                 vec2 frag = gl_FragCoord.xy;
 
-                vec2 tileSize = uResolution / uTiles;
+                vec2 tileSize = vec2(uTileSize);
                 vec2 tileId = floor(frag / tileSize);
                 vec2 inTile = frag - tileId * tileSize;
 
-                float gap = min(tileSize.x, tileSize.y) * 0.05;
+                float gap = uTileSize * 0.05;
                 vec2 innerSize = tileSize - 2.0 * gap;
                 vec2 innerPos = inTile - gap;
                 if (innerPos.x < 0.0 || innerPos.y < 0.0 ||
@@ -123,7 +123,7 @@ const { class: className } = Astro.props;
 
                 vec2 dotUv = cellCenter / innerSize;
                 vec2 tileSeed = tileId * 23.7 + vec2(3.1, 11.5);
-                float field = fbm(vec3(dotUv * 2.4 + tileSeed, uTime * 0.18));
+                float field = fbm(vec3(dotUv * 2.4 + tileSeed, uTime * 0.08));
 
                 float threshold = 0.05;
                 if (field > threshold) {
@@ -177,7 +177,7 @@ const { class: className } = Astro.props;
         gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
 
         const uResolution = gl.getUniformLocation(program, "uResolution");
-        const uTiles = gl.getUniformLocation(program, "uTiles");
+        const uTileSize = gl.getUniformLocation(program, "uTileSize");
         const uTime = gl.getUniformLocation(program, "uTime");
         const uPitch = gl.getUniformLocation(program, "uPitch");
 
@@ -198,18 +198,13 @@ const { class: className } = Astro.props;
             gl!.viewport(0, 0, canvas.width, canvas.height);
 
             const isNarrow = window.matchMedia("(max-width: 768px)").matches;
-            const tilesX = isNarrow ? 2 : 3;
-            const tilesY = isNarrow ? 3 : 3;
-            const pitch = Math.max(
-                4,
-                Math.round(
-                    Math.min(canvas.width / tilesX, canvas.height / tilesY) /
-                        50,
-                ),
-            );
+            const tilesAcrossShortSide = isNarrow ? 2 : 3;
+            const tileSize =
+                Math.min(canvas.width, canvas.height) / tilesAcrossShortSide;
+            const pitch = Math.max(4, Math.round(tileSize / 50));
 
             gl!.uniform2f(uResolution, canvas.width, canvas.height);
-            gl!.uniform2f(uTiles, tilesX, tilesY);
+            gl!.uniform1f(uTileSize, tileSize);
             gl!.uniform1f(uPitch, pitch);
         }
 
