@@ -15,7 +15,7 @@
         <div>
             <div class="mb-3 font-mono text-xs uppercase text-muted">About</div>
             <ul class="space-y-2 text-sm">
-                <li><a href="/about" class="hover:text-muted">About</a></li>
+                <li><a href={`${import.meta.env.BASE_URL}about`} class="hover:text-muted">About</a></li>
                 <li>
                     <a
                         href="https://tickets.lisbonai.xyz/registration"
@@ -29,7 +29,7 @@
                     >
                 </li>
                 <li>
-                    <a href="/conduct" class="hover:text-muted"
+                    <a href={`${import.meta.env.BASE_URL}conduct`} class="hover:text-muted"
                         >Code of Conduct</a
                     >
                 </li>
