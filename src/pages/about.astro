@@ -9,13 +9,50 @@ import {
     type AboutPhotoOrientation,
 } from "../data/aboutPhotos";
 
-type AboutPhotoSlotName = "hero" | "portrait" | "secondary" | "detail";
-
 type AboutPhotoSlot = {
-    name: AboutPhotoSlotName;
+    name: "hero" | "portrait" | "secondary" | "detail";
     orientation: AboutPhotoOrientation;
+    frameClass: string;
     kinds?: AboutPhotoKind[];
+    loading?: "lazy";
+    fetchPriority?: "high";
 };
+
+const aboutPhotoImageClass =
+    "h-full w-full object-cover transition-opacity duration-500 motion-reduce:transition-none";
+
+const aboutPhotoSlotDefinitions: AboutPhotoSlot[] = [
+    {
+        name: "hero",
+        orientation: "horizontal",
+        kinds: ["context"],
+        frameClass:
+            "aspect-[3/2] overflow-hidden rounded-2xl bg-white/[0.03] md:col-span-7",
+        fetchPriority: "high",
+    },
+    {
+        name: "portrait",
+        orientation: "vertical",
+        frameClass:
+            "aspect-[4/5] max-h-[70vh] overflow-hidden rounded-2xl bg-white/[0.03] md:col-span-5 md:row-span-2 md:h-full md:max-h-none md:aspect-auto",
+    },
+    {
+        name: "secondary",
+        orientation: "horizontal",
+        kinds: ["talk"],
+        frameClass:
+            "aspect-[3/2] overflow-hidden rounded-2xl bg-white/[0.03] md:col-span-4",
+        loading: "lazy",
+    },
+    {
+        name: "detail",
+        orientation: "horizontal",
+        kinds: ["community", "detail"],
+        frameClass:
+            "aspect-[3/2] overflow-hidden rounded-2xl bg-white/[0.03] md:col-span-3 md:h-full md:aspect-auto",
+        loading: "lazy",
+    },
+];
 
 const withBaseUrl = (photo: (typeof aboutPhotos)[number]) => ({
     ...photo,
@@ -24,28 +61,6 @@ const withBaseUrl = (photo: (typeof aboutPhotos)[number]) => ({
 
 const aboutPhotoPool = aboutPhotos.map(withBaseUrl);
 
-const heroSlot: AboutPhotoSlot = {
-    name: "hero",
-    orientation: "horizontal",
-    kinds: ["context"],
-};
-const portraitSlot: AboutPhotoSlot = {
-    name: "portrait",
-    orientation: "vertical",
-};
-const secondarySlot: AboutPhotoSlot = {
-    name: "secondary",
-    orientation: "horizontal",
-    kinds: ["talk"],
-};
-const detailSlot: AboutPhotoSlot = {
-    name: "detail",
-    orientation: "horizontal",
-    kinds: ["community", "detail"],
-};
-
-const photoSlots = [heroSlot, portraitSlot, secondarySlot, detailSlot];
-
 const matchesPhotoSlot = (
     photo: (typeof aboutPhotoPool)[number],
     slot: AboutPhotoSlot,
@@ -53,17 +68,21 @@ const matchesPhotoSlot = (
     photo.orientation === slot.orientation &&
     (!slot.kinds || slot.kinds.includes(photo.kind));
 
-const findFallbackPhoto = (slot: AboutPhotoSlot) =>
-    aboutPhotoPool.find((photo) => matchesPhotoSlot(photo, slot)) ??
-    aboutPhotoPool.find((photo) => photo.orientation === slot.orientation) ??
-    aboutPhotoPool[0];
+const photoSlots = aboutPhotoSlotDefinitions.map((slot) => {
+    const primaryPhotos = aboutPhotoPool.filter((photo) =>
+        matchesPhotoSlot(photo, slot),
+    );
+    const orientationPhotos = aboutPhotoPool.filter(
+        (photo) => photo.orientation === slot.orientation,
+    );
 
-const fallbackPhotos = {
-    hero: findFallbackPhoto(heroSlot),
-    portrait: findFallbackPhoto(portraitSlot),
-    secondary: findFallbackPhoto(secondarySlot),
-    detail: findFallbackPhoto(detailSlot),
-};
+    return {
+        ...slot,
+        primaryPhotos,
+        orientationPhotos,
+        fallbackPhoto: primaryPhotos[0] ?? orientationPhotos[0] ?? aboutPhotoPool[0],
+    };
+});
 ---
 
 <Layout>
@@ -76,81 +95,39 @@ const fallbackPhotos = {
             <h1 class="text-2xl mb-8">About Lisbon AI</h1>
 
             <div class="grid gap-6 md:grid-cols-12 md:gap-8">
-                <figure
-                    class="aspect-[3/2] overflow-hidden rounded-2xl bg-white/[0.03] md:col-span-7"
-                >
-                    <img
-                        data-about-photo-slot="hero"
-                        src={fallbackPhotos.hero.src}
-                        alt={fallbackPhotos.hero.alt}
-                        class="h-full w-full object-cover transition-opacity duration-500 motion-reduce:transition-none"
-                        style={`object-position: ${fallbackPhotos.hero.position}`}
-                        decoding="async"
-                        fetchpriority="high"
-                    />
-                </figure>
-
-                <figure
-                    class="aspect-[4/5] max-h-[70vh] overflow-hidden rounded-2xl bg-white/[0.03] md:col-span-5 md:row-span-2 md:h-full md:max-h-none md:aspect-auto"
-                >
-                    <img
-                        data-about-photo-slot="portrait"
-                        src={fallbackPhotos.portrait.src}
-                        alt={fallbackPhotos.portrait.alt}
-                        class="h-full w-full object-cover transition-opacity duration-500 motion-reduce:transition-none"
-                        style={`object-position: ${fallbackPhotos.portrait.position}`}
-                        decoding="async"
-                    />
-                </figure>
-
-                <figure
-                    class="aspect-[3/2] overflow-hidden rounded-2xl bg-white/[0.03] md:col-span-4"
-                >
-                    <img
-                        data-about-photo-slot="secondary"
-                        src={fallbackPhotos.secondary.src}
-                        alt={fallbackPhotos.secondary.alt}
-                        class="h-full w-full object-cover transition-opacity duration-500 motion-reduce:transition-none"
-                        style={`object-position: ${fallbackPhotos.secondary.position}`}
-                        decoding="async"
-                        loading="lazy"
-                    />
-                </figure>
-
-                <figure
-                    class="aspect-[3/2] overflow-hidden rounded-2xl bg-white/[0.03] md:col-span-3 md:h-full md:aspect-auto"
-                >
-                    <img
-                        data-about-photo-slot="detail"
-                        src={fallbackPhotos.detail.src}
-                        alt={fallbackPhotos.detail.alt}
-                        class="h-full w-full object-cover transition-opacity duration-500 motion-reduce:transition-none"
-                        style={`object-position: ${fallbackPhotos.detail.position}`}
-                        decoding="async"
-                        loading="lazy"
-                    />
-                </figure>
+                {
+                    photoSlots.map((slot) => (
+                        <figure
+                            data-about-photo-slot={slot.name}
+                            class={slot.frameClass}
+                        >
+                            <noscript class="contents">
+                                <img
+                                    src={slot.fallbackPhoto.src}
+                                    alt={slot.fallbackPhoto.alt}
+                                    class={aboutPhotoImageClass}
+                                    style={`object-position: ${slot.fallbackPhoto.position}`}
+                                    decoding="async"
+                                    loading={slot.loading}
+                                    fetchpriority={slot.fetchPriority}
+                                />
+                            </noscript>
+                        </figure>
+                    ))
+                }
             </div>
 
-            <script define:vars={{ aboutPhotoPool, photoSlots }}>
+            <script define:vars={{ aboutPhotoImageClass, photoSlots }}>
                 const selectedSources = new Set();
 
-                const matchesPhotoSlot = (photo, slot) =>
-                    photo.orientation === slot.orientation &&
-                    (!slot.kinds || slot.kinds.includes(photo.kind));
-
-                const availablePhotos = (slot, strict = true) =>
-                    aboutPhotoPool.filter(
-                        (photo) =>
-                            !selectedSources.has(photo.src) &&
-                            (strict
-                                ? matchesPhotoSlot(photo, slot)
-                                : photo.orientation === slot.orientation),
-                    );
+                const availablePhotos = (photos) =>
+                    photos.filter((photo) => !selectedSources.has(photo.src));
 
                 const randomPhoto = (slot) => {
-                    const candidates = availablePhotos(slot);
-                    const fallbackCandidates = availablePhotos(slot, false);
+                    const candidates = availablePhotos(slot.primaryPhotos);
+                    const fallbackCandidates = availablePhotos(
+                        slot.orientationPhotos,
+                    );
                     const pool =
                         candidates.length > 0 ? candidates : fallbackCandidates;
 
@@ -161,27 +138,45 @@ const fallbackPhotos = {
                     return photo;
                 };
 
-                for (const slot of photoSlots) {
-                    const photo = randomPhoto(slot);
-                    const image = document.querySelector(
-                        `[data-about-photo-slot="${slot.name}"]`,
-                    );
+                const createImage = (photo, slot) => {
+                    const image = document.createElement("img");
 
-                    if (!photo || !image) continue;
+                    image.className = `${aboutPhotoImageClass} opacity-0`;
+                    image.alt = photo.alt;
+                    image.decoding = "async";
+                    image.style.objectPosition = photo.position;
 
-                    image.classList.add("opacity-0");
+                    if (slot.fetchPriority) {
+                        image.setAttribute("fetchpriority", slot.fetchPriority);
+                    }
+
+                    if (slot.loading) {
+                        image.loading = slot.loading;
+                    }
+
                     image.addEventListener(
                         "load",
                         () => image.classList.remove("opacity-0"),
                         { once: true },
                     );
                     image.src = photo.src;
-                    image.alt = photo.alt;
-                    image.style.objectPosition = photo.position;
 
                     if (image.complete) {
                         image.classList.remove("opacity-0");
                     }
+
+                    return image;
+                };
+
+                for (const slot of photoSlots) {
+                    const photo = randomPhoto(slot);
+                    const frame = document.querySelector(
+                        `[data-about-photo-slot="${slot.name}"]`,
+                    );
+
+                    if (!photo || !frame) continue;
+
+                    frame.append(createImage(photo, slot));
                 }
             </script>
         </div>
