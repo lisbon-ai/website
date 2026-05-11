@@ -10,6 +10,11 @@ const {
 	title = "Lisbon AI 2026: The Conference for Builders Shipping AI",
 	description = "Lisbon AI is a two-day event for AI practitioners and enthusiasts. It is where builders, engineers, and innovators deploying AI in the real-world converge.",
 } = Astro.props;
+
+const canonicalUrl = new URL(
+	Astro.url.pathname.replace(/(?:\/index\.html|\/?)$/, "/"),
+	Astro.site!,
+).href;
 ---
 
 <!doctype html>
@@ -22,6 +27,8 @@ const {
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 		<meta name="description" content={description} />
+		<link rel="canonical" href={canonicalUrl} />
+		<meta property="og:url" content={canonicalUrl} />
 		<meta property="og:type" content="website" />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
