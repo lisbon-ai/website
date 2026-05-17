@@ -63,6 +63,31 @@ const randomBraille = () =>
         </div>
     </section>
 
+    <!-- CFP CTA -->
+    <section id="cfp" class="border-t border-white/10">
+        <div class="mx-auto grid max-w-6xl gap-12 px-6 py-20 md:grid-cols-12">
+            <div class="md:col-span-4">
+                <div class="small-headline">/call-for-proposals</div>
+            </div>
+            <div class="md:col-span-8">
+                <p class="max-w-3xl text-2xl leading-snug md:text-3xl">
+                    We are looking for deeply technical talks and demos from
+                    people building real AI systems or workflows.
+                </p>
+                <p class="mt-5 max-w-2xl text-lg leading-relaxed text-muted">
+                    No vendor pitches. No vague trend talks. Show the system.
+                    CFP closes June 30.
+                </p>
+                <a
+                    href={`${import.meta.env.BASE_URL}cfp/`}
+                    class="mt-8 btn-primary"
+                >
+                    Read the CFP &rarr;
+                </a>
+            </div>
+        </div>
+    </section>
+
     <!-- Location -->
     <Location />
 
@@ -110,7 +135,7 @@ const randomBraille = () =>
                 </p>
                 <a
                     href="https://tickets.lisbonai.xyz/registration"
-                    class="mt-8 inline-block rounded-full bg-cream-warm px-6 py-3 text-ink hover:bg-cream"
+                    class="mt-8 btn-primary"
                 >
                     Join the waitlist &rarr;
                 </a>
