@@ -1,0 +1,450 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
+const contactEmail = "tickets@lisbonai.org";
+
+const metaRows = [
+    ["Controller", "LXAI, LDA"],
+    ["NIPC", "519 292 740"],
+    ["Jurisdiction", "Portugal · EU (GDPR)"],
+    ["Last updated", "May 2026"],
+    ["Contact", contactEmail],
+];
+
+const collectedData = [
+    {
+        title: "Registration data.",
+        body: "When you purchase a ticket or register for the event, we collect your name, email address, company, and job title. This is processed by our ticketing platform, Tito (see Third Parties below).",
+    },
+    {
+        title: "Event communications.",
+        body: "We use your email to send you information about the event you registered for — schedule updates, logistics, and post-event follow-up. We also use Tito to send these communications.",
+    },
+    {
+        title: "Photos and video.",
+        body: "We film and photograph the event for documentation and promotional purposes. Content may appear on our website, social media, and YouTube channel. If you appear in event media, this is processed on the basis of legitimate interest in documenting a public event. You can request removal at any time.",
+    },
+    {
+        title: "Speaker and sponsor data.",
+        body: "If you are a speaker or sponsor, we process the contact details and biographical information you provide for the purpose of coordinating your participation and promoting the event.",
+    },
+    {
+        title: "Website usage.",
+        body: "Like most websites, lisbonai.org may collect basic technical data (browser type, page visits) for analytics purposes. We do not use this data to identify individuals.",
+    },
+];
+
+const processingReasons = [
+    {
+        title: "Contract performance.",
+        body: "To process your ticket purchase and provide you with access to the event.",
+    },
+    {
+        title: "Legitimate interest.",
+        body: "To communicate event logistics, document the conference, and promote future editions of Lisbon AI.",
+    },
+    {
+        title: "Consent.",
+        body: "For any use beyond the above — for example, sharing your contact details with a sponsor — we will ask for your explicit consent first. You can withdraw consent at any time.",
+    },
+    {
+        title: "Legal obligation.",
+        body: "Where required by applicable law, including financial record-keeping.",
+    },
+];
+
+const processors = [
+    {
+        name: "Tito",
+        note: "teamtito.com",
+        purpose: "Ticketing, registration management, and attendee communications",
+        location: "Ireland (EU)",
+    },
+    {
+        name: "Event sponsors",
+        note: "on request, with consent",
+        purpose: "Only if you have given explicit consent at registration or afterwards. Used for post-event follow-up only.",
+        location: "Varies",
+    },
+    {
+        name: "Social media platforms",
+        note: "LinkedIn, X, YouTube",
+        purpose: "Publication of event photos, video content, and speaker highlights",
+        location: "USA",
+    },
+];
+
+const retentionItems = [
+    "Attendee registration data is retained for up to 2 years after the event, after which it is deleted or anonymised.",
+    "Speaker and sponsor data is retained for the duration of the professional relationship and up to 2 years after.",
+    "Financial records are retained for the period required by Portuguese law (typically 10 years).",
+    "Event photos and videos published publicly may remain accessible indefinitely as part of the event record, unless removal is requested.",
+];
+
+const rights = [
+    {
+        title: "Access",
+        description: "Request a copy of the personal data we hold about you.",
+    },
+    {
+        title: "Correction",
+        description: "Ask us to correct inaccurate or incomplete data.",
+    },
+    {
+        title: "Deletion",
+        description: "Request deletion of your personal data, where no legal obligation requires us to retain it.",
+    },
+    {
+        title: "Portability",
+        description: "Receive your data in a structured, machine-readable format.",
+    },
+    {
+        title: "Objection",
+        description: "Object to processing based on legitimate interest, including appearing in event media.",
+    },
+    {
+        title: "Withdraw consent",
+        description: "Where processing is based on consent, withdraw it at any time without affecting prior processing.",
+    },
+];
+---
+
+<Layout
+    title="Privacy Policy — Lisbon AI 2026"
+    description="How LXAI, LDA collects, uses, and protects personal data for Lisbon AI events and communications."
+>
+    <Header />
+
+    <main class="border-t border-white/10">
+        <article class="mx-auto max-w-[860px] px-6 py-16 md:px-8 md:py-20">
+            <header class="mb-14">
+                <div
+                    class="mb-10 flex items-center justify-between gap-6 border-b border-white/10 pb-10"
+                >
+                    <h1 class="text-2xl md:text-3xl">Privacy Policy</h1>
+                    <div class="small-headline whitespace-nowrap">
+                        [Privacy Policy · 2026]
+                    </div>
+                </div>
+
+                <div class="grid gap-12 border-b border-white/10 pb-10 md:grid-cols-2">
+                    <div class="space-y-4 text-sm leading-8 text-cream/70">
+                        <p>
+                            This Privacy Policy explains how LXAI, LDA — the
+                            company behind Lisbon AI — collects, uses, and
+                            protects personal data in connection with our events
+                            and communications.
+                        </p>
+                        <p>
+                            We keep it simple. We collect what we need to run
+                            the conference. We don't sell your data. You can ask
+                            us to delete it at any time.
+                        </p>
+                    </div>
+
+                    <dl>
+                        {
+                            metaRows.map(([key, value]) => (
+                                <div class="flex items-baseline justify-between gap-6 border-b border-white/[0.06] py-2.5">
+                                    <dt class="font-mono text-[10px] uppercase tracking-[0.1em] text-cream/30">
+                                        {key}
+                                    </dt>
+                                    <dd class="text-right text-sm font-medium text-cream">
+                                        {value}
+                                    </dd>
+                                </div>
+                            ))
+                        }
+                    </dl>
+                </div>
+            </header>
+
+            <section class="mb-12">
+                <h2
+                    class="mb-5 border-b border-white/10 pb-2.5 font-mono text-[10px] uppercase tracking-[0.12em] text-cream/30"
+                >
+                    [01 — Who We Are]
+                </h2>
+                <div class="space-y-4 text-sm leading-8 text-cream/75">
+                    <p>
+                        LXAI, LDA is a company incorporated under Portuguese law,
+                        with registered office at Rua Tenente Valadim, no 252,
+                        3.1, 4100-476 Porto, registered under NIPC 519 292 740.
+                        We organise Lisbon AI, an annual conference for AI
+                        builders held in Lisbon, Portugal.
+                    </p>
+                    <p>
+                        For all data protection matters, LXAI, LDA acts as the
+                        data controller. You can reach us at <a
+                            href={`mailto:${contactEmail}`}
+                            class="underline decoration-white/30 hover:text-cream"
+                            >{contactEmail}</a
+                        >.
+                    </p>
+                </div>
+            </section>
+
+            <section class="mb-12">
+                <h2
+                    class="mb-5 border-b border-white/10 pb-2.5 font-mono text-[10px] uppercase tracking-[0.12em] text-cream/30"
+                >
+                    [02 — What Data We Collect]
+                </h2>
+                <ul class="divide-y divide-white/[0.04]">
+                    {
+                        collectedData.map((item) => (
+                            <li class="flex gap-4 py-2.5 text-sm leading-8 text-cream/75">
+                                <span class="min-w-6 pt-1 font-mono text-xs text-cream/25">
+                                    —
+                                </span>
+                                <span>
+                                    <strong class="font-medium text-cream">
+                                        {item.title}
+                                    </strong>{" "}
+                                    {item.body}
+                                </span>
+                            </li>
+                        ))
+                    }
+                </ul>
+            </section>
+
+            <section class="mb-12">
+                <h2
+                    class="mb-5 border-b border-white/10 pb-2.5 font-mono text-[10px] uppercase tracking-[0.12em] text-cream/30"
+                >
+                    [03 — Why We Process Your Data]
+                </h2>
+                <ul class="divide-y divide-white/[0.04]">
+                    {
+                        processingReasons.map((item) => (
+                            <li class="flex gap-4 py-2.5 text-sm leading-8 text-cream/75">
+                                <span class="min-w-6 pt-1 font-mono text-xs text-cream/25">
+                                    —
+                                </span>
+                                <span>
+                                    <strong class="font-medium text-cream">
+                                        {item.title}
+                                    </strong>{" "}
+                                    {item.body}
+                                </span>
+                            </li>
+                        ))
+                    }
+                </ul>
+            </section>
+
+            <section class="mb-12">
+                <h2
+                    class="mb-5 border-b border-white/10 pb-2.5 font-mono text-[10px] uppercase tracking-[0.12em] text-cream/30"
+                >
+                    [04 — Who We Share Your Data With]
+                </h2>
+                <div class="space-y-4 text-sm leading-8 text-cream/75">
+                    <p>
+                        We do not sell your data. We share it only with the
+                        following categories of third parties:
+                    </p>
+                </div>
+
+                <div class="mt-2 overflow-x-auto">
+                    <table class="w-full min-w-[620px] border-collapse">
+                        <thead>
+                            <tr>
+                                <th
+                                    class="border-b border-white/10 px-4 py-2.5 text-left font-mono text-[10px] uppercase tracking-[0.1em] text-cream/30"
+                                >
+                                    Processor
+                                </th>
+                                <th
+                                    class="border-b border-white/10 px-4 py-2.5 text-left font-mono text-[10px] uppercase tracking-[0.1em] text-cream/30"
+                                >
+                                    Purpose
+                                </th>
+                                <th
+                                    class="border-b border-white/10 px-4 py-2.5 text-left font-mono text-[10px] uppercase tracking-[0.1em] text-cream/30"
+                                >
+                                    Location
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                processors.map((processor) => (
+                                    <tr>
+                                        <td class="border-b border-white/[0.04] px-4 py-3 align-top text-sm leading-relaxed text-cream/70">
+                                            <strong class="font-medium text-cream">
+                                                {processor.name}
+                                            </strong>
+                                            <br />
+                                            <span class="text-xs text-cream/40">
+                                                {processor.note}
+                                            </span>
+                                        </td>
+                                        <td class="border-b border-white/[0.04] px-4 py-3 align-top text-sm leading-relaxed text-cream/70">
+                                            {processor.purpose}
+                                        </td>
+                                        <td class="border-b border-white/[0.04] px-4 py-3 align-top text-sm leading-relaxed text-cream/70">
+                                            {processor.location}
+                                        </td>
+                                    </tr>
+                                ))
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="mb-12">
+                <h2
+                    class="mb-5 border-b border-white/10 pb-2.5 font-mono text-[10px] uppercase tracking-[0.12em] text-cream/30"
+                >
+                    [05 — How Long We Keep Your Data]
+                </h2>
+                <ul class="divide-y divide-white/[0.04]">
+                    {
+                        retentionItems.map((item) => (
+                            <li class="flex gap-4 py-2.5 text-sm leading-8 text-cream/75">
+                                <span class="min-w-6 pt-1 font-mono text-xs text-cream/25">
+                                    —
+                                </span>
+                                <span>{item}</span>
+                            </li>
+                        ))
+                    }
+                </ul>
+            </section>
+
+            <section class="mb-12">
+                <h2
+                    class="mb-5 border-b border-white/10 pb-2.5 font-mono text-[10px] uppercase tracking-[0.12em] text-cream/30"
+                >
+                    [06 — Your Rights]
+                </h2>
+                <div class="space-y-4 text-sm leading-8 text-cream/75">
+                    <p>
+                        Under GDPR, you have the following rights regarding your
+                        personal data:
+                    </p>
+                </div>
+
+                <div
+                    class="mt-2 grid gap-px border border-white/[0.06] bg-white/[0.06] md:grid-cols-2"
+                >
+                    {
+                        rights.map((right) => (
+                            <div class="bg-ink p-5 md:p-6">
+                                <h3 class="mb-1.5 font-mono text-[10px] uppercase tracking-[0.1em] text-cream/40">
+                                    {right.title}
+                                </h3>
+                                <p class="text-sm leading-relaxed text-cream/65">
+                                    {right.description}
+                                </p>
+                            </div>
+                        ))
+                    }
+                </div>
+
+                <div class="mt-5 space-y-4 text-sm leading-8 text-cream/75">
+                    <p>
+                        To exercise any of these rights, email us at <a
+                            href={`mailto:${contactEmail}`}
+                            class="underline decoration-white/30 hover:text-cream"
+                            >{contactEmail}</a
+                        >. We will respond within 30 days.
+                    </p>
+                    <p>
+                        You also have the right to lodge a complaint with the
+                        Portuguese data protection authority, the <strong
+                            class="font-medium text-cream">CNPD</strong
+                        > (Comissão Nacional de Proteção de Dados) at <a
+                            href="https://www.cnpd.pt/"
+                            target="_blank"
+                            rel="noreferrer"
+                            class="underline decoration-white/30 hover:text-cream"
+                            >cnpd.pt</a
+                        >.
+                    </p>
+                </div>
+            </section>
+
+            <section class="mb-12">
+                <h2
+                    class="mb-5 border-b border-white/10 pb-2.5 font-mono text-[10px] uppercase tracking-[0.12em] text-cream/30"
+                >
+                    [07 — Security]
+                </h2>
+                <div class="space-y-4 text-sm leading-8 text-cream/75">
+                    <p>
+                        We take reasonable technical and organisational measures
+                        to protect your personal data against unauthorised
+                        access, loss, or disclosure. Our data processors (Tito)
+                        maintain their own security standards in compliance with
+                        GDPR.
+                    </p>
+                </div>
+            </section>
+
+            <section class="mb-12">
+                <h2
+                    class="mb-5 border-b border-white/10 pb-2.5 font-mono text-[10px] uppercase tracking-[0.12em] text-cream/30"
+                >
+                    [08 — Changes to This Policy]
+                </h2>
+                <div class="space-y-4 text-sm leading-8 text-cream/75">
+                    <p>
+                        We may update this Privacy Policy from time to time. The
+                        current version will always be available at <a
+                            href="https://lisbonai.org/privacy"
+                            class="underline decoration-white/30 hover:text-cream"
+                            >lisbonai.org/privacy</a
+                        >. Material changes will be communicated to registered
+                        attendees by email.
+                    </p>
+                </div>
+            </section>
+
+            <section class="mb-12">
+                <h2
+                    class="mb-5 border-b border-white/10 pb-2.5 font-mono text-[10px] uppercase tracking-[0.12em] text-cream/30"
+                >
+                    [09 — Contact]
+                </h2>
+                <div
+                    class="mt-2 border border-white/10 p-7 text-sm leading-8 text-cream/75 md:p-8"
+                >
+                    <p><strong class="font-medium text-cream">LXAI, LDA</strong></p>
+                    <p>
+                        Rua Tenente Valadim, no 252, 3.1<br />4100-476 Porto,
+                        Portugal
+                    </p>
+                    <p>NIPC: 519 292 740</p>
+                    <p class="mt-3">
+                        <a
+                            href={`mailto:${contactEmail}`}
+                            class="underline decoration-white/30 hover:text-cream"
+                        >
+                            {contactEmail}
+                        </a>
+                    </p>
+                </div>
+            </section>
+
+            <a
+                href={`mailto:${contactEmail}`}
+                class="mt-14 flex flex-col justify-between gap-4 bg-cream-warm px-8 py-9 text-ink md:flex-row md:items-center"
+            >
+                <span class="max-w-lg text-base font-medium leading-normal">
+                    Questions about your data? We're one email away.
+                </span>
+                <span class="font-mono text-xs uppercase tracking-[0.06em]">
+                    {contactEmail}
+                </span>
+            </a>
+        </article>
+    </main>
+
+    <Footer />
+</Layout>
