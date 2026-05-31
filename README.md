@@ -3,7 +3,7 @@
 **The annual summit for people shipping AI in the real world.**
 September 23–24, 2026 · Centro Champalimaud, Belém · Lisbon, Portugal
 
-[Website](https://lisbonai.org) · [Get tickets](https://tickets.lisbonai.org) · [Join our Discord](https://discord.gg/ExnMf8wTPU)
+[Website](https://lisbonai.org) · [Get tickets](https://tickets.lisbonai.org/) · [Join our Discord](https://discord.gg/ExnMf8wTPU)
 
 ![Centro Champalimaud, Belém — Lisbon AI 2026 venue](https://raw.githubusercontent.com/lisbon-ai/website/main/public/images/venue/2.jpg)
 
@@ -25,7 +25,7 @@ Bring your laptop!
 | **Dates** | September 23–24, 2026 |
 | **Venue** | [Centro Champalimaud — Center for the Unknown](https://www.fchampalimaud.org/), Belém, Lisbon |
 | **Size** | ~400 builders |
-| **Tickets** | [tickets.lisbonai.org](https://tickets.lisbonai.org/registration) |
+| **Tickets** | [tickets.lisbonai.org](https://tickets.lisbonai.org/) |
 
 ## What we care about
 
@@ -36,7 +36,7 @@ Bring your laptop!
 
 ## Get involved
 
-- **Attend:** [join the waiting list](https://tickets.lisbonai.org/registration) — we're rolling out 2026 tickets in waves.
+- **Attend:** [join the waiting list](https://tickets.lisbonai.org/) — we're rolling out 2026 tickets in waves.
 - **Sponsor:** [sponsors@lisbonai.org](mailto:sponsors@lisbonai.org)
 - **Speak / volunteer / say hi:** [info@lisbonai.org](mailto:info@lisbonai.org)
 - **Hang out:** [@lisbonai_](https://x.com/lisbonai_) on X, and [our Discord](https://discord.gg/ExnMf8wTPU)
