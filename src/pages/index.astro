@@ -65,43 +65,51 @@ const randomBraille = () =>
       <div class="md:col-span-4">
         <div class="small-headline">/speakers</div>
       </div>
-      <ul class="grid grid-cols-1 gap-32 sm:grid-cols-2 md:col-span-12">
-        {
-          speakers.map(({ name, org, profileUrl, orgUrl }) => (
-            <li class="flex flex-col items-center gap-3 py-5 text-xl md:text-2xl sm:even:-ml-16 sm:even:border-l sm:even:border-white/10 sm:even:pl-16">
-              <img
-                src={`${import.meta.env.BASE_URL}images/speakers/${name}.jpg`}
-                alt={name}
-                class="h-[200px] w-[200px] rounded-full border border-white/10 object-cover"
-              />
-              <div class="flex w-full flex-col items-center gap-1">
-                <h3>
-                  {
-                    profileUrl ? (
+      <div class="md:col-span-8">
+        <div class="grid gap-12 sm:grid-cols-3">
+          {
+            speakers.map(({ name, org, profileUrl, orgUrl, image }) => (
+              <div class="flex flex-col items-center gap-3 py-5 text-xl md:text-2xl">
+                <img
+                  src={`${import.meta.env.BASE_URL}images/speakers/${image}`}
+                  alt={name}
+                  class="h-[200px] w-[200px] rounded-full object-cover"
+                />
+                <div class="flex w-full flex-col items-center gap-1">
+                  <h3>
+                    {profileUrl ? (
                       <a href={profileUrl} class="hover:text-muted">
                         {name}
                       </a>
                     ) : (
                       name
-                    )
-                  }
-                </h3>
-                <span class="font-mono text-xs text-faint">
-                  {
-                    orgUrl ? (
+                    )}
+                  </h3>
+                  <span class="font-mono text-xs text-faint">
+                    {orgUrl ? (
                       <a href={orgUrl} class="hover:text-muted">
                         {org}
                       </a>
                     ) : (
                       org
-                    )
-                  }
-                </span>
+                    )}
+                  </span>
+                </div>
               </div>
-            </li>
-          ))
-        }
-      </ul>
+            ))
+          }
+          <div
+            class="flex flex-col items-center justify-center gap-2 py-5 text-center sm:col-span-2"
+          >
+            <p class="text-lg leading-snug md:text-xl">
+              More speakers landing every few days.
+            </p>
+            <p class="font-mono text-xs text-faint">
+              Keep an eye on this space &rarr;
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -171,10 +179,7 @@ const randomBraille = () =>
           We're slowly starting to roll out to tickets to the 2026 edition of
           Lisbon AI.
         </p>
-        <a
-          href="https://tickets.lisbonai.org/"
-          class="mt-8 btn-primary"
-        >
+        <a href="https://tickets.lisbonai.org/" class="mt-8 btn-primary">
           Get your ticket &rarr;
         </a>
       </div>
