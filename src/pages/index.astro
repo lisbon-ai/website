@@ -67,7 +67,7 @@ const randomBraille = () =>
       </div>
       <ul class="grid grid-cols-1 gap-32 sm:grid-cols-2 md:col-span-12">
         {
-          speakers.map(({ name, org }) => (
+          speakers.map(({ name, org, profileUrl, orgUrl }) => (
             <li class="flex flex-col items-center gap-3 py-5 text-xl md:text-2xl sm:even:-ml-16 sm:even:border-l sm:even:border-white/10 sm:even:pl-16">
               <img
                 src={`${import.meta.env.BASE_URL}images/speakers/${name}.jpg`}
@@ -75,8 +75,28 @@ const randomBraille = () =>
                 class="h-[200px] w-[200px] rounded-full border border-white/10 object-cover"
               />
               <div class="flex w-full flex-col items-center gap-1">
-                <h3>{name}</h3>
-                <span class="font-mono text-xs text-faint">{org}</span>
+                <h3>
+                  {
+                    profileUrl ? (
+                      <a href={profileUrl} class="hover:text-muted">
+                        {name}
+                      </a>
+                    ) : (
+                      name
+                    )
+                  }
+                </h3>
+                <span class="font-mono text-xs text-faint">
+                  {
+                    orgUrl ? (
+                      <a href={orgUrl} class="hover:text-muted">
+                        {org}
+                      </a>
+                    ) : (
+                      org
+                    )
+                  }
+                </span>
               </div>
             </li>
           ))
