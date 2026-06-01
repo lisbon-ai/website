@@ -7,6 +7,7 @@ import Location from "../components/Location.astro";
 
 import { format } from "../data/format";
 import { faqs } from "../data/faqs";
+import { speakers } from "../data/speakers";
 
 const brailleFrames = ["⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷"];
 const randomBraille = () =>
@@ -51,6 +52,32 @@ const randomBraille = () =>
             <li class="flex items-baseline justify-between border-b border-white/10 py-5 text-xl md:text-2xl">
               <span>{item}</span>
               <span class="font-mono text-xs text-faint">&rarr;</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- Speakers -->
+  <section id="speakers" class="border-t border-white/10">
+    <div class="mx-auto grid max-w-6xl gap-12 px-6 py-20 md:grid-cols-12">
+      <div class="md:col-span-4">
+        <div class="small-headline">/speakers</div>
+      </div>
+      <ul class="grid grid-cols-1 gap-32 sm:grid-cols-2 md:col-span-12">
+        {
+          speakers.map(({ name, org }) => (
+            <li class="flex flex-col items-center gap-3 py-5 text-xl md:text-2xl sm:even:-ml-16 sm:even:border-l sm:even:border-white/10 sm:even:pl-16">
+              <img
+                src={`${import.meta.env.BASE_URL}images/speakers/${name}.jpg`}
+                alt={name}
+                class="h-[200px] w-[200px] rounded-full border border-white/10 object-cover"
+              />
+              <div class="flex w-full flex-col items-center gap-1">
+                <h3>{name}</h3>
+                <span class="font-mono text-xs text-faint">/{org}</span>
+              </div>
             </li>
           ))
         }
