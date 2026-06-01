@@ -22,10 +22,6 @@
     @apply font-display text-8xl font-bold uppercase tracking-tight;
 }
 
-.company-label {
-    font-variant-caps: small-caps;
-}
-
 .tickets-cta {
     @apply rounded-full bg-cream-warm px-4 py-2 text-sm text-ink hover:bg-cream;
 }
