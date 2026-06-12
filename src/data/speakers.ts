@@ -37,4 +37,11 @@ export const speakers: Speaker[] = [
     orgUrl: "https://duarteocarmo.com/",
     image: "duarte.png",
   },
+  {
+    name: "Diogo Mónica",
+    role: "Founder",
+    org: "Anchorage, Haun Ventures",
+    orgUrl: "https://www.haun.co/",
+    image: "diogo.png",
+  },
 ];
