@@ -44,4 +44,10 @@ export const speakers: Speaker[] = [
     orgUrl: "https://www.haun.co/",
     image: "diogo.png",
   },
+  {
+    name: "Joan Rodriguez",
+    role: "CEO & Chief Scientist",
+    org: "QuiverAI",
+    image: "joan.png",
+  },
 ];
