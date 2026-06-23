@@ -32,7 +32,7 @@ export const speakers: Speaker[] = [
   },
   {
     name: "Duarte Carmo",
-    role: "",
+    role: "Consultant",
     org: "Independent",
     orgUrl: "https://duarteocarmo.com/",
     image: "duarte.png",
