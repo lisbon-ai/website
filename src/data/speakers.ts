@@ -25,7 +25,7 @@ export const speakers: Speaker[] = [
   },
   {
     name: "Matt Carey",
-    role: "",
+    role: "Agents & MCP",
     org: "Cloudflare",
     orgUrl: "https://cloudflare.com",
     image: "matt.png",
