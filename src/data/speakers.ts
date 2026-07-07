@@ -11,7 +11,7 @@ export const speakers: Speaker[] = [
   {
     name: "Steve Ruiz",
     role: "Founder",
-    org: "TLDraw",
+    org: "tldraw",
     profileUrl: "https://x.com/steveruizok",
     orgUrl: "https://tldraw.dev/",
     image: "steve.png",
