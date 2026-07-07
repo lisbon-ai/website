@@ -33,6 +33,14 @@ export const speakers: Speaker[] = [
     image: "matt.png",
   },
   {
+    name: "Aayush Kapoor",
+    role: "Software Engineer",
+    org: "Vercel",
+    profileUrl: "https://x.com/aayushkapoor",
+    orgUrl: "https://vercel.com",
+    image: "aayush.png",
+  },
+  {
     name: "Duarte Carmo",
     role: "Consultant",
     org: "Independent",
