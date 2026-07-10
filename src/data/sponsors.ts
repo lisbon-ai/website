@@ -25,10 +25,11 @@ export const sponsorTiers: SponsorTier[] = [
   },
   {
     label: "Gold",
-    gridClass: "grid-cols-1",
+    gridClass: "grid-cols-2",
     panelClass: "border-x border-white/10",
     sponsors: [
       { name: "DoiT", url: "https://www.doit.com", logo: "doit.png", logoClass: "h-4" },
+      { name: "Humanos", url: "https://www.humanos.tech", logo: "humanos.svg", logoClass: "h-8" },
     ],
   },
   {
