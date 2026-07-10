@@ -8,10 +8,22 @@ import Location from "../components/Location.astro";
 import { format } from "../data/format";
 import { faqs } from "../data/faqs";
 import { speakers } from "../data/speakers";
+import { sponsorTiers } from "../data/sponsors";
 
 const brailleFrames = ["⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷"];
 const randomBraille = () =>
   brailleFrames[Math.floor(Math.random() * brailleFrames.length)];
+
+// Vary the texture crop per card so no two cards show the same region.
+const texturePositions = [
+  "0% 0%",
+  "100% 0%",
+  "50% 20%",
+  "0% 100%",
+  "100% 60%",
+  "25% 80%",
+  "80% 100%",
+];
 ---
 
 <Layout>
@@ -20,11 +32,11 @@ const randomBraille = () =>
 
   <!-- What to expect -->
   <section class="border-t border-white/10">
-    <div class="mx-auto grid max-w-6xl gap-12 px-6 py-20 md:grid-cols-12">
-      <div class="md:col-span-4">
+    <div class="mx-auto grid max-w-[100rem] gap-12 px-6 py-20 md:grid-cols-2">
+      <div>
         <div class="small-headline">/what-to-expect</div>
       </div>
-      <div class="space-y-6 text-xl leading-relaxed md:col-span-8 md:text-2xl">
+      <div class="space-y-6 text-xl leading-relaxed md:text-2xl">
         <p>AI isn't the next big thing &mdash; it is the big thing.</p>
         <p>
           Lisbon AI is the annual summit for people shipping AI in the real
@@ -36,69 +48,117 @@ const randomBraille = () =>
           production, to chat about where we are now and what's next.
         </p>
         <p>Bring your laptop.</p>
-      </div>
-    </div>
-  </section>
 
-  <!-- Format -->
-  <section id="format" class="border-t border-white/10">
-    <div class="mx-auto grid max-w-6xl gap-12 px-6 py-20 md:grid-cols-12">
-      <div class="md:col-span-4">
-        <div class="small-headline">/format</div>
+        <div class="small-headline pt-6">&rarr; topics of discussion</div>
+        <ul class="flex flex-wrap items-center gap-3">
+          {
+            [
+              "Agentic Engineering",
+              "Foundational Models",
+              "Model training",
+              "Security",
+              "Evals",
+            ].map((item, i) => (
+              <>
+                {i > 0 && <li class="small-headline">+</li>}
+                <li class="rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-xl md:text-2xl">
+                  {item}
+                </li>
+              </>
+            ))
+          }
+        </ul>
+
+        <div class="small-headline pt-6">&rarr; format</div>
+        <ul class="flex flex-wrap items-center gap-3">
+          {
+            format.map((item, i) => (
+              <>
+                {i > 0 && <li class="small-headline">+</li>}
+                <li class="rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-xl md:text-2xl">
+                  {item}
+                </li>
+              </>
+            ))
+          }
+        </ul>
       </div>
-      <ul class="md:col-span-8">
-        {
-          format.map((item) => (
-            <li class="border-b border-white/10 py-5 text-xl md:text-2xl">
-              <span>{item}</span>
-            </li>
-          ))
-        }
-      </ul>
     </div>
   </section>
 
   <!-- Speakers -->
   <section id="speakers" class="scroll-mt-20 border-t border-white/10">
-    <div class="mx-auto grid max-w-6xl gap-12 px-6 py-20 md:grid-cols-12">
+    <div class="mx-auto grid max-w-[100rem] gap-12 px-6 py-20 md:grid-cols-12">
       <div class="md:col-span-4">
         <div class="small-headline">/speakers</div>
       </div>
-      <div class="md:col-span-8">
-        <div class="grid gap-12 sm:grid-cols-3">
+      <div class="md:col-span-12">
+        <div class="grid gap-0 border-x border-white/10 md:grid-cols-2">
           {
-            speakers.map(({ name, org, profileUrl, orgUrl, image }) => (
-              <div class="flex flex-col items-center gap-3 py-5 text-xl md:text-2xl">
-                <img
-                  src={`${import.meta.env.BASE_URL}images/speakers/${image}`}
-                  alt={name}
-                  class="h-[200px] w-[200px] rounded-full object-cover"
-                />
-                <div class="flex w-full flex-col items-center gap-1">
-                  <h3>
-                    {profileUrl ? (
-                      <a href={profileUrl} class="hover:text-muted">
-                        {name}
-                      </a>
-                    ) : (
-                      name
-                    )}
-                  </h3>
-                  <span class="font-mono text-xs text-faint">
-                    {orgUrl ? (
-                      <a href={orgUrl} class="hover:text-muted">
-                        {org}
-                      </a>
-                    ) : (
-                      org
-                    )}
-                  </span>
+            speakers.map(({ name, org, title, profileUrl, orgUrl, logo, image }, i) => (
+              <div
+                class:list={[
+                  "speaker-texture relative isolate flex flex-col items-start gap-3 border-b border-white/10 p-12 text-xl md:text-2xl",
+                  { "md:border-l md:border-white/10": i % 2 === 1 },
+                  { "border-t border-white/10": i === 0 },
+                  { "md:border-t md:border-white/10": i === 1 },
+                ]}
+                style={`--tex-pos: ${texturePositions[i % texturePositions.length]}`}
+              >
+                <figure class="mb-6 flex h-[200px] w-full items-center justify-center overflow-hidden rounded-2xl">
+                  <img
+                    src={`${import.meta.env.BASE_URL}images/speakers/${image}`}
+                    alt={name}
+                    class="h-[200px] w-[200px] rounded-2xl object-cover"
+                  />
+                </figure>
+                <div class="flex w-full items-center justify-between gap-3">
+                  <div class="flex flex-col items-start gap-1">
+                    <h3>
+                      {profileUrl ? (
+                        <a href={profileUrl} class="hover:text-muted">
+                          {name}
+                        </a>
+                      ) : (
+                        name
+                      )}
+                    </h3>
+                    <span class="font-mono text-xs text-faint">
+                      {orgUrl ? (
+                        <a href={orgUrl} class="hover:text-muted">
+                          // {title}, {org}
+                        </a>
+                      ) : (
+                        <>// {title}, {org}</>
+                      )}
+                    </span>
+                  </div>
+                  {logo && (orgUrl ? (
+                    <a href={orgUrl} class="shrink-0">
+                      <img
+                        src={`${import.meta.env.BASE_URL}images/logos/${logo}`}
+                        alt={org}
+                        class="h-4 w-auto brightness-0 invert"
+                      />
+                    </a>
+                  ) : (
+                    <img
+                      src={`${import.meta.env.BASE_URL}images/logos/${logo}`}
+                      alt={org}
+                      class="h-4 w-auto shrink-0 brightness-0 invert"
+                    />
+                  ))}
                 </div>
               </div>
             ))
           }
           <div
-            class="flex flex-col items-center justify-center gap-2 py-5 text-center sm:col-span-2"
+            class:list={[
+              "speaker-texture relative isolate flex flex-col items-center justify-center gap-2 border-b border-white/10 p-12 text-center",
+              { "md:col-span-2": speakers.length % 2 === 0 },
+              { "md:border-l md:border-white/10": speakers.length % 2 === 1 },
+            ]}
+            style="--tex-pos: 50% 50%"
           >
             <p class="text-lg leading-snug md:text-xl">
               More speakers landing every few days.
@@ -114,11 +174,11 @@ const randomBraille = () =>
 
   <!-- CFP CTA -->
   <section id="cfp" class="border-t border-white/10">
-    <div class="mx-auto grid max-w-6xl gap-12 px-6 py-20 md:grid-cols-12">
-      <div class="md:col-span-4">
+    <div class="mx-auto grid max-w-[100rem] gap-12 px-6 py-20 md:grid-cols-2">
+      <div>
         <div class="small-headline">/call-for-proposals</div>
       </div>
-      <div class="md:col-span-8">
+      <div>
         <p class="max-w-3xl text-2xl leading-snug md:text-3xl">
           We are looking for deeply technical talks and demos from people
           building real AI systems or workflows.
@@ -138,11 +198,11 @@ const randomBraille = () =>
 
   <!-- FAQ -->
   <section class="border-t border-white/10">
-    <div class="mx-auto grid max-w-6xl gap-12 px-6 py-20 md:grid-cols-12">
-      <div class="md:col-span-4">
+    <div class="mx-auto grid max-w-[100rem] gap-12 px-6 py-20 md:grid-cols-2">
+      <div>
         <div class="small-headline">/faq</div>
       </div>
-      <div class="md:col-span-8">
+      <div>
         {
           faqs.map((faq) => (
             <details class="group border-b border-white/10 py-5">
@@ -169,11 +229,11 @@ const randomBraille = () =>
 
   <!-- Tickets CTA -->
   <section id="tickets" class="border-t border-white/10">
-    <div class="mx-auto grid max-w-6xl gap-12 px-6 py-24 md:grid-cols-12">
-      <div class="md:col-span-4">
+    <div class="mx-auto grid max-w-[100rem] gap-12 px-6 py-24 md:grid-cols-2">
+      <div>
         <div class="small-headline">/tickets</div>
       </div>
-      <div class="md:col-span-8">
+      <div>
         <p class="max-w-2xl text-2xl leading-snug md:text-3xl">
           We're slowly starting to roll out to tickets to the 2026 edition of
           Lisbon AI.
@@ -181,6 +241,56 @@ const randomBraille = () =>
         <a href="https://tickets.lisbonai.org/lisbonai-2026" class="mt-8 btn-primary">
           Get your ticket &rarr;
         </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sponsors -->
+  <section id="sponsors" class="border-t border-white/10">
+    <div class="mx-auto grid max-w-[100rem] gap-12 px-6 py-20 md:grid-cols-12">
+      <div class="md:col-span-4">
+        <div class="small-headline">/sponsors</div>
+      </div>
+      <div class="md:col-span-12">
+        <div>
+          {
+            sponsorTiers.map((tier) => (
+              <div class:list={[tier.panelClass]}>
+                <div class="bg-slate-300/[0.02] py-4 pl-4 font-mono text-xs uppercase text-muted">
+                  &rarr; {tier.label} sponsors
+                </div>
+                {tier.sponsors.length > 0 ? (
+                  <div class:list={["grid border-t border-white/10", tier.gridClass ?? "grid-cols-2 sm:grid-cols-3 md:grid-cols-4"]}>
+                    {tier.sponsors.map(({ name, url, logo, logoClass }, i) => {
+                      const isLast = i === tier.sponsors.length - 1;
+                      const img = (
+                        <img
+                          src={`${import.meta.env.BASE_URL}images/sponsors/${logo}`}
+                          alt={name}
+                          class:list={["w-auto brightness-0 invert transition-opacity group-hover:opacity-70", logoClass ?? "h-6"]}
+                        />
+                      );
+                      return url ? (
+                        <a
+                          href={url}
+                          class:list={["group flex items-center justify-center border-b border-white/10 p-3 min-h-16", { "border-r": !isLast }]}
+                        >
+                          {img}
+                        </a>
+                      ) : (
+                        <div class:list={["flex items-center justify-center border-b border-white/10 p-3 min-h-16", { "border-r": !isLast }]}>
+                          {img}
+                        </div>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <p class="font-mono text-xs text-faint">Coming soon</p>
+                )}
+              </div>
+            ))
+          }
+        </div>
       </div>
     </div>
   </section>
