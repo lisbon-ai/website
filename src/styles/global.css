@@ -1,6 +1,9 @@
 @import "tailwindcss";
 
 @theme {
+    /* Collapse all multi-column layouts to a single column below 900px. */
+    --breakpoint-md: 900px;
+
     --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
     --font-mono:
         "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -30,6 +33,26 @@
     @apply inline-block rounded-full bg-cream-warm px-6 py-3 text-ink hover:bg-cream;
 }
 
-nav a {
-    @apply text-sm text-muted hover:text-white;
+@layer base {
+    nav a {
+        @apply text-sm text-muted hover:text-white;
+    }
+}
+
+/* Dithered texture treatment, concentrated at the top and fading out —
+   from the LisbonAI 2026 speaker-card key art. */
+.speaker-texture::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.8;
+    background-image: url("/images/speaker-texture.webp");
+    background-size: 220%;
+    background-position: var(--tex-pos, top center);
+    background-repeat: no-repeat;
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 55%);
+    mask-image: linear-gradient(to bottom, #000 0%, transparent 55%);
 }
