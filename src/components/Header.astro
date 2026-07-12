@@ -12,7 +12,7 @@ const navLinks = [
 ---
 
 <header
-  class="sticky top-0 z-50 flex items-center justify-between border-b border-white/10 bg-ink/90 px-8 py-5 backdrop-blur"
+  class="sticky top-0 z-50 flex items-center justify-between border-b border-white/10 bg-ink/90 px-6 md:px-8 py-5 backdrop-blur"
 >
   <a
     href={import.meta.env.BASE_URL}
@@ -66,7 +66,7 @@ const navLinks = [
     class="absolute inset-x-0 top-full grid grid-rows-[0fr] border-b border-white/10 bg-ink/95 backdrop-blur transition-[grid-template-rows] duration-300 ease-out data-[open=true]:grid-rows-[1fr] md:hidden"
   >
     <div class="overflow-hidden">
-      <nav class="flex flex-col gap-5 px-8 pb-6 pt-2 text-sm">
+      <nav class="flex flex-col gap-4 px-6 pb-4 text-sm">
         {
           navLinks.map(({ href, label }) => (
             <a href={href} class:list={{ "text-white": isActive(href) }}>

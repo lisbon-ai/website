@@ -26,16 +26,17 @@ const texturePositions = [
   <main>
     <!-- Speakers -->
     <section class="border-t border-white/10">
-      <div class="mx-auto max-w-[100rem] py-16 px-6">
-        <div class="small-headline mb-4">/speakers</div>
-        <h1 class="font-display text-3xl font-bold uppercase tracking-tight mb-8">All the speakers</h1>
+      <div class="mx-auto max-w-[100rem] py-16">
+        <div class="small-headline mb-4 px-6">/speakers</div>
+        <h1 class="font-display text-3xl font-bold uppercase tracking-tight mb-8 px-6">All the speakers</h1>
 
-        <div class="grid gap-0 border-x border-white/10 md:grid-cols-2">
+        <div class="px-3 md:px-6">
+          <div class="grid gap-0 border-x border-white/10 md:grid-cols-2">
             {
               speakers.map(({ name, org, title, profileUrl, orgUrl, logo, image, bio }, i) => (
                 <div
                   class:list={[
-                    "speaker-texture relative isolate flex flex-col items-start gap-3 border-b border-white/10 p-12 text-xl md:text-2xl",
+                    "speaker-texture relative isolate flex flex-col items-start gap-3 border-b border-white/10 p-8 text-xl md:p-12 md:text-2xl",
                     { "md:border-l md:border-white/10": i % 2 === 1 },
                     { "border-t border-white/10": i === 0 },
                     { "md:border-t md:border-white/10": i === 1 },
@@ -63,10 +64,10 @@ const texturePositions = [
                       <span class="font-mono text-xs text-faint">
                         {orgUrl ? (
                           <a href={orgUrl} class="hover:text-muted">
-                            // {title}, {org}
+                            //{title}, {org}
                           </a>
                         ) : (
-                          <>// {title}, {org}</>
+                          <>//{title}, {org}</>
                         )}
                       </span>
                     </div>
@@ -96,11 +97,10 @@ const texturePositions = [
             }
             <div
               class:list={[
-                "speaker-texture relative isolate flex flex-col items-center justify-center gap-2 border-b border-white/10 p-12 text-center",
+                "flex flex-col items-center justify-center gap-2 border-b border-white/10 p-8 text-center md:p-12",
                 { "md:col-span-2": speakers.length % 2 === 0 },
                 { "md:border-l md:border-white/10": speakers.length % 2 === 1 },
               ]}
-              style="--tex-pos: 50% 50%"
             >
               <p class="text-lg leading-snug md:text-xl">
                 More speakers landing every few days.
@@ -110,6 +110,7 @@ const texturePositions = [
               </p>
             </div>
           </div>
+        </div>
       </div>
     </section>
   </main>
