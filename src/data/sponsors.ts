@@ -15,18 +15,18 @@ export type SponsorTier = {
 // Logos are added per tier once confirmed — leave `sponsors` empty to show a
 // "coming soon" placeholder for that tier.
 export const sponsorTiers: SponsorTier[] = [
-  {
-    label: "Platinum",
-    gridClass: "grid-cols-1",
-    panelClass: "border-t border-x border-white/10",
-    sponsors: [
-      { name: "Cloudflare", url: "https://cloudflare.com", logo: "cloudflare.svg" },
-    ],
-  },
+  // {
+  //   label: "Platinum",
+  //   gridClass: "grid-cols-1",
+  //   panelClass: "border-t border-x border-white/10",
+  //   sponsors: [
+  //     { name: "Cloudflare", url: "https://cloudflare.com", logo: "cloudflare.svg" },
+  //   ],
+  // },
   {
     label: "Gold",
     gridClass: "grid-cols-2",
-    panelClass: "border-x border-white/10",
+    panelClass: "border-t border-x border-white/10",
     sponsors: [
       { name: "DoiT", url: "https://www.doit.com", logo: "doit.png", logoClass: "h-4" },
       { name: "Humanos", url: "https://www.humanos.tech", logo: "humanos.svg", logoClass: "h-8" },
@@ -39,6 +39,14 @@ export const sponsorTiers: SponsorTier[] = [
     sponsors: [
       { name: "YLD", url: "https://www.yld.io", logo: "yld.svg", logoClass: "h-10" },
       { name: "Supabase", url: "https://supabase.com", logo: "supabase.svg" },
+    ],
+  },
+  {
+    label: "Community",
+    gridClass: "grid-cols-1",
+    panelClass: "border-x border-white/10",
+    sponsors: [
+      { name: "tldraw", url: "https://tldraw.dev/", logo: "tldraw.svg", logoClass: "h-5" },
     ],
   },
 ];
