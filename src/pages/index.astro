@@ -256,7 +256,7 @@ const texturePositions = [
             sponsorTiers.map((tier) => (
               <div class:list={[tier.panelClass]}>
                 <div class="bg-slate-300/[0.02] py-4 pl-4 font-mono text-xs uppercase text-muted">
-                  //{tier.label} sponsors
+                  //{tier.label}{tier.label === "Community" ? "" : " sponsors"}
                 </div>
                 {tier.sponsors.length > 0 ? (
                   <div class:list={["grid border-t border-white/10", tier.gridClass ?? "grid-cols-2 sm:grid-cols-3 md:grid-cols-4"]}>
