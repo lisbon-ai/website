@@ -29,7 +29,7 @@ export const sponsorTiers: SponsorTier[] = [
     panelClass: "border-t border-x border-white/10",
     sponsors: [
       { name: "DoiT", url: "https://www.doit.com", logo: "doit.png", logoClass: "h-4" },
-      { name: "Humanos", url: "https://www.humanos.tech", logo: "humanos.svg", logoClass: "h-8" },
+      { name: "Humanos", url: "https://www.humanos.tech", logo: "humanos.svg", logoClass: "h-5" },
     ],
   },
   {
@@ -43,10 +43,11 @@ export const sponsorTiers: SponsorTier[] = [
   },
   {
     label: "Community",
-    gridClass: "grid-cols-1",
+    gridClass: "grid-cols-2",
     panelClass: "border-x border-white/10",
     sponsors: [
       { name: "tldraw", url: "https://tldraw.dev/", logo: "tldraw.svg", logoClass: "h-5" },
+      { name: "Zed", url: "https://zed.dev", logo: "zed.svg", logoClass: "h-5" },
     ],
   },
 ];

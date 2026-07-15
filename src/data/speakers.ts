@@ -87,4 +87,15 @@ export const speakers: Speaker[] = [
     image: "aayush.png",
     bio: "Aayush Kapoor is a software engineer at Vercel in New York, working on developer tools and the AI SDK library. He holds a Master's in Computer Science from Old Dominion University, with a background in AI systems and applied machine learning.",
   },
+  {
+    name: "Sergio Paniego",
+    role: "ML Engineer",
+    title: "Machine Learning Engineer",
+    org: "Hugging Face",
+    profileUrl: "https://x.com/SergioPaniego",
+    orgUrl: "https://huggingface.co",
+    logo: "huggingface.svg",
+    image: "sergio.png",
+    bio: "Sergio is a Machine Learning Engineer at Hugging Face focused on developer advocacy, where he works on post-training and RL environments as a developer of TRL and OpenEnv. He holds a PhD in artificial intelligence and has contributed to open source for over a decade, including more than eight years in Google Summer of Code as a developer and mentor.",
+  },
 ];
