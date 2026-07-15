@@ -138,14 +138,14 @@ const texturePositions = [
                       <img
                         src={`${import.meta.env.BASE_URL}images/logos/${logo}`}
                         alt={org}
-                        class="h-4 w-auto brightness-0 invert"
+                        class:list={["w-auto brightness-0 invert", logo === "huggingface.svg" ? "h-7" : "h-4"]}
                       />
                     </a>
                   ) : (
                     <img
                       src={`${import.meta.env.BASE_URL}images/logos/${logo}`}
                       alt={org}
-                      class="h-4 w-auto shrink-0 brightness-0 invert"
+                      class:list={["w-auto shrink-0 brightness-0 invert", logo === "huggingface.svg" ? "h-7" : "h-4"]}
                     />
                   ))}
                 </div>
