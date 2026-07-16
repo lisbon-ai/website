@@ -4,59 +4,13 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import type { Faq } from "../data/faqs";
 
-const proposalFormUrl = "https://resisted-geranium-f4e.notion.site/363b0dd5c34f80e1b326ceb1b06924a4";
 const contactEmail = "speakers@lisbonai.org";
 
-const formats = [
-    {
-        name: ["Talks"],
-        duration: "20 min + 5 min Q&A",
-        description:
-            "Go deep on one idea, the code itself, a novel technical idea or approach.",
-    },
-    {
-        name: ["Lightning talks", "Demo"],
-        duration: "7 min",
-        description:
-            "Fast and sharp. One live demo, one technical lesson, or one hard-won opinion.",
-    },
-];
-
-const topics = [
-    "Foundational models",
-    "Physical AI / robotics",
-    "Tooling for AI",
-    "Design for AI",
-    "Platforms and infrastructure",
-    "Agents and workflows",
-    "Inference and optimization",
-    "Evals and observability",
-    "Multimodal systems",
-    "Open-source models",
-    "Security",
-    "Ethics, sustainability, and impact",
-];
-
-const depthSignals = [
-    "Architecture, constraints, and trade-offs",
-    "Code, repos, demos, or artifacts people can inspect",
-    "Evals, benchmarks, telemetry, and failure modes",
-    "What broke, what changed, and what you would do differently",
-    "Operational, security, privacy, or sustainability implications where relevant",
-];
-
-const antiPatterns = [
-    "Vendor pitches dressed up as talks",
-    "Vague trend reports about where AI is going",
-    "Product launch decks without implementation detail",
-    "Abstract thought leadership with no system, data, or code behind it",
-];
-
-const timeline = [
+const nextSteps = [
     {
         date: "July 15",
         label: "CFP closes",
-        description: "Send us the clearest version of the talk you want to give.",
+        description: "Submissions are now closed.",
     },
     {
         date: "July 16–31",
@@ -98,40 +52,27 @@ const timeline = [
 
 const faqs: Faq[] = [
     {
-        q: "Are talks in person only?",
-        a: "Yes. Lisbon AI is strictly in-person.",
+        q: "I submitted a proposal. What happens now?",
+        a: "We are reviewing submissions and will email every applicant by August 7.",
     },
     {
-        q: "Can you cover expenses?",
-        a: "We reimburse economy or similar fares and up to 2 nights in a 4-star hotel near the venue (check-in Sep 22, check-out Sep 24). Extra nights, rooms, meals, upgrades, or luggage are on you. If your company can cover travel and stay, we'll happily list them as a Community Sponsor and offer two complimentary tickets.",
+        q: "Can I still submit or suggest a speaker?",
+        a: "The public CFP is closed. For exceptional speaker questions or corrections, email speakers@lisbonai.org.",
     },
     {
-        q: "Can you help with visas?",
-        a: "Yes. If you need an invitation letter, tell us early and we'll help where relevant.",
-    },
-    {
-        q: "Are talks recorded?",
-        a: "Yes. Sessions are live-streamed, recorded, and published under CC BY-SA.",
-    },
-    {
-        q: "Can I show a product demo?",
-        a: "Yes, if it is an honest technical demo rather than a pitch. Live demos > polished videos. Implementation details > positioning.",
-    },
-    {
-        q: "What should I bring?",
-        a: "Bring your laptop and any hardware you need. We provide Wi‑Fi, HDMI, audio, and production support.",
+        q: "When will the program be announced?",
+        a: "We are announcing confirmed speakers on the website as they are locked in, with the full program coming after speaker confirmations.",
     },
 ];
 ---
 
 <Layout
-    title="Call for Proposals — Lisbon AI 2026"
-    description="Submit a deeply technical talk or demo proposal for Lisbon AI 2026. The CFP closes July 15, 2026."
+    title="CFP Closed — Lisbon AI 2026"
+    description="The Lisbon AI 2026 call for proposals is now closed. We are now reviewing and we'll be in touch."
 >
     <Header />
 
     <main>
-        <!-- Hero -->
         <section class="border-t border-white/10">
             <div class="mx-auto max-w-[100rem] px-6 py-20 md:py-28">
                 <div class="small-headline mb-6">/call-for-proposals</div>
@@ -142,140 +83,53 @@ const faqs: Faq[] = [
                     <h1
                         class="font-display text-6xl font-bold uppercase leading-[0.9] tracking-tight md:text-8xl lg:text-9xl"
                     >
-                        Speak at Lisbon AI
+                        CFP closed
                     </h1>
                 </div>
 
                 <div class="mt-12 max-w-3xl space-y-6 text-xl leading-relaxed md:text-2xl">
                     <p>
-                        We are looking for builders, researchers, designers, and
-                        operators with real AI systems or workflows to take
-                        apart in public.
+                        Submissions for Lisbon AI 2026 are now closed. Thanks
+                        to everyone who submitted their proposal.
                     </p>
                     <p class="text-cream">
-                        No vendor pitches. No vague trend talks. Show the system.
+                        We are now reviewing and we'll be in touch.
                     </p>
                 </div>
 
-                <div class="mt-8 space-y-8">
+                <div class="mt-8 flex flex-wrap items-center gap-5">
                     <a
-                        href={proposalFormUrl}
+                        href={`${import.meta.env.BASE_URL}speakers/`}
                         class="btn-primary"
                     >
-                        Submit a proposal by July 15 &rarr;
+                        See announced speakers &rarr;
                     </a>
-                    <p class="text-sm text-muted">
-                        Questions? <a
-                            href={`mailto:${contactEmail}`}
-                            class="underline hover:text-cream">{contactEmail}</a
-                        >
-                    </p>
+                    <a
+                        href="https://tickets.lisbonai.org/lisbonai-2026"
+                        class="font-mono text-xs uppercase text-muted hover:text-cream"
+                    >
+                        Get tickets &rarr;
+                    </a>
                 </div>
+
+                <p class="mt-8 text-sm text-muted">
+                    Speaker questions? <a
+                        href={`mailto:${contactEmail}`}
+                        class="underline hover:text-cream">{contactEmail}</a
+                    >
+                </p>
             </div>
         </section>
 
-        <!-- Formats -->
         <section class="border-t border-white/10">
             <div class="mx-auto grid max-w-[100rem] gap-12 px-6 py-20 md:grid-cols-12">
                 <div class="md:col-span-4">
-                    <h2 class="small-headline">/formats</h2>
-                </div>
-                <div class="md:col-span-8">
-                    <ul>
-                        {
-                            formats.map((format) => (
-                                <li class="grid gap-4 border-b border-white/10 py-6 md:grid-cols-12 md:gap-8">
-                                    <div class="md:col-span-4">
-                                        <h3 class="text-2xl">
-                                            {format.name.map((line) => (
-                                                <span class="block">{line}</span>
-                                            ))}
-                                        </h3>
-                                        <div class="mt-2 font-mono text-xs uppercase text-muted">
-                                            {format.duration}
-                                        </div>
-                                    </div>
-                                    <p class="text-lg leading-relaxed text-muted md:col-span-8 md:text-xl">
-                                        {format.description}
-                                    </p>
-                                </li>
-                            ))
-                        }
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <!-- Get selected -->
-        <section class="border-t border-white/10">
-            <div class="mx-auto grid max-w-[100rem] gap-12 px-6 py-20 md:grid-cols-12">
-                <div class="md:col-span-4">
-                    <h2 class="small-headline">/get-selected</h2>
-                </div>
-                <div class="space-y-10 md:col-span-8">
-                    <div class="space-y-5 text-xl leading-relaxed md:text-2xl">
-                        <p>
-                            The best Lisbon AI talks teach something that only
-                            comes from building: the messy edge between models,
-                            products, infrastructure, users, and risk.
-                        </p>
-                        <p class="text-muted">
-                            We care less about polished certainty and more about
-                            useful details others can steal, adapt, and argue
-                            with.
-                        </p>
-                    </div>
-
-                    <div class="flex flex-wrap gap-3">
-                        {
-                            topics.map((topic) => (
-                                <span class="rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-sm text-muted">
-                                    {topic}
-                                </span>
-                            ))
-                        }
-                    </div>
-
-                    <div class="grid gap-10 md:grid-cols-2">
-                        <div>
-                            <h3 class="mb-5 text-2xl">Show us</h3>
-                            <ul>
-                                {
-                                    depthSignals.map((item) => (
-                                        <li class="border-b border-white/10 py-4 text-muted">
-                                            {item}
-                                        </li>
-                                    ))
-                                }
-                            </ul>
-                        </div>
-                        <div>
-                            <h3 class="mb-5 text-2xl">Skip</h3>
-                            <ul>
-                                {
-                                    antiPatterns.map((item) => (
-                                        <li class="border-b border-white/10 py-4 text-muted">
-                                            {item}
-                                        </li>
-                                    ))
-                                }
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Timeline -->
-        <section class="border-t border-white/10">
-            <div class="mx-auto grid max-w-[100rem] gap-12 px-6 py-20 md:grid-cols-12">
-                <div class="md:col-span-4">
-                    <h2 class="small-headline">/timeline</h2>
+                    <h2 class="small-headline">/next-steps</h2>
                 </div>
                 <div class="md:col-span-8">
                     <ol>
                         {
-                            timeline.map((item) => (
+                            nextSteps.map((item) => (
                                 <li class="grid gap-4 border-b border-white/10 py-6 md:grid-cols-12 md:gap-8">
                                     <div class="font-mono text-xs uppercase text-muted md:col-span-3">
                                         {item.date}
@@ -294,7 +148,6 @@ const faqs: Faq[] = [
             </div>
         </section>
 
-        <!-- FAQ -->
         <section class="border-t border-white/10">
             <div class="mx-auto grid max-w-[100rem] gap-12 px-6 py-20 md:grid-cols-12">
                 <div class="md:col-span-4">
