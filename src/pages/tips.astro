@@ -1,0 +1,1015 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
+const base = import.meta.env.BASE_URL;
+
+const brailleFrames = ["⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷"];
+const randomBraille = () =>
+  brailleFrames[Math.floor(Math.random() * brailleFrames.length)];
+
+// Venue photos for the "getting there" column — one is picked at random on
+// every page load by the client script below.
+const venuePhotos = [1, 2, 3, 4].map(
+  (n) => `${base}images/venue/${n}.jpg`,
+);
+const defaultPhoto = venuePhotos[0];
+---
+
+<Layout
+    title="Tips for Attendees — Lisbon AI 2026"
+    description="Practical tips for making the most of Lisbon AI 2026 — getting to the venue in Belém, where to stay, what to bring, and how to get around Lisbon."
+>
+    <Header />
+
+    <!-- Intro -->
+    <section class="border-t border-white/10">
+        <div class="mx-auto grid max-w-[90rem] gap-12 px-6 py-20 md:grid-cols-2">
+            <div>
+                <div class="small-headline mb-4">/tips</div>
+                <h1
+                    class="font-display text-3xl font-bold uppercase tracking-tight mb-8"
+                >
+                    Tips for Attendees
+                </h1>
+                <p class="text-xl leading-relaxed">
+                    Here are some tips and recommendations from our team to help
+                    you organize and plan your trip to Lisbon AI.
+                </p>
+            </div>
+            <div></div>
+        </div>
+    </section>
+
+    <!-- Getting there -->
+    <section class="border-t border-white/10">
+        <div class="mx-auto grid max-w-[90rem] gap-12 px-6 py-16 md:grid-cols-2">
+            <div>
+                <h2 class="small-headline" aria-label="Getting there">
+                    <span aria-hidden="true">/getting-there</span>
+                </h2>
+                <img
+                    id="getting-there-photo"
+                    src={defaultPhoto}
+                    alt="Centro Champalimaud, the Lisbon AI venue"
+                    class="mt-6 aspect-[3/2] w-full rounded-2xl border border-white/10 object-cover"
+                />
+            </div>
+            <script define:vars={{ venuePhotos }}>
+                const img = document.getElementById("getting-there-photo");
+                if (img && venuePhotos.length) {
+                    img.src =
+                        venuePhotos[
+                            Math.floor(Math.random() * venuePhotos.length)
+                        ];
+                }
+            </script>
+            <div class="text-base leading-relaxed md:mt-10">
+                <p>
+                    The venue is <strong>Centro Champalimaud</strong> on the
+                    Belém waterfront, west of central Lisbon. Here's how to get
+                    there:
+                </p>
+                <h3 class="small-headline mt-8 mb-2" aria-label="By car">
+                    <span aria-hidden="true">//By car</span>
+                </h3>
+                <details class="group border-b border-white/10 py-2">
+                    <summary
+                        class="flex cursor-pointer list-none items-center justify-between text-base"
+                    >
+                        <span>
+                            <span
+                                class="mr-2 font-mono text-base text-muted md:text-lg"
+                            >
+                                {randomBraille()}
+                            </span>
+                            Paid parking inside the venue: €9.90 for a daily ticket
+                        </span>
+                        <span
+                            class="font-mono text-xs text-faint transition group-open:rotate-45"
+                        >
+                            +
+                        </span>
+                    </summary>
+                    <div class="mt-4 space-y-3 text-base leading-relaxed text-muted">
+                        <img
+                            src={`${base}images/getting-there/park-inside.jpg`}
+                            alt="Map of the paid parking inside the Champalimaud venue"
+                            class="w-full max-w-md rounded-lg border border-white/10"
+                            loading="lazy"
+                        />
+                        <p>
+                            <a
+                                href="https://maps.app.goo.gl/1RWGU1mDKyCxrtrr6"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="underline hover:text-cream"
+                                >View on Google Maps</a
+                            >
+                        </p>
+                    </div>
+                </details>
+                <details class="group border-b border-white/10 py-2">
+                    <summary
+                        class="flex cursor-pointer list-none items-center justify-between text-base"
+                    >
+                        <span>
+                            <span
+                                class="mr-2 font-mono text-base text-muted md:text-lg"
+                            >
+                                {randomBraille()}
+                            </span>
+                            Free parking outside the venue: fills up quickly
+                        </span>
+                        <span
+                            class="font-mono text-xs text-faint transition group-open:rotate-45"
+                        >
+                            +
+                        </span>
+                    </summary>
+                    <div class="mt-4 text-base leading-relaxed text-muted">
+                        <img
+                            src={`${base}images/getting-there/park-outside.jpg`}
+                            alt="Map of free street parking near the venue along Avenida de Brasília"
+                            class="w-full max-w-md rounded-lg border border-white/10"
+                            loading="lazy"
+                        />
+                    </div>
+                </details>
+                <h3
+                    class="small-headline mt-8 mb-2"
+                    aria-label="By public transport"
+                >
+                    <span aria-hidden="true">//By public transport</span>
+                </h3>
+                <details class="group border-b border-white/10 py-2">
+                    <summary
+                        class="flex cursor-pointer list-none items-center justify-between text-base"
+                    >
+                        <span>
+                            <span
+                                class="mr-2 font-mono text-base text-muted md:text-lg"
+                            >
+                                {randomBraille()}
+                            </span>
+                            Tram, surface tram from Baixa toward Belém
+                        </span>
+                        <span
+                            class="font-mono text-xs text-faint transition group-open:rotate-45"
+                        >
+                            +
+                        </span>
+                    </summary>
+                    <div class="mt-4 space-y-3 text-base leading-relaxed text-muted">
+                        <img
+                            src={`${base}images/getting-there/tram.jpg`}
+                            alt="Public transport routes from central Lisbon to the venue"
+                            class="w-full max-w-md rounded-lg border border-white/10"
+                            loading="lazy"
+                        />
+                        <p>
+                            <a
+                                href="https://maps.app.goo.gl/Ckc3FHLTfPZx3KEP7"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="underline hover:text-cream"
+                                >View on Google Maps</a
+                            >
+                        </p>
+                    </div>
+                </details>
+                <details class="group border-b border-white/10 py-2">
+                    <summary
+                        class="flex cursor-pointer list-none items-center justify-between text-base"
+                    >
+                        <span>
+                            <span
+                                class="mr-2 font-mono text-base text-muted md:text-lg"
+                            >
+                                {randomBraille()}
+                            </span>
+                            Bus, several bus stops serve the area
+                        </span>
+                        <span
+                            class="font-mono text-xs text-faint transition group-open:rotate-45"
+                        >
+                            +
+                        </span>
+                    </summary>
+                    <div class="mt-4 text-base leading-relaxed text-muted">
+                        <img
+                            src={`${base}images/getting-there/bus-stops.jpg`}
+                            alt="Map of bus stops around the venue in Pedrouços"
+                            class="w-full max-w-md rounded-lg border border-white/10"
+                            loading="lazy"
+                        />
+                    </div>
+                </details>
+                <details class="group border-b border-white/10 py-2">
+                    <summary
+                        class="flex cursor-pointer list-none items-center justify-between text-base"
+                    >
+                        <span>
+                            <span
+                                class="mr-2 font-mono text-base text-muted md:text-lg"
+                            >
+                                {randomBraille()}
+                            </span>
+                            Train, Estação Algés, a 13-minute walk (Cascais–Cais do
+                            Sodré line)
+                        </span>
+                        <span
+                            class="font-mono text-xs text-faint transition group-open:rotate-45"
+                        >
+                            +
+                        </span>
+                    </summary>
+                    <div class="mt-4 space-y-3 text-base leading-relaxed text-muted">
+                        <img
+                            src={`${base}images/getting-there/walk.jpg`}
+                            alt="Walking route from Estação Algés to the venue, about 13 minutes"
+                            class="w-full max-w-md rounded-lg border border-white/10"
+                            loading="lazy"
+                        />
+                        <p>
+                            <a
+                                href="https://maps.app.goo.gl/hfhbXUdR28gPdWmt5"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="underline hover:text-cream"
+                                >View on Google Maps</a
+                            >
+                        </p>
+                    </div>
+                </details>
+                <h3 class="small-headline mt-8 mb-2" aria-label="Getting around">
+                    <span aria-hidden="true">//Getting around</span>
+                </h3>
+                <p>
+                    Once you're in Lisbon, the metro, trams, and buses are cheap
+                    and reliable — grab a rechargeable Navegante / Viva Viagem
+                    card at any station. Bolt and Uber are everywhere and
+                    affordable. The centre is walkable, just expect hills and
+                    cobblestones.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Flying partner -->
+    <section class="border-t border-white/10">
+        <div class="mx-auto grid max-w-[90rem] gap-12 px-6 py-16 md:grid-cols-2">
+            <div>
+                <h2 class="small-headline" aria-label="Flying partner">
+                    <span aria-hidden="true">/flying-partner</span>
+                </h2>
+                <img
+                    src={`${base}images/logos/tap.svg`}
+                    alt="TAP Air Portugal"
+                    class="mt-6 h-6 w-auto"
+                />
+            </div>
+            <div class="text-base leading-relaxed">
+                <p>
+                    <strong>TAP Air Portugal</strong> is our official flying
+                    partner. Book directly on <a
+                        href="https://www.flytap.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="underline hover:text-cream">flytap.com</a
+                    > with the event code to get:
+                </p>
+                <ul class="mt-4 space-y-2 list-disc pl-6">
+                    <li>
+                        <strong>10% off</strong> Economy class (excluding Brand Discount
+                        fares).
+                    </li>
+                    <li><strong>15% off</strong> Business class.</li>
+                </ul>
+                <p class="mt-4">
+                    We'll share the event's discount code with registered
+                    attendees ahead of the conference — quote it when you book
+                    online.
+                </p>
+                <h3 class="small-headline mt-8 mb-2" aria-label="Conditions">
+                    <span aria-hidden="true">//Conditions</span>
+                </h3>
+                <details class="group border-b border-white/10 py-2">
+                    <summary
+                        class="flex cursor-pointer list-none items-center justify-between text-base"
+                    >
+                        <span>
+                            <span
+                                class="mr-2 font-mono text-base text-muted md:text-lg"
+                            >
+                                {randomBraille()}
+                            </span>
+                            Full booking conditions
+                        </span>
+                        <span
+                            class="font-mono text-xs text-faint transition group-open:rotate-45"
+                        >
+                            +
+                        </span>
+                    </summary>
+                    <ul
+                        class="mt-4 space-y-2 list-disc pl-6 text-base leading-relaxed text-muted"
+                    >
+                        <li>
+                            The discount applies only to bookings made directly
+                            on flytap.com — bookings through travel agencies or at
+                            TAP counters do not qualify. Pay by credit card or
+                            another method available on the website.
+                        </li>
+                        <li>
+                            Valid on round trips from any TAP destination to
+                            Lisbon, on TAP-operated flights only. Code-share
+                            flights operated by other airlines, or flights on
+                            other airlines, do not qualify.
+                        </li>
+                        <li>
+                            You can book at any time, but travel dates must fall
+                            within 10 days before and 10 days after the event, and
+                            must include the event dates.
+                        </li>
+                        <li>
+                            Not valid on resident, student, child, infant, senior,
+                            or similar fares.
+                        </li>
+                        <li>
+                            The event's specific code must be entered when booking
+                            online to receive the discount.
+                        </li>
+                        <li>
+                            Changes and refunds follow the rules of the fare you
+                            choose, so consider a more flexible fare. Any permitted
+                            change is made via <a
+                                href="https://www.flytap.com"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="underline hover:text-cream">flytap.com</a
+                            > or the TAP contact center.
+                        </li>
+                    </ul>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- Where to stay -->
+    <section class="border-t border-white/10">
+        <div class="mx-auto grid max-w-[90rem] gap-12 px-6 py-16 md:grid-cols-2">
+            <div>
+                <h2 class="small-headline" aria-label="Where to stay">
+                    <span aria-hidden="true">/where-to-stay</span>
+                </h2>
+            </div>
+            <div class="text-base leading-relaxed">
+                <p>
+                    Most attendees stay in central Lisbon — Baixa, Chiado, Cais
+                    do Sodré, or Alcântara — which are well connected to Belém and
+                    close to the nightlife and restaurants. Belém itself is
+                    quieter and more residential. You should book early, as late
+                    September is a popular time to visit the city.
+                </p>
+                <h3 class="small-headline mt-8 mb-2" aria-label="Suggestions">
+                    <span aria-hidden="true">//Suggestions</span>
+                </h3>
+                <details class="group border-b border-white/10 py-2">
+                    <summary
+                        class="flex cursor-pointer list-none items-center justify-between text-base"
+                    >
+                        <span>
+                            <span
+                                class="mr-2 font-mono text-base text-muted md:text-lg"
+                            >
+                                {randomBraille()}
+                            </span>
+                            <strong>The Emerald House Lisbon</strong>, Curio Collection by Hilton
+                        </span>
+                        <span
+                            class="font-mono text-xs text-faint transition group-open:rotate-45"
+                        >
+                            +
+                        </span>
+                    </summary>
+                    <p class="mt-4 max-w-2xl text-base leading-relaxed text-muted">
+                        Lisbon AI attendees get a <strong>15% discount</strong> on
+                        the Best Available Rate on the day of booking. To claim it,
+                        email <a
+                            href="mailto:sales@emeraldhouse.pt"
+                            class="underline hover:text-cream"
+                            >sales@emeraldhouse.pt</a
+                        > or <a
+                            href="mailto:sales2@emeraldhouse.pt"
+                            class="underline hover:text-cream"
+                            >sales2@emeraldhouse.pt</a
+                        > and mention that you are part of the Lisbon AI congress.
+                        <a
+                            href="https://maps.app.goo.gl/s6AVZdFgA2iqqhVg9"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="underline hover:text-cream"
+                            >View on Google Maps</a
+                        >.
+                    </p>
+                </details>
+                <details class="group border-b border-white/10 py-2">
+                    <summary
+                        class="flex cursor-pointer list-none items-center justify-between text-base"
+                    >
+                        <span>
+                            <span
+                                class="mr-2 font-mono text-base text-muted md:text-lg"
+                            >
+                                {randomBraille()}
+                            </span>
+                            <strong>Hotel Infante Santo</strong>, DH Hotels
+                        </span>
+                        <span
+                            class="font-mono text-xs text-faint transition group-open:rotate-45"
+                        >
+                            +
+                        </span>
+                    </summary>
+                    <p class="mt-4 max-w-2xl text-base leading-relaxed text-muted">
+                        A comfortable base between the city centre and Belém. <a
+                            href="https://maps.app.goo.gl/zCHsmxczGZ9mBUa56"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="underline hover:text-cream"
+                            >View on Google Maps</a
+                        >.
+                    </p>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- What to see & eat -->
+    <section class="border-t border-white/10">
+        <div class="mx-auto grid max-w-[90rem] gap-12 px-6 py-16 md:grid-cols-2">
+            <div>
+                <h2 class="small-headline" aria-label="What to see and eat">
+                    <span aria-hidden="true">/what-to-see-&amp;-eat</span>
+                </h2>
+                <div id="see-gallery" class="mt-6 flex flex-wrap gap-2">
+                    {[
+                        { src: "belem", alt: "Torre de Belém", w: "w-48" },
+                        { src: "jeronimos", alt: "Mosteiro dos Jerónimos", w: "w-32" },
+                        { src: "padrao", alt: "Padrão dos Descobrimentos", w: "w-32" },
+                        { src: "palacio-belem", alt: "Palácio Nacional de Belém", w: "w-48" },
+                        { src: "maat", alt: "MAAT museum", w: "w-48" },
+                        { src: "pasteis", alt: "Pastéis de Belém", w: "w-32" },
+                        { src: "ajuda", alt: "Palácio Nacional da Ajuda", w: "w-32" },
+                        { src: "comercio", alt: "Praça do Comércio", w: "w-48" },
+                        { src: "fado", alt: "Fado Museum", w: "w-32" },
+                        { src: "parque", alt: "Parque Eduardo VII", w: "w-48" },
+                        { src: "castelo", alt: "Castelo de S. Jorge", w: "w-32" },
+                        { src: "se", alt: "Sé de Lisboa", w: "w-48" },
+                    ].map((p, i) => (
+                        <div class="relative">
+                            <img
+                                src={`${base}images/see/${p.src}.jpg`}
+                                alt={p.alt}
+                                class:list={[
+                                    "h-28 rounded-lg border border-white/10 object-cover",
+                                    p.w,
+                                ]}
+                                loading="lazy"
+                            />
+                            <span
+                                class="absolute bottom-1.5 right-1.5 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-muted px-1 font-mono text-[11px] font-medium text-ink"
+                            >
+                                {i + 1}
+                            </span>
+                        </div>
+                    ))}
+                </div>
+                <script>
+                    // Shuffle the gallery order and randomize each thumbnail's
+                    // width on every page load.
+                    const g = document.getElementById("see-gallery");
+                    if (g) {
+                        const items = Array.from(g.children);
+                        for (let i = items.length - 1; i > 0; i--) {
+                            const j = Math.floor(Math.random() * (i + 1));
+                            [items[i], items[j]] = [items[j], items[i]];
+                        }
+                        for (const item of items) {
+                            const img = item.querySelector("img");
+                            if (img) {
+                                img.classList.remove("w-32", "w-48");
+                                img.classList.add(
+                                    Math.random() < 0.5 ? "w-32" : "w-48",
+                                );
+                            }
+                            g.appendChild(item);
+                        }
+                    }
+                </script>
+            </div>
+            <div class="text-base leading-relaxed md:mt-10">
+                <h3 class="small-headline mb-2" aria-label="Close to the venue">
+                    <span aria-hidden="true">//Close to the venue</span>
+                </h3>
+                <details class="group border-b border-white/10 py-2">
+                    <summary
+                        class="flex cursor-pointer list-none items-center justify-between text-base"
+                    >
+                        <span>
+                            <span
+                                class="mr-2 font-mono text-base text-muted md:text-lg"
+                            >
+                                {randomBraille()}
+                            </span>
+                            Torre de Belém <span class="font-mono text-xs text-muted"
+                                >(1)</span
+                            >
+                        </span>
+                        <span
+                            class="font-mono text-xs text-faint transition group-open:rotate-45"
+                        >
+                            +
+                        </span>
+                    </summary>
+                    <div class="mt-4 space-y-3 text-base leading-relaxed text-muted">
+                        <p>
+                            A UNESCO World Heritage fortified tower built
+                            1514–1520 to guard the mouth of the Tagus, and a
+                            masterpiece of Portugal's ornate Manueline style. It
+                            remains an enduring symbol of Lisbon and the Age of
+                            Discovery.
+                        </p>
+                        <p>
+                            <a
+                                href="https://maps.app.goo.gl/2qZUbHy8wFXZ5LnV7"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="underline hover:text-cream"
+                                >View on Google Maps</a
+                            >
+                        </p>
+                    </div>
+                </details>
+                <details class="group border-b border-white/10 py-2">
+                    <summary
+                        class="flex cursor-pointer list-none items-center justify-between text-base"
+                    >
+                        <span>
+                            <span
+                                class="mr-2 font-mono text-base text-muted md:text-lg"
+                            >
+                                {randomBraille()}
+                            </span>
+                            Mosteiro dos Jerónimos <span
+                                class="font-mono text-xs text-muted">(2)</span
+                            >
+                        </span>
+                        <span
+                            class="font-mono text-xs text-faint transition group-open:rotate-45"
+                        >
+                            +
+                        </span>
+                    </summary>
+                    <div class="mt-4 space-y-3 text-base leading-relaxed text-muted">
+                        <p>
+                            A vast early-16th-century monastery and UNESCO World
+                            Heritage site, widely considered the finest Manueline
+                            building in Lisbon. It holds the tombs of explorer
+                            Vasco da Gama and poet Luís de Camões.
+                        </p>
+                        <p>
+                            <a
+                                href="https://maps.app.goo.gl/6gsmzVPF6DHSNB5V7"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="underline hover:text-cream"
+                                >View on Google Maps</a
+                            >
+                        </p>
+                    </div>
+                </details>
+                <details class="group border-b border-white/10 py-2">
+                    <summary
+                        class="flex cursor-pointer list-none items-center justify-between text-base"
+                    >
+                        <span>
+                            <span
+                                class="mr-2 font-mono text-base text-muted md:text-lg"
+                            >
+                                {randomBraille()}
+                            </span>
+                            Padrão dos Descobrimentos <span
+                                class="font-mono text-xs text-muted">(3)</span
+                            >
+                        </span>
+                        <span
+                            class="font-mono text-xs text-faint transition group-open:rotate-45"
+                        >
+                            +
+                        </span>
+                    </summary>
+                    <div class="mt-4 space-y-3 text-base leading-relaxed text-muted">
+                        <p>
+                            A 52-metre monument on the Belém waterfront shaped
+                            like a caravel's prow, led by Henry the Navigator and
+                            lined with Portuguese explorers. A viewpoint at the
+                            top overlooks the giant compass-rose mosaic below.
+                        </p>
+                        <p>
+                            <a
+                                href="https://maps.app.goo.gl/LLb9AQSBJqXUb59u7"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="underline hover:text-cream"
+                                >View on Google Maps</a
+                            >
+                        </p>
+                    </div>
+                </details>
+                <details class="group border-b border-white/10 py-2">
+                    <summary
+                        class="flex cursor-pointer list-none items-center justify-between text-base"
+                    >
+                        <span>
+                            <span
+                                class="mr-2 font-mono text-base text-muted md:text-lg"
+                            >
+                                {randomBraille()}
+                            </span>
+                            Palácio Nacional de Belém <span
+                                class="font-mono text-xs text-muted">(4)</span
+                            >
+                        </span>
+                        <span
+                            class="font-mono text-xs text-faint transition group-open:rotate-45"
+                        >
+                            +
+                        </span>
+                    </summary>
+                    <div class="mt-4 space-y-3 text-base leading-relaxed text-muted">
+                        <p>
+                            The salmon-pink 18th-century palace that is the
+                            official residence of the President of Portugal. It
+                            famously survived the 1755 earthquake and once served
+                            as a royal summer retreat.
+                        </p>
+                        <p>
+                            <a
+                                href="https://maps.app.goo.gl/tsLCkijMWdwYQYx38"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="underline hover:text-cream"
+                                >View on Google Maps</a
+                            >
+                        </p>
+                    </div>
+                </details>
+                <details class="group border-b border-white/10 py-2">
+                    <summary
+                        class="flex cursor-pointer list-none items-center justify-between text-base"
+                    >
+                        <span>
+                            <span
+                                class="mr-2 font-mono text-base text-muted md:text-lg"
+                            >
+                                {randomBraille()}
+                            </span>
+                            MAAT (Art, Architecture and Tech Museum) <span
+                                class="font-mono text-xs text-muted">(5)</span
+                            >
+                        </span>
+                        <span
+                            class="font-mono text-xs text-faint transition group-open:rotate-45"
+                        >
+                            +
+                        </span>
+                    </summary>
+                    <div class="mt-4 space-y-3 text-base leading-relaxed text-muted">
+                        <p>
+                            A striking riverside museum of Art, Architecture and
+                            Technology, its low wave-like form clad in some 15,000
+                            crackle-glazed tiles. Walk across its roof for sweeping
+                            views of the Tagus.
+                        </p>
+                        <p>
+                            <a
+                                href="https://maps.app.goo.gl/RAijjyLiKNWuyCMN8"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="underline hover:text-cream"
+                                >View on Google Maps</a
+                            >
+                        </p>
+                    </div>
+                </details>
+                <details class="group border-b border-white/10 py-2">
+                    <summary
+                        class="flex cursor-pointer list-none items-center justify-between text-base"
+                    >
+                        <span>
+                            <span
+                                class="mr-2 font-mono text-base text-muted md:text-lg"
+                            >
+                                {randomBraille()}
+                            </span>
+                            Pastéis de Belém <span class="font-mono text-xs text-muted"
+                                >(6)</span
+                            >
+                        </span>
+                        <span
+                            class="font-mono text-xs text-faint transition group-open:rotate-45"
+                        >
+                            +
+                        </span>
+                    </summary>
+                    <div class="mt-4 space-y-3 text-base leading-relaxed text-muted">
+                        <p>
+                            The historic bakery serving the original pastel de
+                            nata since 1837, from a secret recipe passed down from
+                            the monks of Jerónimos. Over 20,000 warm custard tarts
+                            fly out the door here every day.
+                        </p>
+                        <p>
+                            <a
+                                href="https://maps.app.goo.gl/YJ5fF2pJjcwztEFq9"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="underline hover:text-cream"
+                                >View on Google Maps</a
+                            >
+                        </p>
+                    </div>
+                </details>
+                <h3 class="small-headline mt-8 mb-2" aria-label="Around Lisbon">
+                    <span aria-hidden="true">//Around Lisbon</span>
+                </h3>
+                <details class="group border-b border-white/10 py-2">
+                    <summary
+                        class="flex cursor-pointer list-none items-center justify-between text-base"
+                    >
+                        <span>
+                            <span
+                                class="mr-2 font-mono text-base text-muted md:text-lg"
+                            >
+                                {randomBraille()}
+                            </span>
+                            Palácio Nacional da Ajuda <span
+                                class="font-mono text-xs text-muted">(7)</span
+                            >
+                        </span>
+                        <span
+                            class="font-mono text-xs text-faint transition group-open:rotate-45"
+                        >
+                            +
+                        </span>
+                    </summary>
+                    <div class="mt-4 space-y-3 text-base leading-relaxed text-muted">
+                        <p>
+                            A grand 19th-century neoclassical royal palace, once
+                            home to the Portuguese royal family. Since 2022 it also
+                            houses the Royal Treasure Museum and the Portuguese
+                            crown jewels.
+                        </p>
+                        <p>
+                            <a
+                                href="https://maps.app.goo.gl/c32gJ717iJUSmKDYA"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="underline hover:text-cream"
+                                >View on Google Maps</a
+                            >
+                        </p>
+                    </div>
+                </details>
+                <details class="group border-b border-white/10 py-2">
+                    <summary
+                        class="flex cursor-pointer list-none items-center justify-between text-base"
+                    >
+                        <span>
+                            <span
+                                class="mr-2 font-mono text-base text-muted md:text-lg"
+                            >
+                                {randomBraille()}
+                            </span>
+                            Praça do Comércio <span class="font-mono text-xs text-muted"
+                                >(8)</span
+                            >
+                        </span>
+                        <span
+                            class="font-mono text-xs text-faint transition group-open:rotate-45"
+                        >
+                            +
+                        </span>
+                    </summary>
+                    <div class="mt-4 space-y-3 text-base leading-relaxed text-muted">
+                        <p>
+                            Lisbon's grand riverside square, on the site of the
+                            royal palace lost to the 1755 earthquake and rebuilt in
+                            elegant Pombaline style. Its triumphal Rua Augusta Arch
+                            opens onto the downtown Baixa.
+                        </p>
+                        <p>
+                            <a
+                                href="https://maps.app.goo.gl/wrhHbJcP31aStCbH9"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="underline hover:text-cream"
+                                >View on Google Maps</a
+                            >
+                        </p>
+                    </div>
+                </details>
+                <details class="group border-b border-white/10 py-2">
+                    <summary
+                        class="flex cursor-pointer list-none items-center justify-between text-base"
+                    >
+                        <span>
+                            <span
+                                class="mr-2 font-mono text-base text-muted md:text-lg"
+                            >
+                                {randomBraille()}
+                            </span>
+                            Fado Museum <span class="font-mono text-xs text-muted"
+                                >(9)</span
+                            >
+                        </span>
+                        <span
+                            class="font-mono text-xs text-faint transition group-open:rotate-45"
+                        >
+                            +
+                        </span>
+                    </summary>
+                    <div class="mt-4 space-y-3 text-base leading-relaxed text-muted">
+                        <p>
+                            A museum in Alfama devoted to Fado, the soulful Lisbon
+                            song tradition recognised by UNESCO. It traces the
+                            genre's history, its guitars, singers and famous fado
+                            houses.
+                        </p>
+                        <p>
+                            <a
+                                href="https://maps.app.goo.gl/ZtvPcsYMXGcj1ZC69"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="underline hover:text-cream"
+                                >View on Google Maps</a
+                            >
+                        </p>
+                    </div>
+                </details>
+                <details class="group border-b border-white/10 py-2">
+                    <summary
+                        class="flex cursor-pointer list-none items-center justify-between text-base"
+                    >
+                        <span>
+                            <span
+                                class="mr-2 font-mono text-base text-muted md:text-lg"
+                            >
+                                {randomBraille()}
+                            </span>
+                            Parque Eduardo VII <span
+                                class="font-mono text-xs text-muted">(10)</span
+                            >
+                        </span>
+                        <span
+                            class="font-mono text-xs text-faint transition group-open:rotate-45"
+                        >
+                            +
+                        </span>
+                    </summary>
+                    <div class="mt-4 space-y-3 text-base leading-relaxed text-muted">
+                        <p>
+                            Central Lisbon's largest park, a sloping carpet of
+                            manicured lawn and geometric hedges above Avenida da
+                            Liberdade. From the top there are fine views down to
+                            the Marquês de Pombal and the river.
+                        </p>
+                        <p>
+                            <a
+                                href="https://maps.app.goo.gl/W4VCikg7kcGZU5oF6"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="underline hover:text-cream"
+                                >View on Google Maps</a
+                            >
+                        </p>
+                    </div>
+                </details>
+                <details class="group border-b border-white/10 py-2">
+                    <summary
+                        class="flex cursor-pointer list-none items-center justify-between text-base"
+                    >
+                        <span>
+                            <span
+                                class="mr-2 font-mono text-base text-muted md:text-lg"
+                            >
+                                {randomBraille()}
+                            </span>
+                            Castelo de S. Jorge <span
+                                class="font-mono text-xs text-muted">(11)</span
+                            >
+                        </span>
+                        <span
+                            class="font-mono text-xs text-faint transition group-open:rotate-45"
+                        >
+                            +
+                        </span>
+                    </summary>
+                    <div class="mt-4 space-y-3 text-base leading-relaxed text-muted">
+                        <p>
+                            A Moorish hilltop castle crowning Lisbon's highest
+                            hill, with roots stretching back two millennia. Its
+                            ramparts offer the city's best panorama over Alfama,
+                            the Tagus and the 25 de Abril Bridge.
+                        </p>
+                        <p>
+                            <a
+                                href="https://maps.app.goo.gl/WJuiKV6XcbVCAALb7"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="underline hover:text-cream"
+                                >View on Google Maps</a
+                            >
+                        </p>
+                    </div>
+                </details>
+                <details class="group border-b border-white/10 py-2">
+                    <summary
+                        class="flex cursor-pointer list-none items-center justify-between text-base"
+                    >
+                        <span>
+                            <span
+                                class="mr-2 font-mono text-base text-muted md:text-lg"
+                            >
+                                {randomBraille()}
+                            </span>
+                            Sé de Lisboa <span class="font-mono text-xs text-muted"
+                                >(12)</span
+                            >
+                        </span>
+                        <span
+                            class="font-mono text-xs text-faint transition group-open:rotate-45"
+                        >
+                            +
+                        </span>
+                    </summary>
+                    <div class="mt-4 space-y-3 text-base leading-relaxed text-muted">
+                        <p>
+                            Lisbon's cathedral and oldest church, begun in 1147
+                            just after the city was taken from the Moors. A
+                            fortress-like Romanesque landmark that has weathered
+                            centuries of earthquakes.
+                        </p>
+                        <p>
+                            <a
+                                href="https://maps.app.goo.gl/zLX5NymJFqX9PTZW9"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="underline hover:text-cream"
+                                >View on Google Maps</a
+                            >
+                        </p>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- Questions -->
+    <section class="border-t border-white/10">
+        <div class="mx-auto grid max-w-[90rem] gap-12 px-6 py-16 md:grid-cols-2">
+            <div>
+                <h2 class="small-headline" aria-label="Questions">
+                    <span aria-hidden="true">/questions</span>
+                </h2>
+            </div>
+            <div class="text-base leading-relaxed">
+                <p>
+                    Anything we didn't cover? Reach us at <a
+                        href="mailto:info@lisbonai.org"
+                        class="underline hover:text-cream">info@lisbonai.org</a
+                    > or on the <a
+                        href="https://discord.com/invite/ExnMf8wTPU"
+                        class="underline hover:text-cream">Discord</a
+                    >. Please also read our <a
+                        href={`${base}conduct/`}
+                        class="underline hover:text-cream">Code of Conduct</a
+                    > before the event.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <Footer />
+</Layout>
+
+<style>
+    /* Drop the divider on the last collapse header in each group
+       (one not immediately followed by another header). */
+    details.group:not(:has(+ details.group)) {
+        border-bottom: 0;
+    }
+</style>
