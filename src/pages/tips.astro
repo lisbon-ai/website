@@ -288,9 +288,9 @@ const defaultPhoto = venuePhotos[0];
                     <li><strong>15% off</strong> Business class.</li>
                 </ul>
                 <p class="mt-4">
-                    We'll share the event's discount code with registered
-                    attendees ahead of the conference — quote it when you book
-                    online.
+                    If you're a registered attendee, you can use codes
+                    <strong>IT26TPCG68</strong> and <strong>IT26TPCG68C</strong> to
+                    get your discount.
                 </p>
                 <h3 class="small-headline mt-8 mb-2" aria-label="Conditions">
                     <span aria-hidden="true">//Conditions</span>
@@ -488,16 +488,11 @@ const defaultPhoto = venuePhotos[0];
                     ))}
                 </div>
                 <script>
-                    // Shuffle the gallery order and randomize each thumbnail's
-                    // width on every page load.
+                    // Keep the gallery in list order; randomize each
+                    // thumbnail's width on every page load.
                     const g = document.getElementById("see-gallery");
                     if (g) {
-                        const items = Array.from(g.children);
-                        for (let i = items.length - 1; i > 0; i--) {
-                            const j = Math.floor(Math.random() * (i + 1));
-                            [items[i], items[j]] = [items[j], items[i]];
-                        }
-                        for (const item of items) {
+                        for (const item of Array.from(g.children)) {
                             const img = item.querySelector("img");
                             if (img) {
                                 img.classList.remove("w-32", "w-48");
@@ -505,7 +500,6 @@ const defaultPhoto = venuePhotos[0];
                                     Math.random() < 0.5 ? "w-32" : "w-48",
                                 );
                             }
-                            g.appendChild(item);
                         }
                     }
                 </script>
