@@ -96,7 +96,7 @@ export const speakers: Speaker[] = [
     org: "PromptLayer",
     profileUrl: "https://linkedin.com/in/willburstein",
     orgUrl: "https://www.promptlayer.com",
-    logo: "promptlayer.svg",
+    logo: "promptlayer.png",
     image: "will.png",
     bio: "Will Burstein is Head of Product at PromptLayer, where he works with teams building production LLM applications. His work focuses on practical evaluation, review, and release workflows that help product and engineering teams move from ad hoc prompt iteration to repeatable quality loops. He speaks about AI evals, scorecards, and how teams make reliable product decisions around probabilistic systems.",
   },
