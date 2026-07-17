@@ -33,7 +33,7 @@ const texturePositions = [
         <div class="px-3 md:px-6">
           <div class="grid gap-0 border-x border-white/10 md:grid-cols-2">
             {
-              speakers.map(({ name, org, title, profileUrl, orgUrl, logo, image, bio }, i) => (
+              speakers.map(({ name, org, role, profileUrl, orgUrl, logo, image, bio }, i) => (
                 <div
                   class:list={[
                     "speaker-texture relative isolate flex flex-col items-start gap-3 border-b border-white/10 p-8 text-xl md:p-12 md:text-2xl",
@@ -64,10 +64,10 @@ const texturePositions = [
                       <span class="font-mono text-xs text-faint">
                         {orgUrl ? (
                           <a href={orgUrl} class="hover:text-muted">
-                            //{title}, {org}
+                            //{role}, {org}
                           </a>
                         ) : (
-                          <>//{title}, {org}</>
+                          <>//{role}, {org}</>
                         )}
                       </span>
                     </div>

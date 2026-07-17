@@ -13,8 +13,7 @@ export type Speaker = {
 export const speakers: Speaker[] = [
   {
     name: "Steve Ruiz",
-    role: "Founder",
-    title: "Founder & CEO",
+    role: "Founder & CEO",
     org: "tldraw",
     profileUrl: "https://x.com/steveruizok",
     orgUrl: "https://tldraw.dev/",
@@ -24,8 +23,7 @@ export const speakers: Speaker[] = [
   },
   {
     name: "Ben Brandt",
-    role: "Creator of ACP",
-    title: "Staff Engineer",
+    role: "Staff Engineer",
     org: "Zed Industries",
     profileUrl: "https://x.com/benjaminbrandt",
     orgUrl: "https://zed.dev",
@@ -35,8 +33,7 @@ export const speakers: Speaker[] = [
   },
   {
     name: "Matt Carey",
-    role: "Agents & MCP",
-    title: "AI Engineer",
+    role: "AI Engineer",
     org: "Cloudflare",
     profileUrl: "https://x.com/mattzcarey",
     orgUrl: "https://cloudflare.com",
@@ -46,8 +43,7 @@ export const speakers: Speaker[] = [
   },
   {
     name: "Duarte Carmo",
-    role: "Consultant",
-    title: "Founder & AI Consultant",
+    role: "Founder & AI Consultant",
     org: "Independent",
     profileUrl: "https://x.com/duarteocarmo",
     orgUrl: "https://duarteocarmo.com/",
@@ -56,8 +52,7 @@ export const speakers: Speaker[] = [
   },
   {
     name: "Diogo Mónica",
-    role: "Founder",
-    title: "General Partner",
+    role: "General Partner",
     org: "Anchorage, Haun Ventures",
     profileUrl: "https://x.com/diogomonica",
     orgUrl: "https://www.haun.co/",
@@ -67,8 +62,7 @@ export const speakers: Speaker[] = [
   },
   {
     name: "Joan Rodriguez",
-    role: "CEO & Chief Scientist",
-    title: "Co-founder, CEO & Chief Scientist",
+    role: "Co-founder, CEO & Chief Scientist",
     org: "QuiverAI",
     profileUrl: "https://x.com/joanrod_ai",
     orgUrl: "https://quiver.ai/",
@@ -78,8 +72,7 @@ export const speakers: Speaker[] = [
   },
   {
     name: "Aayush Kapoor",
-    role: "Software Engineer",
-    title: "Software Engineer, AI SDK",
+    role: "Software Engineer, AI SDK",
     org: "Vercel",
     profileUrl: "https://x.com/aayushkapoor",
     orgUrl: "https://vercel.com",
@@ -90,12 +83,21 @@ export const speakers: Speaker[] = [
   {
     name: "Sergio Paniego",
     role: "ML Engineer",
-    title: "Machine Learning Engineer",
     org: "Hugging Face",
     profileUrl: "https://x.com/SergioPaniego",
     orgUrl: "https://huggingface.co",
     logo: "huggingface.svg",
     image: "sergio.png",
     bio: "Sergio is a Machine Learning Engineer at Hugging Face focused on developer advocacy, where he works on post-training and RL environments as a developer of TRL and OpenEnv. He holds a PhD in artificial intelligence and has contributed to open source for over a decade, including more than eight years in Google Summer of Code as a developer and mentor.",
+  },
+  {
+    name: "Will Burstein",
+    role: "Head of Product",
+    org: "PromptLayer",
+    profileUrl: "https://linkedin.com/in/willburstein",
+    orgUrl: "https://www.promptlayer.com",
+    logo: "promptlayer.svg",
+    image: "will.png",
+    bio: "Will Burstein is Head of Product at PromptLayer, where he works with teams building production LLM applications. His work focuses on practical evaluation, review, and release workflows that help product and engineering teams move from ad hoc prompt iteration to repeatable quality loops. He speaks about AI evals, scorecards, and how teams make reliable product decisions around probabilistic systems.",
   },
 ];
