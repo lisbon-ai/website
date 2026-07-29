@@ -6,8 +6,9 @@ import Footer from "../components/Footer.astro";
 const base = import.meta.env.BASE_URL;
 
 const brailleFrames = ["⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷"];
-const randomBraille = () =>
-  brailleFrames[Math.floor(Math.random() * brailleFrames.length)];
+let brailleFrameIndex = 0;
+const nextBrailleFrame = () =>
+  brailleFrames[brailleFrameIndex++ % brailleFrames.length];
 
 // Venue photos for the "getting there" column — one is picked at random on
 // every page load by the client script below.
@@ -219,7 +220,7 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                             <span
                                 class="mr-2 font-mono text-base text-muted md:text-lg"
                             >
-                                {randomBraille()}
+                                {nextBrailleFrame()}
                             </span>
                             Paid parking inside the venue: €9.90 for a daily ticket
                         </span>
@@ -255,7 +256,7 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                             <span
                                 class="mr-2 font-mono text-base text-muted md:text-lg"
                             >
-                                {randomBraille()}
+                                {nextBrailleFrame()}
                             </span>
                             Free parking outside the venue: fills up quickly
                         </span>
@@ -288,7 +289,7 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                             <span
                                 class="mr-2 font-mono text-base text-muted md:text-lg"
                             >
-                                {randomBraille()}
+                                {nextBrailleFrame()}
                             </span>
                             Tram, surface tram from Baixa toward Belém
                         </span>
@@ -324,7 +325,7 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                             <span
                                 class="mr-2 font-mono text-base text-muted md:text-lg"
                             >
-                                {randomBraille()}
+                                {nextBrailleFrame()}
                             </span>
                             Bus, several bus stops serve the area
                         </span>
@@ -351,7 +352,7 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                             <span
                                 class="mr-2 font-mono text-base text-muted md:text-lg"
                             >
-                                {randomBraille()}
+                                {nextBrailleFrame()}
                             </span>
                             Train, Estação Algés, a 13-minute walk (Cascais–Cais do
                             Sodré line)
@@ -441,7 +442,7 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                             <span
                                 class="mr-2 font-mono text-base text-muted md:text-lg"
                             >
-                                {randomBraille()}
+                                {nextBrailleFrame()}
                             </span>
                             Full booking conditions
                         </span>
@@ -614,8 +615,14 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                 </h3>
                 <details class="group border-b border-white/10 py-2" data-stay-entry="1">
                     <summary
-                        class="grid cursor-pointer list-none grid-cols-[1fr_auto] items-start gap-4 text-base"
+                        class="grid cursor-pointer list-none grid-cols-[auto_1fr_auto] items-start gap-3 text-base"
                     >
+                        <span
+                            class="mt-0.5 font-mono text-base leading-none text-muted md:text-lg"
+                            aria-hidden="true"
+                        >
+                            {nextBrailleFrame()}
+                        </span>
                         <span class="min-w-0 leading-snug">
                             <strong>The Emerald House Lisbon</strong>
                             <span class="font-mono text-xs text-muted">(1)</span>
@@ -651,8 +658,14 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                 </details>
                 <details class="group border-b border-white/10 py-2" data-stay-entry="2">
                     <summary
-                        class="grid cursor-pointer list-none grid-cols-[1fr_auto] items-start gap-4 text-base"
+                        class="grid cursor-pointer list-none grid-cols-[auto_1fr_auto] items-start gap-3 text-base"
                     >
+                        <span
+                            class="mt-0.5 font-mono text-base leading-none text-muted md:text-lg"
+                            aria-hidden="true"
+                        >
+                            {nextBrailleFrame()}
+                        </span>
                         <span class="min-w-0 leading-snug">
                             <strong>Valverde Lisboa Hotel & Garden</strong>
                             <span class="font-mono text-xs text-muted">(2)</span>
@@ -692,8 +705,14 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                 </details>
                 <details class="group border-b border-white/10 py-2" data-stay-entry="3">
                     <summary
-                        class="grid cursor-pointer list-none grid-cols-[1fr_auto] items-start gap-4 text-base"
+                        class="grid cursor-pointer list-none grid-cols-[auto_1fr_auto] items-start gap-3 text-base"
                     >
+                        <span
+                            class="mt-0.5 font-mono text-base leading-none text-muted md:text-lg"
+                            aria-hidden="true"
+                        >
+                            {nextBrailleFrame()}
+                        </span>
                         <span class="min-w-0 leading-snug">
                             <strong>Lisboa Pessoa Hotel</strong>
                             <span class="font-mono text-xs text-muted">(3)</span>
@@ -729,8 +748,14 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                 </details>
                 <details class="group border-b border-white/10 py-2" data-stay-entry="4">
                     <summary
-                        class="grid cursor-pointer list-none grid-cols-[1fr_auto] items-start gap-4 text-base"
+                        class="grid cursor-pointer list-none grid-cols-[auto_1fr_auto] items-start gap-3 text-base"
                     >
+                        <span
+                            class="mt-0.5 font-mono text-base leading-none text-muted md:text-lg"
+                            aria-hidden="true"
+                        >
+                            {nextBrailleFrame()}
+                        </span>
                         <span class="min-w-0 leading-snug">
                             <strong>Sublime Lisboa</strong>
                             <span class="font-mono text-xs text-muted">(4)</span>
@@ -766,8 +791,14 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                 </details>
                 <details class="group border-b border-white/10 py-2" data-stay-entry="5">
                     <summary
-                        class="grid cursor-pointer list-none grid-cols-[1fr_auto] items-start gap-4 text-base"
+                        class="grid cursor-pointer list-none grid-cols-[auto_1fr_auto] items-start gap-3 text-base"
                     >
+                        <span
+                            class="mt-0.5 font-mono text-base leading-none text-muted md:text-lg"
+                            aria-hidden="true"
+                        >
+                            {nextBrailleFrame()}
+                        </span>
                         <span class="min-w-0 leading-snug">
                             <strong>DUO Hotel Lisbon</strong>
                             <span class="font-mono text-xs text-muted">(5)</span>
@@ -799,8 +830,14 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                 </details>
                 <details class="group border-b border-white/10 py-2" data-stay-entry="6 7 8">
                     <summary
-                        class="grid cursor-pointer list-none grid-cols-[1fr_auto] items-start gap-4 text-base"
+                        class="grid cursor-pointer list-none grid-cols-[auto_1fr_auto] items-start gap-3 text-base"
                     >
+                        <span
+                            class="mt-0.5 font-mono text-base leading-none text-muted md:text-lg"
+                            aria-hidden="true"
+                        >
+                            {nextBrailleFrame()}
+                        </span>
                         <span class="min-w-0 leading-snug">
                             <strong>My Story Hotels</strong>
                             <span class="font-mono text-xs text-muted">(6, 7, 8)</span>
@@ -836,8 +873,14 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                 </details>
                 <details class="group border-b border-white/10 py-2" data-stay-entry="9">
                     <summary
-                        class="grid cursor-pointer list-none grid-cols-[1fr_auto] items-start gap-4 text-base"
+                        class="grid cursor-pointer list-none grid-cols-[auto_1fr_auto] items-start gap-3 text-base"
                     >
+                        <span
+                            class="mt-0.5 font-mono text-base leading-none text-muted md:text-lg"
+                            aria-hidden="true"
+                        >
+                            {nextBrailleFrame()}
+                        </span>
                         <span class="min-w-0 leading-snug">
                             <strong>Mama Shelter Lisboa</strong>
                             <span class="font-mono text-xs text-muted">(9)</span>
@@ -873,8 +916,14 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                 </details>
                 <details class="group border-b border-white/10 py-2" data-stay-entry="10">
                     <summary
-                        class="grid cursor-pointer list-none grid-cols-[1fr_auto] items-start gap-4 text-base"
+                        class="grid cursor-pointer list-none grid-cols-[auto_1fr_auto] items-start gap-3 text-base"
                     >
+                        <span
+                            class="mt-0.5 font-mono text-base leading-none text-muted md:text-lg"
+                            aria-hidden="true"
+                        >
+                            {nextBrailleFrame()}
+                        </span>
                         <span class="min-w-0 leading-snug">
                             <strong>Jupiter Lisboa Hotel</strong>
                             <span class="font-mono text-xs text-muted">(10)</span>
@@ -977,7 +1026,7 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                             <span
                                 class="mr-2 font-mono text-base text-muted md:text-lg"
                             >
-                                {randomBraille()}
+                                {nextBrailleFrame()}
                             </span>
                             Torre de Belém <span class="font-mono text-xs text-muted"
                                 >(1)</span
@@ -1016,7 +1065,7 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                             <span
                                 class="mr-2 font-mono text-base text-muted md:text-lg"
                             >
-                                {randomBraille()}
+                                {nextBrailleFrame()}
                             </span>
                             Mosteiro dos Jerónimos <span
                                 class="font-mono text-xs text-muted">(2)</span
@@ -1054,7 +1103,7 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                             <span
                                 class="mr-2 font-mono text-base text-muted md:text-lg"
                             >
-                                {randomBraille()}
+                                {nextBrailleFrame()}
                             </span>
                             Padrão dos Descobrimentos <span
                                 class="font-mono text-xs text-muted">(3)</span
@@ -1092,7 +1141,7 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                             <span
                                 class="mr-2 font-mono text-base text-muted md:text-lg"
                             >
-                                {randomBraille()}
+                                {nextBrailleFrame()}
                             </span>
                             Palácio Nacional de Belém <span
                                 class="font-mono text-xs text-muted">(4)</span
@@ -1130,7 +1179,7 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                             <span
                                 class="mr-2 font-mono text-base text-muted md:text-lg"
                             >
-                                {randomBraille()}
+                                {nextBrailleFrame()}
                             </span>
                             MAAT (Art, Architecture and Tech Museum) <span
                                 class="font-mono text-xs text-muted">(5)</span
@@ -1168,7 +1217,7 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                             <span
                                 class="mr-2 font-mono text-base text-muted md:text-lg"
                             >
-                                {randomBraille()}
+                                {nextBrailleFrame()}
                             </span>
                             Pastéis de Belém <span class="font-mono text-xs text-muted"
                                 >(6)</span
@@ -1209,7 +1258,7 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                             <span
                                 class="mr-2 font-mono text-base text-muted md:text-lg"
                             >
-                                {randomBraille()}
+                                {nextBrailleFrame()}
                             </span>
                             Palácio Nacional da Ajuda <span
                                 class="font-mono text-xs text-muted">(7)</span
@@ -1247,7 +1296,7 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                             <span
                                 class="mr-2 font-mono text-base text-muted md:text-lg"
                             >
-                                {randomBraille()}
+                                {nextBrailleFrame()}
                             </span>
                             Praça do Comércio <span class="font-mono text-xs text-muted"
                                 >(8)</span
@@ -1285,7 +1334,7 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                             <span
                                 class="mr-2 font-mono text-base text-muted md:text-lg"
                             >
-                                {randomBraille()}
+                                {nextBrailleFrame()}
                             </span>
                             Fado Museum <span class="font-mono text-xs text-muted"
                                 >(9)</span
@@ -1323,7 +1372,7 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                             <span
                                 class="mr-2 font-mono text-base text-muted md:text-lg"
                             >
-                                {randomBraille()}
+                                {nextBrailleFrame()}
                             </span>
                             Parque Eduardo VII <span
                                 class="font-mono text-xs text-muted">(10)</span
@@ -1361,7 +1410,7 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                             <span
                                 class="mr-2 font-mono text-base text-muted md:text-lg"
                             >
-                                {randomBraille()}
+                                {nextBrailleFrame()}
                             </span>
                             Castelo de S. Jorge <span
                                 class="font-mono text-xs text-muted">(11)</span
@@ -1399,7 +1448,7 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                             <span
                                 class="mr-2 font-mono text-base text-muted md:text-lg"
                             >
-                                {randomBraille()}
+                                {nextBrailleFrame()}
                             </span>
                             Sé de Lisboa <span class="font-mono text-xs text-muted"
                                 >(12)</span
