@@ -611,16 +611,20 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                 </p>
                 <details class="group mt-8 border-b border-white/10 py-2" data-stay-entry="1">
                     <summary
-                        class="grid cursor-pointer list-none grid-cols-[auto_1fr_auto] items-start gap-4 text-base"
+                        class="grid cursor-pointer list-none grid-cols-[1fr_auto_auto] items-start gap-3 text-base"
                     >
-                        <span
-                            class="mt-0.5 inline-flex h-5 min-w-5 items-center justify-center rounded-full border border-[#aaa5ff] bg-[#5148c8] px-1 font-mono text-[10px] font-bold text-cream"
-                            aria-label="Map marker 1"
-                        >
-                            1
-                        </span>
                         <span class="min-w-0 leading-snug">
                             <strong>The Emerald House Lisbon</strong><span class="text-muted"> · Curio Collection by Hilton</span>
+                        </span>
+                        <span
+                            class="mt-0.5 inline-flex items-center gap-1"
+                            aria-label="Map marker 1"
+                        >
+                            {["1"].map((label) => (
+                                <span class="inline-flex h-4 min-w-4 items-center justify-center rounded-full border border-[#aaa5ff]/70 bg-[#5148c8]/80 px-1 font-mono text-[9px] font-bold text-cream/90">
+                                    {label}
+                                </span>
+                            ))}
                         </span>
                         <span
                             class="mt-1 font-mono text-xs text-faint transition group-open:rotate-45"
@@ -649,16 +653,20 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                 </details>
                 <details class="group border-b border-white/10 py-2" data-stay-entry="2">
                     <summary
-                        class="grid cursor-pointer list-none grid-cols-[auto_1fr_auto] items-start gap-4 text-base"
+                        class="grid cursor-pointer list-none grid-cols-[1fr_auto_auto] items-start gap-3 text-base"
                     >
-                        <span
-                            class="mt-0.5 inline-flex h-5 min-w-5 items-center justify-center rounded-full border border-[#aaa5ff] bg-[#5148c8] px-1 font-mono text-[10px] font-bold text-cream"
-                            aria-label="Map marker 2"
-                        >
-                            2
-                        </span>
                         <span class="min-w-0 leading-snug">
                             <strong>Valverde Lisboa Hotel & Garden</strong><span class="text-muted"> · Valverde Living</span>
+                        </span>
+                        <span
+                            class="mt-0.5 inline-flex items-center gap-1"
+                            aria-label="Map marker 2"
+                        >
+                            {["2"].map((label) => (
+                                <span class="inline-flex h-4 min-w-4 items-center justify-center rounded-full border border-[#aaa5ff]/70 bg-[#5148c8]/80 px-1 font-mono text-[9px] font-bold text-cream/90">
+                                    {label}
+                                </span>
+                            ))}
                         </span>
                         <span
                             class="mt-1 font-mono text-xs text-faint transition group-open:rotate-45"
@@ -691,16 +699,20 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                 </details>
                 <details class="group border-b border-white/10 py-2" data-stay-entry="3">
                     <summary
-                        class="grid cursor-pointer list-none grid-cols-[auto_1fr_auto] items-start gap-4 text-base"
+                        class="grid cursor-pointer list-none grid-cols-[1fr_auto_auto] items-start gap-3 text-base"
                     >
-                        <span
-                            class="mt-0.5 inline-flex h-5 min-w-5 items-center justify-center rounded-full border border-[#aaa5ff] bg-[#5148c8] px-1 font-mono text-[10px] font-bold text-cream"
-                            aria-label="Map marker 3"
-                        >
-                            3
-                        </span>
                         <span class="min-w-0 leading-snug">
                             <strong>Lisboa Pessoa Hotel</strong><span class="text-muted"> · Art Soul Group</span>
+                        </span>
+                        <span
+                            class="mt-0.5 inline-flex items-center gap-1"
+                            aria-label="Map marker 3"
+                        >
+                            {["3"].map((label) => (
+                                <span class="inline-flex h-4 min-w-4 items-center justify-center rounded-full border border-[#aaa5ff]/70 bg-[#5148c8]/80 px-1 font-mono text-[9px] font-bold text-cream/90">
+                                    {label}
+                                </span>
+                            ))}
                         </span>
                         <span
                             class="mt-1 font-mono text-xs text-faint transition group-open:rotate-45"
@@ -729,16 +741,20 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                 </details>
                 <details class="group border-b border-white/10 py-2" data-stay-entry="4">
                     <summary
-                        class="grid cursor-pointer list-none grid-cols-[auto_1fr_auto] items-start gap-4 text-base"
+                        class="grid cursor-pointer list-none grid-cols-[1fr_auto_auto] items-start gap-3 text-base"
                     >
-                        <span
-                            class="mt-0.5 inline-flex h-5 min-w-5 items-center justify-center rounded-full border border-[#aaa5ff] bg-[#5148c8] px-1 font-mono text-[10px] font-bold text-cream"
-                            aria-label="Map marker 4"
-                        >
-                            4
-                        </span>
                         <span class="min-w-0 leading-snug">
                             <strong>Sublime Lisboa</strong><span class="text-muted"> · Sublime Hotels</span>
+                        </span>
+                        <span
+                            class="mt-0.5 inline-flex items-center gap-1"
+                            aria-label="Map marker 4"
+                        >
+                            {["4"].map((label) => (
+                                <span class="inline-flex h-4 min-w-4 items-center justify-center rounded-full border border-[#aaa5ff]/70 bg-[#5148c8]/80 px-1 font-mono text-[9px] font-bold text-cream/90">
+                                    {label}
+                                </span>
+                            ))}
                         </span>
                         <span
                             class="mt-1 font-mono text-xs text-faint transition group-open:rotate-45"
@@ -767,16 +783,20 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                 </details>
                 <details class="group border-b border-white/10 py-2" data-stay-entry="5">
                     <summary
-                        class="grid cursor-pointer list-none grid-cols-[auto_1fr_auto] items-start gap-4 text-base"
+                        class="grid cursor-pointer list-none grid-cols-[1fr_auto_auto] items-start gap-3 text-base"
                     >
-                        <span
-                            class="mt-0.5 inline-flex h-5 min-w-5 items-center justify-center rounded-full border border-[#aaa5ff] bg-[#5148c8] px-1 font-mono text-[10px] font-bold text-cream"
-                            aria-label="Map marker 5"
-                        >
-                            5
-                        </span>
                         <span class="min-w-0 leading-snug">
                             <strong>DUO Hotel Lisbon</strong><span class="text-muted"> · Curio Collection by Hilton</span>
+                        </span>
+                        <span
+                            class="mt-0.5 inline-flex items-center gap-1"
+                            aria-label="Map marker 5"
+                        >
+                            {["5"].map((label) => (
+                                <span class="inline-flex h-4 min-w-4 items-center justify-center rounded-full border border-[#aaa5ff]/70 bg-[#5148c8]/80 px-1 font-mono text-[9px] font-bold text-cream/90">
+                                    {label}
+                                </span>
+                            ))}
                         </span>
                         <span
                             class="mt-1 font-mono text-xs text-faint transition group-open:rotate-45"
@@ -801,20 +821,20 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                 </details>
                 <details class="group border-b border-white/10 py-2" data-stay-entry="6 7 8">
                     <summary
-                        class="grid cursor-pointer list-none grid-cols-[auto_1fr_auto] items-start gap-4 text-base"
+                        class="grid cursor-pointer list-none grid-cols-[1fr_auto_auto] items-start gap-3 text-base"
                     >
+                        <span class="min-w-0 leading-snug">
+                            <strong>My Story Hotels</strong><span class="text-muted"> · Art Legacy Hotel · My Story Hotel Tejo · My Story Hotel Figueira</span>
+                        </span>
                         <span
                             class="mt-0.5 inline-flex items-center gap-1"
                             aria-label="Map markers 6, 7, and 8"
                         >
                             {["6", "7", "8"].map((label) => (
-                                <span class="mt-0.5 inline-flex h-5 min-w-5 items-center justify-center rounded-full border border-[#aaa5ff] bg-[#5148c8] px-1 font-mono text-[10px] font-bold text-cream">
+                                <span class="inline-flex h-4 min-w-4 items-center justify-center rounded-full border border-[#aaa5ff]/70 bg-[#5148c8]/80 px-1 font-mono text-[9px] font-bold text-cream/90">
                                     {label}
                                 </span>
                             ))}
-                        </span>
-                        <span class="min-w-0 leading-snug">
-                            <strong>My Story Hotels</strong><span class="text-muted"> · Art Legacy Hotel · My Story Hotel Tejo · My Story Hotel Figueira</span>
                         </span>
                         <span
                             class="mt-1 font-mono text-xs text-faint transition group-open:rotate-45"
@@ -843,16 +863,20 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                 </details>
                 <details class="group border-b border-white/10 py-2" data-stay-entry="9">
                     <summary
-                        class="grid cursor-pointer list-none grid-cols-[auto_1fr_auto] items-start gap-4 text-base"
+                        class="grid cursor-pointer list-none grid-cols-[1fr_auto_auto] items-start gap-3 text-base"
                     >
-                        <span
-                            class="mt-0.5 inline-flex h-5 min-w-5 items-center justify-center rounded-full border border-[#aaa5ff] bg-[#5148c8] px-1 font-mono text-[10px] font-bold text-cream"
-                            aria-label="Map marker 9"
-                        >
-                            9
-                        </span>
                         <span class="min-w-0 leading-snug">
                             <strong>Mama Shelter Lisboa</strong><span class="text-muted"> · Accor / Ennismore</span>
+                        </span>
+                        <span
+                            class="mt-0.5 inline-flex items-center gap-1"
+                            aria-label="Map marker 9"
+                        >
+                            {["9"].map((label) => (
+                                <span class="inline-flex h-4 min-w-4 items-center justify-center rounded-full border border-[#aaa5ff]/70 bg-[#5148c8]/80 px-1 font-mono text-[9px] font-bold text-cream/90">
+                                    {label}
+                                </span>
+                            ))}
                         </span>
                         <span
                             class="mt-1 font-mono text-xs text-faint transition group-open:rotate-45"
@@ -881,16 +905,20 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                 </details>
                 <details class="group border-b border-white/10 py-2" data-stay-entry="10">
                     <summary
-                        class="grid cursor-pointer list-none grid-cols-[auto_1fr_auto] items-start gap-4 text-base"
+                        class="grid cursor-pointer list-none grid-cols-[1fr_auto_auto] items-start gap-3 text-base"
                     >
-                        <span
-                            class="mt-0.5 inline-flex h-5 min-w-5 items-center justify-center rounded-full border border-[#aaa5ff] bg-[#5148c8] px-1 font-mono text-[10px] font-bold text-cream"
-                            aria-label="Map marker 10"
-                        >
-                            10
-                        </span>
                         <span class="min-w-0 leading-snug">
                             <strong>Jupiter Lisboa Hotel</strong><span class="text-muted"> · Rooftop & Spa</span>
+                        </span>
+                        <span
+                            class="mt-0.5 inline-flex items-center gap-1"
+                            aria-label="Map marker 10"
+                        >
+                            {["10"].map((label) => (
+                                <span class="inline-flex h-4 min-w-4 items-center justify-center rounded-full border border-[#aaa5ff]/70 bg-[#5148c8]/80 px-1 font-mono text-[9px] font-bold text-cream/90">
+                                    {label}
+                                </span>
+                            ))}
                         </span>
                         <span
                             class="mt-1 font-mono text-xs text-faint transition group-open:rotate-45"
