@@ -15,6 +15,136 @@ const venuePhotos = [1, 2, 3, 4].map(
   (n) => `${base}images/venue/${n}.jpg`,
 );
 const defaultPhoto = venuePhotos[0];
+
+const stayMapZoom = 13;
+const stayMapPoints = [
+    {
+        label: "LXAI",
+        name: "Centro Champalimaud",
+        kind: "venue",
+        lat: 38.693147,
+        lon: -9.220878,
+    },
+    {
+        label: "1",
+        name: "The Emerald House Lisbon",
+        kind: "hotel",
+        lat: 38.705,
+        lon: -9.16219,
+    },
+    {
+        label: "2",
+        name: "Lisboa Pessoa Hotel",
+        kind: "hotel",
+        lat: 38.7125123,
+        lon: -9.1414479,
+    },
+    {
+        label: "3",
+        name: "Sublime Lisboa",
+        kind: "hotel",
+        lat: 38.725681,
+        lon: -9.157112,
+    },
+    {
+        label: "4",
+        name: "DUO Hotel Lisbon",
+        kind: "hotel",
+        lat: 38.70775,
+        lon: -9.149333,
+    },
+    {
+        label: "5",
+        name: "Art Legacy Hotel",
+        kind: "hotel",
+        lat: 38.71104,
+        lon: -9.13881,
+        offsetX: -1.4,
+        offsetY: 2,
+    },
+    {
+        label: "6",
+        name: "My Story Hotel Tejo",
+        kind: "hotel",
+        lat: 38.71361,
+        lon: -9.13678,
+        offsetX: 1.4,
+        offsetY: -1.8,
+    },
+    {
+        label: "7",
+        name: "My Story Hotel Figueira",
+        kind: "hotel",
+        lat: 38.7135,
+        lon: -9.137539,
+        offsetX: 2,
+        offsetY: 1.8,
+    },
+    {
+        label: "8",
+        name: "Mama Shelter Lisboa",
+        kind: "hotel",
+        lat: 38.72092,
+        lon: -9.15262,
+    },
+    {
+        label: "9",
+        name: "Jupiter Lisboa Hotel",
+        kind: "hotel",
+        lat: 38.739622,
+        lon: -9.145858,
+    },
+];
+
+const tileCount = 2 ** stayMapZoom;
+const lonToTileX = (lon: number) => ((lon + 180) / 360) * tileCount;
+const latToTileY = (lat: number) => {
+    const radians = (lat * Math.PI) / 180;
+    return (
+        ((1 -
+            Math.log(Math.tan(radians) + 1 / Math.cos(radians)) / Math.PI) /
+            2) *
+        tileCount
+    );
+};
+
+const projectedStayMapPoints = stayMapPoints.map((point) => ({
+    ...point,
+    tileX: lonToTileX(point.lon),
+    tileY: latToTileY(point.lat),
+}));
+
+const stayMapMinX = Math.floor(
+    Math.min(...projectedStayMapPoints.map((point) => point.tileX)),
+) - 1;
+const stayMapMaxX = Math.floor(
+    Math.max(...projectedStayMapPoints.map((point) => point.tileX)),
+) + 1;
+const stayMapMinY = Math.floor(
+    Math.min(...projectedStayMapPoints.map((point) => point.tileY)),
+) - 1;
+const stayMapMaxY = Math.floor(
+    Math.max(...projectedStayMapPoints.map((point) => point.tileY)),
+) + 1;
+
+const stayMapCols = stayMapMaxX - stayMapMinX + 1;
+const stayMapRows = stayMapMaxY - stayMapMinY + 1;
+const stayMapTiles = Array.from({ length: stayMapRows }, (_, row) =>
+    Array.from({ length: stayMapCols }, (_, col) => ({
+        x: stayMapMinX + col,
+        y: stayMapMinY + row,
+    })),
+).flat();
+
+const stayMapMarkers = projectedStayMapPoints.map((point) => ({
+    ...point,
+    x:
+        ((point.tileX - stayMapMinX) / stayMapCols) * 100 +
+        (point.offsetX ?? 0),
+    y:
+        ((point.tileY - stayMapMinY) / stayMapRows) * 100 +
+        (point.offsetY ?? 0),
+}));
 ---
 
 <Layout
@@ -365,8 +495,106 @@ const defaultPhoto = venuePhotos[0];
                 <h2 class="small-headline" aria-label="Where to stay">
                     <span aria-hidden="true">/where-to-stay</span>
                 </h2>
+                <div
+                    class="mt-6 overflow-hidden rounded-2xl border border-white/10 bg-ink/50"
+                    aria-label="Map of Lisbon AI venue and partner hotels"
+                >
+                    <div class="relative aspect-[5/4] overflow-hidden">
+                        <div
+                            class="grid h-full w-full"
+                            style={`grid-template-columns: repeat(${stayMapCols}, minmax(0, 1fr)); grid-template-rows: repeat(${stayMapRows}, minmax(0, 1fr));`}
+                            aria-hidden="true"
+                        >
+                            {
+                                stayMapTiles.map((tile) => (
+                                    <img
+                                        src={`https://tile.openstreetmap.org/${stayMapZoom}/${tile.x}/${tile.y}.png`}
+                                        alt=""
+                                        class="h-full w-full object-cover opacity-85 saturate-[0.75]"
+                                        loading="lazy"
+                                    />
+                                ))
+                            }
+                        </div>
+                        <div
+                            class="pointer-events-none absolute inset-0 bg-ink/10 mix-blend-multiply"
+                            aria-hidden="true"
+                        ></div>
+                        {
+                            stayMapMarkers.map((point) =>
+                                point.kind === "venue" ? (
+                                    <span
+                                        class="absolute z-10 flex h-5 min-w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-cream bg-[#040429] px-2 font-mono text-[10px] font-bold text-cream shadow-[0_0_0_3px_rgb(4_4_41_/_0.45)]"
+                                        style={`left: ${point.x}%; top: ${point.y}%;`}
+                                        title={point.name}
+                                    >
+                                        {point.label}
+                                        <span class="sr-only">
+                                            {point.name}
+                                        </span>
+                                    </span>
+                                ) : (
+                                    <button
+                                        type="button"
+                                        data-stay-marker={point.label}
+                                        class="absolute z-10 flex h-5 w-5 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-[#aaa5ff] bg-[#5148c8] font-mono text-[10px] font-bold text-cream shadow-[0_0_0_3px_rgb(4_4_41_/_0.45)] transition hover:scale-110 focus:outline-none focus:ring-2 focus:ring-cream/70"
+                                        style={`left: ${point.x}%; top: ${point.y}%;`}
+                                        title={point.name}
+                                        aria-label={`Open ${point.name} details`}
+                                    >
+                                        {point.label}
+                                    </button>
+                                ),
+                            )
+                        }
+                        <p class="absolute bottom-2 left-2 z-20 rounded bg-ink/85 px-2 py-1 font-mono text-[9px] uppercase text-cream/70">
+                            Map data &copy; <a
+                                href="https://www.openstreetmap.org/copyright"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="underline hover:text-cream">OpenStreetMap contributors</a
+                            >
+                        </p>
+                    </div>
+                </div>
+                <script>
+                    const stayMarkers = document.querySelectorAll<HTMLButtonElement>(
+                        "[data-stay-marker]",
+                    );
+                    const stayEntries = Array.from(
+                        document.querySelectorAll<HTMLDetailsElement>(
+                            "[data-stay-entry]",
+                        ),
+                    );
+
+                    stayMarkers.forEach((marker) => {
+                        marker.addEventListener("click", () => {
+                            const label = marker.dataset.stayMarker;
+                            const entry = stayEntries.find((details) =>
+                                details.dataset.stayEntry
+                                    ?.split(" ")
+                                    .includes(label ?? ""),
+                            );
+
+                            if (!entry) return;
+
+                            entry.open = true;
+
+                            const summary = entry.querySelector("summary");
+                            summary?.focus({ preventScroll: true });
+                            summary?.scrollIntoView({
+                                behavior: window.matchMedia(
+                                    "(prefers-reduced-motion: reduce)",
+                                ).matches
+                                    ? "auto"
+                                    : "smooth",
+                                block: "center",
+                            });
+                        });
+                    });
+                </script>
             </div>
-            <div class="text-base leading-relaxed">
+            <div class="text-base leading-relaxed md:mt-10">
                 <p>
                     Most attendees stay in central Lisbon — Baixa, Chiado, Cais
                     do Sodré, or Alcântara — which are well connected to Belém and
@@ -377,15 +605,16 @@ const defaultPhoto = venuePhotos[0];
                 <h3 class="small-headline mt-8 mb-2" aria-label="Suggestions">
                     <span aria-hidden="true">//Suggestions</span>
                 </h3>
-                <details class="group border-b border-white/10 py-2">
+                <details class="group border-b border-white/10 py-2" data-stay-entry="1">
                     <summary
                         class="flex cursor-pointer list-none items-center justify-between text-base"
                     >
                         <span>
                             <span
-                                class="mr-2 font-mono text-base text-muted md:text-lg"
+                                class="mr-2 inline-flex h-5 min-w-5 items-center justify-center rounded-full border border-[#aaa5ff] bg-[#5148c8] px-1 font-mono text-[10px] font-bold text-cream"
+                                aria-label="Map marker 1"
                             >
-                                {randomBraille()}
+                                1
                             </span>
                             <strong>The Emerald House Lisbon</strong>, Curio Collection by Hilton
                         </span>
@@ -416,15 +645,16 @@ const defaultPhoto = venuePhotos[0];
                         >.
                     </p>
                 </details>
-                <details class="group border-b border-white/10 py-2">
+                <details class="group border-b border-white/10 py-2" data-stay-entry="2">
                     <summary
                         class="flex cursor-pointer list-none items-center justify-between text-base"
                     >
                         <span>
                             <span
-                                class="mr-2 font-mono text-base text-muted md:text-lg"
+                                class="mr-2 inline-flex h-5 min-w-5 items-center justify-center rounded-full border border-[#aaa5ff] bg-[#5148c8] px-1 font-mono text-[10px] font-bold text-cream"
+                                aria-label="Map marker 2"
                             >
-                                {randomBraille()}
+                                2
                             </span>
                             <strong>Lisboa Pessoa Hotel</strong>, Art Soul Group
                         </span>
@@ -454,15 +684,16 @@ const defaultPhoto = venuePhotos[0];
                         of rooms booked.
                     </p>
                 </details>
-                <details class="group border-b border-white/10 py-2">
+                <details class="group border-b border-white/10 py-2" data-stay-entry="3">
                     <summary
                         class="flex cursor-pointer list-none items-center justify-between text-base"
                     >
                         <span>
                             <span
-                                class="mr-2 font-mono text-base text-muted md:text-lg"
+                                class="mr-2 inline-flex h-5 min-w-5 items-center justify-center rounded-full border border-[#aaa5ff] bg-[#5148c8] px-1 font-mono text-[10px] font-bold text-cream"
+                                aria-label="Map marker 3"
                             >
-                                {randomBraille()}
+                                3
                             </span>
                             <strong>Sublime Lisboa</strong>, Sublime Hotels
                         </span>
@@ -492,15 +723,16 @@ const defaultPhoto = venuePhotos[0];
                         >.
                     </p>
                 </details>
-                <details class="group border-b border-white/10 py-2">
+                <details class="group border-b border-white/10 py-2" data-stay-entry="4">
                     <summary
                         class="flex cursor-pointer list-none items-center justify-between text-base"
                     >
                         <span>
                             <span
-                                class="mr-2 font-mono text-base text-muted md:text-lg"
+                                class="mr-2 inline-flex h-5 min-w-5 items-center justify-center rounded-full border border-[#aaa5ff] bg-[#5148c8] px-1 font-mono text-[10px] font-bold text-cream"
+                                aria-label="Map marker 4"
                             >
-                                {randomBraille()}
+                                4
                             </span>
                             <strong>DUO Hotel Lisbon</strong>, Curio Collection by
                             Hilton
@@ -529,15 +761,20 @@ const defaultPhoto = venuePhotos[0];
                         >.
                     </p>
                 </details>
-                <details class="group border-b border-white/10 py-2">
+                <details class="group border-b border-white/10 py-2" data-stay-entry="5 6 7">
                     <summary
                         class="flex cursor-pointer list-none items-center justify-between text-base"
                     >
                         <span>
                             <span
-                                class="mr-2 font-mono text-base text-muted md:text-lg"
+                                class="mr-2 inline-flex items-center gap-1 align-middle"
+                                aria-label="Map markers 5, 6, and 7"
                             >
-                                {randomBraille()}
+                                {["5", "6", "7"].map((label) => (
+                                    <span class="inline-flex h-5 min-w-5 items-center justify-center rounded-full border border-[#aaa5ff] bg-[#5148c8] px-1 font-mono text-[10px] font-bold text-cream">
+                                        {label}
+                                    </span>
+                                ))}
                             </span>
                             <strong
                                 >Art Legacy Hotel, My Story Hotel Tejo &amp; My Story
@@ -566,15 +803,16 @@ const defaultPhoto = venuePhotos[0];
                         >.
                     </p>
                 </details>
-                <details class="group border-b border-white/10 py-2">
+                <details class="group border-b border-white/10 py-2" data-stay-entry="8">
                     <summary
                         class="flex cursor-pointer list-none items-center justify-between text-base"
                     >
                         <span>
                             <span
-                                class="mr-2 font-mono text-base text-muted md:text-lg"
+                                class="mr-2 inline-flex h-5 min-w-5 items-center justify-center rounded-full border border-[#aaa5ff] bg-[#5148c8] px-1 font-mono text-[10px] font-bold text-cream"
+                                aria-label="Map marker 8"
                             >
-                                {randomBraille()}
+                                8
                             </span>
                             <strong>Mama Shelter Lisboa</strong>
                         </span>
@@ -599,15 +837,16 @@ const defaultPhoto = venuePhotos[0];
                         or a travel agency cannot receive the discount.
                     </p>
                 </details>
-                <details class="group border-b border-white/10 py-2">
+                <details class="group border-b border-white/10 py-2" data-stay-entry="9">
                     <summary
                         class="flex cursor-pointer list-none items-center justify-between text-base"
                     >
                         <span>
                             <span
-                                class="mr-2 font-mono text-base text-muted md:text-lg"
+                                class="mr-2 inline-flex h-5 min-w-5 items-center justify-center rounded-full border border-[#aaa5ff] bg-[#5148c8] px-1 font-mono text-[10px] font-bold text-cream"
+                                aria-label="Map marker 9"
                             >
-                                {randomBraille()}
+                                9
                             </span>
                             <strong>Jupiter Lisboa Hotel</strong>, Rooftop &amp; Spa
                         </span>
