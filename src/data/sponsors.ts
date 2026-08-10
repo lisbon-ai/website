@@ -43,11 +43,15 @@ export const sponsorTiers: SponsorTier[] = [
   },
   {
     label: "Community",
-    gridClass: "grid-cols-2",
+    // Two rows of two. The nth-child rule drops the right border on the last
+    // column so it doesn't double up against the panel's own border-x.
+    gridClass: "grid-cols-2 [&>*:nth-child(2n)]:border-r-0",
     panelClass: "border-x border-white/10",
     sponsors: [
-      { name: "tldraw", url: "https://tldraw.dev/", logo: "tldraw.svg", logoClass: "h-5" },
-      { name: "Zed", url: "https://zed.dev", logo: "zed.svg", logoClass: "h-5" },
+      { name: "tldraw", url: "https://tldraw.dev/", logo: "tldraw.svg", logoClass: "h-4" },
+      { name: "Zed", url: "https://zed.dev", logo: "zed.svg", logoClass: "h-4" },
+      { name: "Loka", url: "https://www.loka.com", logo: "loka.svg", logoClass: "h-4" },
+      { name: "Sperid Labs", url: "https://speridlabs.com", logo: "sperid-labs.svg", logoClass: "h-4" },
     ],
   },
 ];
