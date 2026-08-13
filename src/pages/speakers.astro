@@ -3,7 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 
-import { speakers } from "../data/speakers";
+import { speakers, logoHeight } from "../data/speakers";
 
 // Vary the texture crop per card so no two cards show the same region.
 const texturePositions = [
@@ -76,14 +76,14 @@ const texturePositions = [
                         <img
                           src={`${import.meta.env.BASE_URL}images/logos/${logo}`}
                           alt={org}
-                          class:list={["w-auto brightness-0 invert", logo === "huggingface.svg" ? "h-7" : "h-4"]}
+                          class:list={["w-auto brightness-0 invert", logoHeight(logo)]}
                         />
                       </a>
                     ) : (
                       <img
                         src={`${import.meta.env.BASE_URL}images/logos/${logo}`}
                         alt={org}
-                        class:list={["w-auto shrink-0 brightness-0 invert", logo === "huggingface.svg" ? "h-7" : "h-4"]}
+                        class:list={["w-auto shrink-0 brightness-0 invert", logoHeight(logo)]}
                       />
                     ))}
                   </div>

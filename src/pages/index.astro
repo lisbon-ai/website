@@ -7,7 +7,7 @@ import Location from "../components/Location.astro";
 
 import { format } from "../data/format";
 import { faqs } from "../data/faqs";
-import { speakers } from "../data/speakers";
+import { speakers, logoHeight } from "../data/speakers";
 import { sponsorTiers } from "../data/sponsors";
 
 const brailleFrames = ["⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷"];
@@ -138,14 +138,14 @@ const texturePositions = [
                       <img
                         src={`${import.meta.env.BASE_URL}images/logos/${logo}`}
                         alt={org}
-                        class:list={["w-auto brightness-0 invert", logo === "huggingface.svg" ? "h-7" : "h-4"]}
+                        class:list={["w-auto brightness-0 invert", logoHeight(logo)]}
                       />
                     </a>
                   ) : (
                     <img
                       src={`${import.meta.env.BASE_URL}images/logos/${logo}`}
                       alt={org}
-                      class:list={["w-auto shrink-0 brightness-0 invert", logo === "huggingface.svg" ? "h-7" : "h-4"]}
+                      class:list={["w-auto shrink-0 brightness-0 invert", logoHeight(logo)]}
                     />
                   ))}
                 </div>

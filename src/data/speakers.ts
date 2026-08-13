@@ -10,6 +10,13 @@ export type Speaker = {
   bio?: string;
 };
 
+// Most logos read well at h-4; these wordmarks need a nudge to match optically.
+const logoHeights: Record<string, string> = {
+  "huggingface.svg": "h-7",
+  "roboflow.svg": "h-5",
+};
+export const logoHeight = (logo: string) => logoHeights[logo] ?? "h-4";
+
 export const speakers: Speaker[] = [
   {
     name: "Steve Ruiz",
@@ -109,5 +116,15 @@ export const speakers: Speaker[] = [
     logo: "speridlabs.svg",
     image: "chema.png",
     bio: "Chema Garabito is founder of Sperid Labs, a Spatial AI lab building foundation models for understanding, reconstructing, simulating, and generating the 3D world.",
+  },
+  {
+    name: "Piotr Skalski",
+    role: "Open Source Lead",
+    org: "Roboflow",
+    profileUrl: "https://x.com/skalskip92",
+    orgUrl: "https://roboflow.com",
+    logo: "roboflow.svg",
+    image: "piotr.png",
+    bio: "Piotr Skalski is Open Source Lead at Roboflow with nearly nine years in computer vision. He has built open-source projects totaling over 80,000 GitHub stars and has produced more than 40 blog posts plus over 60 YouTube videos on key models. His work includes sports applications such as Football AI and Basketball AI. He is also passionate about vision-language models.",
   },
 ];
