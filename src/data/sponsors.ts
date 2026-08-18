@@ -37,7 +37,7 @@ export const sponsorTiers: SponsorTier[] = [
     gridClass: "grid-cols-2",
     panelClass: "border-x border-white/10",
     sponsors: [
-      { name: "YLD", url: "https://www.yld.io", logo: "yld.svg", logoClass: "h-10" },
+      { name: "YLD", url: "https://yld.com", logo: "yld.svg", logoClass: "h-10" },
       { name: "Supabase", url: "https://supabase.com", logo: "supabase.svg" },
     ],
   },
