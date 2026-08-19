@@ -127,4 +127,14 @@ export const speakers: Speaker[] = [
     image: "piotr.png",
     bio: "Piotr Skalski is Open Source Lead at Roboflow with nearly nine years in computer vision. He has built open-source projects totaling over 80,000 GitHub stars and has produced more than 40 blog posts plus over 60 YouTube videos on key models. His work includes sports applications such as Football AI and Basketball AI. He is also passionate about vision-language models.",
   },
+  {
+    name: "Cristiana Carpinteiro",
+    role: "ML Engineer",
+    org: "Loka",
+    profileUrl: "https://www.linkedin.com/in/crscarpinteiro/",
+    orgUrl: "https://www.loka.com",
+    logo: "loka.svg",
+    image: "cristiana.png",
+    bio: "Cristiana Carpinteiro is a bioengineer turned ML engineer at Loka, working on AI-driven drug discovery with models for molecular generation, property prediction, and interaction analysis. Her work spans deep learning, distributed computing, and scalable data pipelines built to handle DNA-encoded libraries with billions of molecules, using PyTorch and MLOps on AWS to optimize training and deployment. She enjoys bridging the gap between scientists and engineers in multidisciplinary teams.",
+  },
 ];
