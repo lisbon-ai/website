@@ -42,6 +42,29 @@ const stayMapPoints = [
     },
     {
         label: "2",
+        name: "Valverde Lisboa Hotel & Garden",
+        kind: "hotel",
+        lat: 38.719716,
+        lon: -9.144646,
+    },
+    {
+        label: "3",
+        name: "Santiago de Alfama",
+        kind: "hotel",
+        lat: 38.7113131,
+        lon: -9.1315867,
+        offsetX: 2.4,
+        offsetY: 2.4,
+    },
+    {
+        label: "4",
+        name: "Lisboa Pessoa Hotel",
+        kind: "hotel",
+        lat: 38.7125123,
+        lon: -9.1414479,
+    },
+    {
+        label: "5",
         name: "The Lumiares Hotel & Spa",
         kind: "hotel",
         lat: 38.7138788,
@@ -50,7 +73,7 @@ const stayMapPoints = [
         offsetY: 0.6,
     },
     {
-        label: "3",
+        label: "6",
         name: "The Vintage Hotel & Spa",
         kind: "hotel",
         lat: 38.719979,
@@ -59,35 +82,21 @@ const stayMapPoints = [
         offsetY: -3.4,
     },
     {
-        label: "4",
-        name: "Valverde Lisboa Hotel & Garden",
-        kind: "hotel",
-        lat: 38.719716,
-        lon: -9.144646,
-    },
-    {
-        label: "5",
-        name: "Lisboa Pessoa Hotel",
-        kind: "hotel",
-        lat: 38.7125123,
-        lon: -9.1414479,
-    },
-    {
-        label: "6",
+        label: "7",
         name: "Sublime Lisboa",
         kind: "hotel",
         lat: 38.725681,
         lon: -9.157112,
     },
     {
-        label: "7",
+        label: "8",
         name: "DUO Hotel Lisbon",
         kind: "hotel",
         lat: 38.70775,
         lon: -9.149333,
     },
     {
-        label: "8",
+        label: "9",
         name: "Art Legacy",
         kind: "hotel",
         lat: 38.71104,
@@ -96,7 +105,7 @@ const stayMapPoints = [
         offsetY: 2,
     },
     {
-        label: "9",
+        label: "10",
         name: "My Story Tejo",
         kind: "hotel",
         lat: 38.71361,
@@ -105,7 +114,7 @@ const stayMapPoints = [
         offsetY: -1.8,
     },
     {
-        label: "10",
+        label: "11",
         name: "My Story Figueira",
         kind: "hotel",
         lat: 38.7135,
@@ -114,27 +123,18 @@ const stayMapPoints = [
         offsetY: 1.8,
     },
     {
-        label: "11",
+        label: "12",
         name: "Mama Shelter Lisboa",
         kind: "hotel",
         lat: 38.72092,
         lon: -9.15262,
     },
     {
-        label: "12",
+        label: "13",
         name: "Jupiter Lisboa Hotel",
         kind: "hotel",
         lat: 38.739622,
         lon: -9.145858,
-    },
-    {
-        label: "13",
-        name: "Santiago de Alfama",
-        kind: "hotel",
-        lat: 38.7113131,
-        lon: -9.1315867,
-        offsetX: 2.4,
-        offsetY: 2.4,
     },
     {
         label: "14",
@@ -717,54 +717,7 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                         </div>
                     </div>
                 </details>
-                <details class="group border-b border-white/10 py-2" data-stay-entry="2 3">
-                    <summary
-                        class="grid cursor-pointer list-none grid-cols-[auto_1fr_auto] items-start gap-3 text-base"
-                    >
-                        <span
-                            class="mt-0.5 font-mono text-base leading-none text-muted md:text-lg"
-                            aria-hidden="true"
-                        >
-                            {stayBraille()}
-                        </span>
-                        <span class="min-w-0 leading-snug">
-                            <strong>The Lumiares & The Vintage</strong>{" "}
-                            <span class="font-mono text-xs text-muted">(2, 3)</span>
-                        </span>
-                        <span
-                            class="mt-1 font-mono text-xs text-faint transition group-open:rotate-45"
-                        >
-                            +
-                        </span>
-                    </summary>
-                    <div class="mt-4 max-w-2xl space-y-4 text-base leading-relaxed text-muted">
-                        <div>
-                            <h4 class="font-mono text-xs uppercase text-faint">Hotels</h4>
-                            <p class="mt-1">Two five-star sister hotels from Bomporto Hotels, with rooftops and spas, a ten-minute walk apart: The Lumiares Hotel &amp; Spa in Bairro Alto and The Vintage Hotel &amp; Spa in Príncipe Real.</p>
-                        </div>
-                        <div>
-                            <h4 class="font-mono text-xs uppercase text-faint">Discount</h4>
-                            <p class="mt-1">Lisbon AI attendees get <strong>10%</strong> on the rates available on the hotels&rsquo; websites, plus an extra <strong>10%</strong> on spa treatments.</p>
-                        </div>
-                        <div>
-                            <h4 class="font-mono text-xs uppercase text-faint">Valid</h4>
-                            <p class="mt-1">Valid for stays from <strong>23 to 24 September</strong>.</p>
-                        </div>
-                        <div>
-                            <h4 class="font-mono text-xs uppercase text-faint">Book</h4>
-                            <p class="mt-1">Requests must go through the Sales Department: email <a href="mailto:sales@bomportohotels.com" class="underline hover:text-cream">sales@bomportohotels.com</a> or call <a href="tel:+351210405406" class="underline hover:text-cream">+351 210 405 406</a>.</p>
-                        </div>
-                        <div>
-                            <h4 class="font-mono text-xs uppercase text-faint">Notes</h4>
-                            <p class="mt-1">Not accumulative with special offers or packages, and rates are subject to availability. Guests book individually; for five or more rooms, group conditions apply and the proposal must be revised.</p>
-                        </div>
-                        <div>
-                            <h4 class="font-mono text-xs uppercase text-faint">Page</h4>
-                            <p class="mt-1"><a href="https://www.facebook.com/WonderlustEvent/" target="_blank" rel="noopener noreferrer" class="underline hover:text-cream">View on Facebook</a>.</p>
-                        </div>
-                    </div>
-                </details>
-                <details class="group border-b border-white/10 py-2" data-stay-entry="4">
+                <details class="group border-b border-white/10 py-2" data-stay-entry="2">
                     <summary
                         class="grid cursor-pointer list-none grid-cols-[auto_1fr_auto] items-start gap-3 text-base"
                     >
@@ -776,7 +729,7 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                         </span>
                         <span class="min-w-0 leading-snug">
                             <strong>Valverde Lisboa Hotel & Garden</strong>{" "}
-                            <span class="font-mono text-xs text-muted">(4)</span>
+                            <span class="font-mono text-xs text-muted">(2)</span>
                         </span>
                         <span
                             class="mt-1 font-mono text-xs text-faint transition group-open:rotate-45"
@@ -811,7 +764,50 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                         </div>
                     </div>
                 </details>
-                <details class="group border-b border-white/10 py-2" data-stay-entry="5">
+                <details class="group border-b border-white/10 py-2" data-stay-entry="3">
+                    <summary
+                        class="grid cursor-pointer list-none grid-cols-[auto_1fr_auto] items-start gap-3 text-base"
+                    >
+                        <span
+                            class="mt-0.5 font-mono text-base leading-none text-muted md:text-lg"
+                            aria-hidden="true"
+                        >
+                            {stayBraille()}
+                        </span>
+                        <span class="min-w-0 leading-snug">
+                            <strong>Santiago de Alfama</strong>{" "}
+                            <span class="font-mono text-xs text-muted">(3)</span>
+                        </span>
+                        <span
+                            class="mt-1 font-mono text-xs text-faint transition group-open:rotate-45"
+                        >
+                            +
+                        </span>
+                    </summary>
+                    <div class="mt-4 max-w-2xl space-y-4 text-base leading-relaxed text-muted">
+                        <div>
+                            <h4 class="font-mono text-xs uppercase text-faint">Hotel</h4>
+                            <p class="mt-1">A restored 15th-century palace in Alfama, between São Jorge castle and the river, with several venues suited to exclusive events.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-mono text-xs uppercase text-faint">Discount</h4>
+                            <p class="mt-1">Lisbon AI attendees get <strong>15%</strong> on the Bed &amp; Breakfast rate.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-mono text-xs uppercase text-faint">Book</h4>
+                            <p class="mt-1">Book directly by email at <a href="mailto:reservations@santiagodealfama.com" class="underline hover:text-cream">reservations@santiagodealfama.com</a>.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-mono text-xs uppercase text-faint">Notes</h4>
+                            <p class="mt-1">Mention the Lisbon AI conference when booking.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-mono text-xs uppercase text-faint">Website</h4>
+                            <p class="mt-1">Visit <a href="https://www.santiagodealfama.com/" target="_blank" rel="noopener noreferrer" class="underline hover:text-cream">santiagodealfama.com</a>.</p>
+                        </div>
+                    </div>
+                </details>
+                <details class="group border-b border-white/10 py-2" data-stay-entry="4">
                     <summary
                         class="grid cursor-pointer list-none grid-cols-[auto_1fr_auto] items-start gap-3 text-base"
                     >
@@ -823,7 +819,7 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                         </span>
                         <span class="min-w-0 leading-snug">
                             <strong>Lisboa Pessoa Hotel</strong>{" "}
-                            <span class="font-mono text-xs text-muted">(5)</span>
+                            <span class="font-mono text-xs text-muted">(4)</span>
                         </span>
                         <span
                             class="mt-1 font-mono text-xs text-faint transition group-open:rotate-45"
@@ -854,7 +850,54 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                         </div>
                     </div>
                 </details>
-                <details class="group border-b border-white/10 py-2" data-stay-entry="6">
+                <details class="group border-b border-white/10 py-2" data-stay-entry="5 6">
+                    <summary
+                        class="grid cursor-pointer list-none grid-cols-[auto_1fr_auto] items-start gap-3 text-base"
+                    >
+                        <span
+                            class="mt-0.5 font-mono text-base leading-none text-muted md:text-lg"
+                            aria-hidden="true"
+                        >
+                            {stayBraille()}
+                        </span>
+                        <span class="min-w-0 leading-snug">
+                            <strong>The Lumiares & The Vintage</strong>{" "}
+                            <span class="font-mono text-xs text-muted">(5, 6)</span>
+                        </span>
+                        <span
+                            class="mt-1 font-mono text-xs text-faint transition group-open:rotate-45"
+                        >
+                            +
+                        </span>
+                    </summary>
+                    <div class="mt-4 max-w-2xl space-y-4 text-base leading-relaxed text-muted">
+                        <div>
+                            <h4 class="font-mono text-xs uppercase text-faint">Hotels</h4>
+                            <p class="mt-1">Two five-star sister hotels from Bomporto Hotels, with rooftops and spas, a ten-minute walk apart: The Lumiares Hotel &amp; Spa in Bairro Alto and The Vintage Hotel &amp; Spa in Príncipe Real.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-mono text-xs uppercase text-faint">Discount</h4>
+                            <p class="mt-1">Lisbon AI attendees get <strong>10%</strong> on the rates available on the hotels&rsquo; websites, plus an extra <strong>10%</strong> on spa treatments.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-mono text-xs uppercase text-faint">Valid</h4>
+                            <p class="mt-1">Valid for stays from <strong>23 to 24 September</strong>.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-mono text-xs uppercase text-faint">Book</h4>
+                            <p class="mt-1">Requests must go through the Sales Department: email <a href="mailto:sales@bomportohotels.com" class="underline hover:text-cream">sales@bomportohotels.com</a> or call <a href="tel:+351210405406" class="underline hover:text-cream">+351 210 405 406</a>.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-mono text-xs uppercase text-faint">Notes</h4>
+                            <p class="mt-1">Not accumulative with special offers or packages, and rates are subject to availability. Guests book individually; for five or more rooms, group conditions apply and the proposal must be revised.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-mono text-xs uppercase text-faint">Page</h4>
+                            <p class="mt-1"><a href="https://www.facebook.com/WonderlustEvent/" target="_blank" rel="noopener noreferrer" class="underline hover:text-cream">View on Facebook</a>.</p>
+                        </div>
+                    </div>
+                </details>
+                <details class="group border-b border-white/10 py-2" data-stay-entry="7">
                     <summary
                         class="grid cursor-pointer list-none grid-cols-[auto_1fr_auto] items-start gap-3 text-base"
                     >
@@ -866,7 +909,7 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                         </span>
                         <span class="min-w-0 leading-snug">
                             <strong>Sublime Lisboa</strong>{" "}
-                            <span class="font-mono text-xs text-muted">(6)</span>
+                            <span class="font-mono text-xs text-muted">(7)</span>
                         </span>
                         <span
                             class="mt-1 font-mono text-xs text-faint transition group-open:rotate-45"
@@ -897,7 +940,7 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                         </div>
                     </div>
                 </details>
-                <details class="group border-b border-white/10 py-2" data-stay-entry="7">
+                <details class="group border-b border-white/10 py-2" data-stay-entry="8">
                     <summary
                         class="grid cursor-pointer list-none grid-cols-[auto_1fr_auto] items-start gap-3 text-base"
                     >
@@ -909,7 +952,7 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                         </span>
                         <span class="min-w-0 leading-snug">
                             <strong>DUO Hotel Lisbon</strong>{" "}
-                            <span class="font-mono text-xs text-muted">(7)</span>
+                            <span class="font-mono text-xs text-muted">(8)</span>
                         </span>
                         <span
                             class="mt-1 font-mono text-xs text-faint transition group-open:rotate-45"
@@ -936,7 +979,7 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                         </div>
                     </div>
                 </details>
-                <details class="group border-b border-white/10 py-2" data-stay-entry="8 9 10">
+                <details class="group border-b border-white/10 py-2" data-stay-entry="9 10 11">
                     <summary
                         class="grid cursor-pointer list-none grid-cols-[auto_1fr_auto] items-start gap-3 text-base"
                     >
@@ -948,7 +991,7 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                         </span>
                         <span class="min-w-0 leading-snug">
                             <strong>My Story Hotels</strong>{" "}
-                            <span class="font-mono text-xs text-muted">(8, 9, 10)</span>
+                            <span class="font-mono text-xs text-muted">(9, 10, 11)</span>
                         </span>
                         <span
                             class="mt-1 font-mono text-xs text-faint transition group-open:rotate-45"
@@ -979,7 +1022,7 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                         </div>
                     </div>
                 </details>
-                <details class="group border-b border-white/10 py-2" data-stay-entry="11">
+                <details class="group border-b border-white/10 py-2" data-stay-entry="12">
                     <summary
                         class="grid cursor-pointer list-none grid-cols-[auto_1fr_auto] items-start gap-3 text-base"
                     >
@@ -991,7 +1034,7 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                         </span>
                         <span class="min-w-0 leading-snug">
                             <strong>Mama Shelter Lisboa</strong>{" "}
-                            <span class="font-mono text-xs text-muted">(11)</span>
+                            <span class="font-mono text-xs text-muted">(12)</span>
                         </span>
                         <span
                             class="mt-1 font-mono text-xs text-faint transition group-open:rotate-45"
@@ -1022,7 +1065,7 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                         </div>
                     </div>
                 </details>
-                <details class="group border-b border-white/10 py-2" data-stay-entry="12">
+                <details class="group border-b border-white/10 py-2" data-stay-entry="13">
                     <summary
                         class="grid cursor-pointer list-none grid-cols-[auto_1fr_auto] items-start gap-3 text-base"
                     >
@@ -1034,7 +1077,7 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                         </span>
                         <span class="min-w-0 leading-snug">
                             <strong>Jupiter Lisboa Hotel</strong>{" "}
-                            <span class="font-mono text-xs text-muted">(12)</span>
+                            <span class="font-mono text-xs text-muted">(13)</span>
                         </span>
                         <span
                             class="mt-1 font-mono text-xs text-faint transition group-open:rotate-45"
@@ -1058,49 +1101,6 @@ const stayMapMarkers = projectedStayMapPoints.map((point) => ({
                         <div>
                             <h4 class="font-mono text-xs uppercase text-faint">Valid</h4>
                             <p class="mt-1">Valid for stays from <strong>18 to 28 September 2026</strong>.</p>
-                        </div>
-                    </div>
-                </details>
-                <details class="group border-b border-white/10 py-2" data-stay-entry="13">
-                    <summary
-                        class="grid cursor-pointer list-none grid-cols-[auto_1fr_auto] items-start gap-3 text-base"
-                    >
-                        <span
-                            class="mt-0.5 font-mono text-base leading-none text-muted md:text-lg"
-                            aria-hidden="true"
-                        >
-                            {stayBraille()}
-                        </span>
-                        <span class="min-w-0 leading-snug">
-                            <strong>Santiago de Alfama</strong>{" "}
-                            <span class="font-mono text-xs text-muted">(13)</span>
-                        </span>
-                        <span
-                            class="mt-1 font-mono text-xs text-faint transition group-open:rotate-45"
-                        >
-                            +
-                        </span>
-                    </summary>
-                    <div class="mt-4 max-w-2xl space-y-4 text-base leading-relaxed text-muted">
-                        <div>
-                            <h4 class="font-mono text-xs uppercase text-faint">Hotel</h4>
-                            <p class="mt-1">A restored 15th-century palace in Alfama, between São Jorge castle and the river, with several venues suited to exclusive events.</p>
-                        </div>
-                        <div>
-                            <h4 class="font-mono text-xs uppercase text-faint">Discount</h4>
-                            <p class="mt-1">Lisbon AI attendees get <strong>15%</strong> on the Bed &amp; Breakfast rate.</p>
-                        </div>
-                        <div>
-                            <h4 class="font-mono text-xs uppercase text-faint">Book</h4>
-                            <p class="mt-1">Book directly by email at <a href="mailto:reservations@santiagodealfama.com" class="underline hover:text-cream">reservations@santiagodealfama.com</a>.</p>
-                        </div>
-                        <div>
-                            <h4 class="font-mono text-xs uppercase text-faint">Notes</h4>
-                            <p class="mt-1">Mention the Lisbon AI conference when booking.</p>
-                        </div>
-                        <div>
-                            <h4 class="font-mono text-xs uppercase text-faint">Website</h4>
-                            <p class="mt-1">Visit <a href="https://www.santiagodealfama.com/" target="_blank" rel="noopener noreferrer" class="underline hover:text-cream">santiagodealfama.com</a>.</p>
                         </div>
                     </div>
                 </details>
