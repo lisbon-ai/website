@@ -135,6 +135,16 @@ export const speakers: Speaker[] = [
     orgUrl: "https://www.loka.com",
     logo: "loka.svg",
     image: "cristiana.png",
-    bio: "Cristiana Carpinteiro is a bioengineer turned ML engineer at Loka, working on AI-driven drug discovery with models for molecular generation, property prediction, and interaction analysis. Her work spans deep learning, distributed computing, and scalable data pipelines built to handle DNA-encoded libraries with billions of molecules, using PyTorch and MLOps on AWS to optimize training and deployment. She enjoys bridging the gap between scientists and engineers in multidisciplinary teams.",
+    bio: "Cristiana Carpinteiro is a Machine Learning Engineering Lead based in Porto, with a background in Bioengineering from FEUP and a career entirely dedicated to the biotech field. She currently works at Loka, an AWS Premier Partner consultancy, developing AI for drug discovery and covering challenges that span molecule screening and optimization to model training on large-scale datasets. Previously, she worked at two startups, including one building technology to detect Alzheimer's disease from blood samples. Her experience sits at the intersection of science, technology, and innovation, bridging research and engineering teams to bring ML into real-world biotech applications.",
+  },
+  {
+    name: "Marcelo Lebre",
+    role: "Co-founder & President",
+    org: "Remote",
+    profileUrl: "https://www.linkedin.com/in/marcelolebre/",
+    orgUrl: "https://remote.com",
+    logo: "remote.svg",
+    image: "marcelo.png",
+    bio: "Marcelo is the co-founder and President of Remote. Marcelo was previously VP of Engineering at Unbabel and has held several CTO positions. He frequently speaks at events about leadership and managing remote teams. Marcelo is also a startup advisor and mentor to entrepreneurs. He is a passionate engineer, proud dad, and sci-fi nerd.",
   },
 ];
