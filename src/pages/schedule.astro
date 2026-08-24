@@ -3,7 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 
-import { days, formatTime } from "../data/schedule";
+import { days, formatTime, trackDescriptions } from "../data/schedule";
 ---
 
 <Layout
@@ -20,16 +20,7 @@ import { days, formatTime } from "../data/schedule";
         <div>
           <div class="flex flex-col gap-16">
             {
-              days.map(({ label, date, slots }) => {
-                // Programme blocks are numbered per day; openings, breaks and
-                // networking sit outside the count.
-                let block = 0;
-                const rows = slots.map((slot) => ({
-                  ...slot,
-                  block: slot.kind ? null : ++block,
-                }));
-
-                return (
+              days.map(({ label, date, slots }) => (
                 <div>
                   <h2 class="font-display text-3xl font-bold uppercase tracking-tight mb-8">
                     {label}, {date}
@@ -37,14 +28,18 @@ import { days, formatTime } from "../data/schedule";
 
                   {slots.length > 0 ? (
                     <ul class="flex flex-col">
-                      {rows.map(({ start, end, title, block }) => (
+                      {slots.map(({ start, end, title, kind }) => (
                         <li class="flex flex-col gap-0.5 border-t border-white/10 py-3 md:flex-row md:items-baseline md:gap-6">
                           <span class="shrink-0 font-mono text-xs text-faint md:w-44">
                             {formatTime(start)} &ndash; {formatTime(end)}
                           </span>
                           <span class="text-base md:text-lg">
-                            {block && <>Block {block}: </>}
-                            <span class:list={{ "font-bold": block }}>{title}</span>
+                            {title}
+                            {!kind && trackDescriptions[title] && (
+                              <span class="block text-sm text-muted">
+                                {trackDescriptions[title]}.
+                              </span>
+                            )}
                           </span>
                         </li>
                       ))}
@@ -60,8 +55,7 @@ import { days, formatTime } from "../data/schedule";
                     </div>
                   )}
                 </div>
-                );
-              })
+              ))
             }
           </div>
         </div>

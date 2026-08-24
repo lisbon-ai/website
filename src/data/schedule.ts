@@ -23,6 +23,22 @@ export const formatTime = (time: string) => {
   return `${hour}:${String(m).padStart(2, "0")} ${suffix}`;
 };
 
+// One-sentence track blurbs, keyed by slot title. The page adds the
+// full stop. Tracks that run twice in a day share one
+// entry; a title with no entry simply renders without a description.
+export const trackDescriptions: Record<string, string> = {
+  Agents:
+    "The protocols, tooling, and runtimes that let agents orchestrate real work",
+  Models:
+    "How models get built, from data and training through post-training and optimization",
+  Evals:
+    "Measuring what systems actually do, and keeping them observable and reliable",
+  Security:
+    "Privacy, identity, and trust, down to the supply chain your models depend on",
+  "Applied AI":
+    "AI applied to products, interfaces, design, and domain applications",
+};
+
 export const days: Day[] = [
   {
     label: "Day 1",
@@ -51,7 +67,7 @@ export const days: Day[] = [
       { start: "13:00", end: "14:30", title: "Lunch break", kind: "break" },
       { start: "14:30", end: "16:00", title: "Security" },
       { start: "16:00", end: "16:30", title: "Coffee break", kind: "break" },
-      { start: "16:30", end: "18:00", title: "Cafe Cursor" },
+      { start: "16:30", end: "18:00", title: "Whiteboard session with David" },
       { start: "18:00", end: "19:30", title: "Networking", kind: "social" },
     ],
   },
