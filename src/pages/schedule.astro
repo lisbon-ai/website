@@ -1,0 +1,78 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
+import { days, formatTime } from "../data/schedule";
+---
+
+<Layout
+  title="Schedule — Lisbon AI 2026"
+  description="The two-day programme for Lisbon AI 2026, September 23-24 at Centro Champalimaud."
+>
+  <Header />
+
+  <main>
+    <section class="border-t border-white/10">
+      <div class="mx-auto max-w-3xl py-16 px-6 md:px-0">
+        <div class="small-headline mb-4">/schedule</div>
+
+        <div>
+          <div class="flex flex-col gap-16">
+            {
+              days.map(({ label, date, slots }) => {
+                // Programme blocks are numbered per day; openings, breaks and
+                // networking sit outside the count.
+                let block = 0;
+                const rows = slots.map((slot) => ({
+                  ...slot,
+                  block: slot.kind ? null : ++block,
+                }));
+
+                return (
+                <div>
+                  <h2 class="font-display text-3xl font-bold uppercase tracking-tight mb-8">
+                    {label}, {date}
+                  </h2>
+
+                  {slots.length > 0 ? (
+                    <ul class="flex flex-col">
+                      {rows.map(({ start, end, title, block }) => (
+                        <li class="flex flex-col gap-0.5 border-t border-white/10 py-3 md:flex-row md:items-baseline md:gap-6">
+                          <span class="shrink-0 font-mono text-xs text-faint md:w-44">
+                            {formatTime(start)} &ndash; {formatTime(end)}
+                          </span>
+                          <span class="text-base md:text-lg">
+                            {block && <>Block {block}: </>}
+                            <span class:list={{ "font-bold": block }}>{title}</span>
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <div class="border-t border-white/10 py-8">
+                      <p class="text-lg leading-snug md:text-xl">
+                        The {label.toLowerCase()} programme lands soon.
+                      </p>
+                      <p class="mt-2 font-mono text-xs text-faint">
+                        Keep an eye on this space
+                      </p>
+                    </div>
+                  )}
+                </div>
+                );
+              })
+            }
+          </div>
+        </div>
+
+        <p class="mt-8 font-mono text-xs text-faint">
+          //Times are subject to change. Talk titles announced as they are
+          confirmed.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
