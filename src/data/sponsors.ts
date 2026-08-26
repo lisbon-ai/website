@@ -15,19 +15,20 @@ export type SponsorTier = {
 // Logos are added per tier once confirmed — leave `sponsors` empty to show a
 // "coming soon" placeholder for that tier.
 export const sponsorTiers: SponsorTier[] = [
-  // {
-  //   label: "Platinum",
-  //   gridClass: "grid-cols-1",
-  //   panelClass: "border-t border-x border-white/10",
-  //   sponsors: [
-  //     { name: "Cloudflare", url: "https://cloudflare.com", logo: "cloudflare.svg" },
-  //   ],
-  // },
   {
-    label: "Gold",
-    gridClass: "grid-cols-2",
+    label: "Platinum",
+    gridClass: "grid-cols-1",
     panelClass: "border-t border-x border-white/10",
     sponsors: [
+      { name: "Cloudflare", url: "https://www.cloudflare.com", logo: "cloudflare.svg" },
+    ],
+  },
+  {
+    label: "Gold",
+    gridClass: "grid-cols-3",
+    panelClass: "border-x border-white/10",
+    sponsors: [
+      { name: "AWS", url: "https://aws.amazon.com/", logo: "aws.png", logoClass: "h-6" },
       { name: "DoiT", url: "https://www.doit.com", logo: "doit.png", logoClass: "h-4" },
       { name: "Humanos", url: "https://www.humanos.tech", logo: "humanos.svg", logoClass: "h-5" },
     ],
@@ -43,15 +44,18 @@ export const sponsorTiers: SponsorTier[] = [
   },
   {
     label: "Community",
-    // Two rows of two. The nth-child rule drops the right border on the last
+    // Two per row. The nth-child rule drops the right border on the last
     // column so it doesn't double up against the panel's own border-x.
-    gridClass: "grid-cols-2 [&>*:nth-child(2n)]:border-r-0",
+    // A trailing odd logo stretches across the row rather than leaving a gap.
+    gridClass:
+      "grid-cols-2 [&>*:nth-child(2n)]:border-r-0 [&>*:last-child:nth-child(odd)]:col-span-2",
     panelClass: "border-x border-white/10",
     sponsors: [
       { name: "tldraw", url: "https://tldraw.dev/", logo: "tldraw.svg", logoClass: "h-4" },
       { name: "Zed", url: "https://zed.dev", logo: "zed.svg", logoClass: "h-4" },
       { name: "Loka", url: "https://www.loka.com", logo: "loka.svg", logoClass: "h-4" },
       { name: "Sperid Labs", url: "https://speridlabs.com", logo: "sperid-labs.svg", logoClass: "h-4" },
+      { name: "Neywa Labs", url: "https://neywalabs.ai", logo: "neywa-labs.svg", logoClass: "h-3.5" },
     ],
   },
 ];
