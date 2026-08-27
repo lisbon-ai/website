@@ -1,0 +1,27 @@
+---
+import { speakers as siteSpeakers } from "../data/speakers";
+
+// Slots and topics list speaker names; org, talk title and profile link are all
+// resolved from the speakers list so there is one place to edit them.
+const speakerByName = new Map(
+  siteSpeakers.map((speaker) => [speaker.name, speaker]),
+);
+
+interface Props {
+  name: string;
+}
+
+const { name } = Astro.props;
+const speaker = speakerByName.get(name);
+// Show the talk once it's confirmed; until then fall back to the speaker's org.
+const detail = speaker?.talk || speaker?.org;
+const profileUrl = speaker?.profileUrl;
+---
+
+{/* The marker is its own flex item, so wrapped lines align under the text
+    rather than a guessed indent width. */}
+<li class="flex gap-1 text-sm">
+  <span aria-hidden="true">//</span>
+  {/* prettier-ignore */}
+  <span><span>{profileUrl ? <a href={profileUrl} class="underline decoration-white/30 underline-offset-4 hover:decoration-white">{name}</a> : name}</span>{detail && <span class="text-muted">{` · ${detail}`}</span>}</span>
+</li>

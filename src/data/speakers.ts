@@ -1,8 +1,13 @@
 export type Speaker = {
   name: string;
-  role: string;
-  title: string;
   org: string;
+  // `published` speakers get a card on /speakers and the landing page. The rest
+  // exist so the schedule can reference them before their details are ready.
+  published?: boolean;
+  role?: string;
+  title?: string;
+  // Empty until the talk title is confirmed.
+  talk?: string;
   profileUrl?: string;
   orgUrl?: string;
   logo?: string;
@@ -20,6 +25,7 @@ export const logoHeight = (logo: string) => logoHeights[logo] ?? "h-4";
 export const speakers: Speaker[] = [
   {
     name: "Steve Ruiz",
+    published: true,
     role: "Founder & CEO",
     org: "tldraw",
     profileUrl: "https://x.com/steveruizok",
@@ -30,6 +36,7 @@ export const speakers: Speaker[] = [
   },
   {
     name: "Ben Brandt",
+    published: true,
     role: "Staff Engineer",
     org: "Zed Industries",
     profileUrl: "https://x.com/benjaminbrandt",
@@ -40,6 +47,7 @@ export const speakers: Speaker[] = [
   },
   {
     name: "Matt Carey",
+    published: true,
     role: "AI Engineer",
     org: "Cloudflare",
     profileUrl: "https://x.com/mattzcarey",
@@ -50,8 +58,10 @@ export const speakers: Speaker[] = [
   },
   {
     name: "Duarte Carmo",
+    published: true,
     role: "Founder & AI Consultant",
     org: "Independent",
+    talk: "The Hitchhiker’s Guide to European Portuguese LLMs",
     profileUrl: "https://x.com/duarteocarmo",
     orgUrl: "https://duarteocarmo.com/",
     image: "duarte.png",
@@ -59,6 +69,7 @@ export const speakers: Speaker[] = [
   },
   {
     name: "Diogo Mónica",
+    published: true,
     role: "General Partner",
     org: "Anchorage, Haun Ventures",
     profileUrl: "https://x.com/diogomonica",
@@ -69,8 +80,10 @@ export const speakers: Speaker[] = [
   },
   {
     name: "Joan Rodriguez",
+    published: true,
     role: "Co-founder, CEO & Chief Scientist",
     org: "QuiverAI",
+    talk: "Design as visual code",
     profileUrl: "https://x.com/joanrod_ai",
     orgUrl: "https://quiver.ai/",
     logo: "quiver.svg",
@@ -79,8 +92,10 @@ export const speakers: Speaker[] = [
   },
   {
     name: "Aayush Kapoor",
+    published: true,
     role: "Software Engineer, AI SDK",
     org: "Vercel",
+    talk: "The Slopbowl-ification of Software",
     profileUrl: "https://x.com/aayushkapoor",
     orgUrl: "https://vercel.com",
     logo: "vercel.svg",
@@ -89,6 +104,7 @@ export const speakers: Speaker[] = [
   },
   {
     name: "Sergio Paniego",
+    published: true,
     role: "ML Engineer",
     org: "Hugging Face",
     profileUrl: "https://x.com/SergioPaniego",
@@ -99,8 +115,10 @@ export const speakers: Speaker[] = [
   },
   {
     name: "Will Burstein",
+    published: true,
     role: "Head of Product",
     org: "PromptLayer",
+    talk: "From Vibes to Scorecards: Building Review Loops for Production AI",
     profileUrl: "https://linkedin.com/in/willburstein",
     orgUrl: "https://www.promptlayer.com",
     logo: "promptlayer.png",
@@ -109,8 +127,10 @@ export const speakers: Speaker[] = [
   },
   {
     name: "Chema Garabito",
+    published: true,
     role: "Founder",
     org: "Sperid Labs",
+    talk: "Spatial AI and 3D World Models",
     profileUrl: "https://x.com/chema_garabito",
     orgUrl: "https://speridlabs.com",
     logo: "speridlabs.svg",
@@ -119,8 +139,10 @@ export const speakers: Speaker[] = [
   },
   {
     name: "Piotr Skalski",
+    published: true,
     role: "Open Source Lead",
     org: "Roboflow",
+    talk: "Computer Vision, Meet Sports",
     profileUrl: "https://x.com/skalskip92",
     orgUrl: "https://roboflow.com",
     logo: "roboflow.svg",
@@ -129,8 +151,10 @@ export const speakers: Speaker[] = [
   },
   {
     name: "Cristiana Carpinteiro",
+    published: true,
     role: "ML Engineer",
     org: "Loka",
+    talk: "Foundation Models for Drug Discovery: From Hype to the Lab",
     profileUrl: "https://www.linkedin.com/in/crscarpinteiro/",
     orgUrl: "https://www.loka.com",
     logo: "loka.svg",
@@ -139,12 +163,33 @@ export const speakers: Speaker[] = [
   },
   {
     name: "Marcelo Lebre",
+    published: true,
     role: "Co-founder & President",
     org: "Remote",
+    talk: "Icarus, operational harness",
     profileUrl: "https://www.linkedin.com/in/marcelolebre/",
     orgUrl: "https://remote.com",
     logo: "remote.svg",
     image: "marcelo.png",
     bio: "Marcelo is the co-founder and President of Remote. Marcelo was previously VP of Engineering at Unbabel and has held several CTO positions. He frequently speaks at events about leadership and managing remote teams. Marcelo is also a startup advisor and mentor to entrepreneurs. He is a passionate engineer, proud dad, and sci-fi nerd.",
   },
+
+  // Announced in the schedule; card details still to come.
+  { name: "Afonso Oliveira", org: "Independent" , talk: "Building AI people trust without giving away the product" },
+  { name: "Alcides Fonseca", org: "U. Lisbon" , talk: "Guardrailing your Agents with Types and Logic" },
+  { name: "Artur Goulão", org: "Humanos" , talk: "Runtime Trust for AI: Building the Network That Verifies Autonomous Systems" },
+  { name: "Bojan Jakimovski", org: "Loka" , talk: "Teaching an Open Model to do Science" },
+  { name: "Boda Zhao", org: "YLD" , talk: "Prevent supply chain attacks in coding agents" },
+  { name: "Daniel Bukac", org: "Duvo" , talk: "Screen-aware voice agents: a new interaction pattern" },
+  { name: "Harshil Agrawal", org: "Cloudflare" , talk: "Ditching Containers for Computer" },
+  { name: "Jack Fitzsimons", org: "Noticed" , talk: "The PR is the Eval" },
+  { name: "Luis Monteiro", org: "Pixelmatters" , talk: "Design is over" },
+  { name: "Lukas Wirth", org: "Zed" , talk: "ACP v2" },
+  { name: "Nina Torgunakova", org: "Evil Martians" , talk: "Trust nothing, ship safely: surviving the supply chain attack era" },
+  { name: "Oğuz Gültepe", org: "Peec AI" , talk: "Prompt Learning: Distilling Expensive Reasoning Into Fast Production Prompts" },
+  { name: "Prince Canuma", org: "Neywa Labs" },
+  { name: "Sergio Blanco", org: "Hugging Face" , talk: "Training a coding agent through a harness you did not write" },
+  { name: "Simão Nogueira", org: "Noticed" , talk: "Evals as the code factory" },
+  { name: "Thom Jenkins", org: "PetsApp" , talk: "Your Agent Is Ignoring You: Fixing Instruction Drift in Production AI" },
+  { name: "Yomi Eluwande", org: "Dash0" , talk: "Red teaming AI performance ideas: what survived measurement" },
 ];

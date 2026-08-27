@@ -1,3 +1,27 @@
+---
+import { sponsorTiers } from "../data/sponsors";
+
+// Hero strip runs platinum → gold → silver; community sits this one out.
+const heroSponsors = ["Platinum", "Gold", "Silver"].flatMap((label) =>
+  (sponsorTiers.find((tier) => tier.label === label)?.sponsors ?? []).map(
+    (sponsor) => ({ ...sponsor, tier: label }),
+  ),
+);
+
+// Hero-only size overrides, so the sponsors grid keeps its own sizing.
+const heroLogoClass: Record<string, string> = {
+  Cloudflare: "h-5",
+  Supabase: "h-5",
+};
+
+// Optical nudges — the AWS mark is stacked rather than a flat wordmark, so it
+// reads high against the row of wordmarks. Keyed by sponsor name.
+const heroNudge: Record<string, string> = {
+  AWS: "translate-y-[5px]",
+};
+
+---
+
 <!-- Hero -->
 <section class="relative min-h-[90vh] overflow-hidden">
   <div
@@ -55,6 +79,7 @@
       </a>
     </div>
 
+    <!-- Speakers strip — swapped for the sponsors strip below.
     <div
       class="mt-12 flex max-w-full items-center gap-x-5 overflow-hidden whitespace-nowrap [text-shadow:0_1px_8px_rgb(4_4_41_/_1)] md:mt-14 md:gap-x-7"
       aria-label="Speaker companies"
@@ -102,5 +127,133 @@
         + and more
       </a>
     </div>
+    -->
+
+    <div
+      class="mt-12 flex max-w-full items-center gap-x-5 overflow-hidden whitespace-nowrap [text-shadow:0_1px_8px_rgb(4_4_41_/_1)] md:mt-14 md:gap-x-7"
+      aria-label="Sponsors"
+      data-sponsor-strip
+    >
+      <span class="shrink-0 font-mono text-xs leading-none text-muted">
+        Sponsored by
+      </span>
+      <div
+        data-sponsor-logos
+        class="flex h-10 min-w-0 shrink flex-wrap content-start items-center gap-x-5 overflow-hidden md:gap-x-7"
+      >
+        {
+        heroSponsors.map(({ name, url, logo, logoClass, tier }) => (
+          <a
+            href={url}
+            data-tier={tier}
+            class="inline-flex h-10 shrink-0 items-center"
+            aria-label={name}
+          >
+            {/* The speaker logos this strip replaced were drawn in the muted
+                token. Sponsor logos come in their own colours, so the <img>
+                only sizes the box while a masked overlay paints the mark. */}
+            <span
+              class:list={[
+                "relative inline-block drop-shadow-[0_1px_8px_rgb(4_4_41_/_1)]",
+                heroNudge[name],
+              ]}
+            >
+              <img
+                src={`${import.meta.env.BASE_URL}images/sponsors/${logo}`}
+                alt={name}
+                class:list={[
+                  "block w-auto opacity-0",
+                  heroLogoClass[name] ?? logoClass ?? "h-4",
+                ]}
+              />
+              <span
+                aria-hidden="true"
+                class="absolute inset-0 bg-muted"
+                style={`-webkit-mask:url(${import.meta.env.BASE_URL}images/sponsors/${logo}) center/contain no-repeat;mask:url(${import.meta.env.BASE_URL}images/sponsors/${logo}) center/contain no-repeat`}
+              />
+            </span>
+          </a>
+        ))
+        }
+      </div>
+      <a
+        href="#sponsors"
+        data-sponsor-more
+        class="shrink-0 font-mono text-xs leading-none text-muted transition hover:text-cream"
+      >
+        + and more
+      </a>
+    </div>
   </div>
 </section>
+
+<script>
+  // The wrap-and-clip CSS hides logos that don't fit, but the track still
+  // occupies the leftover width, stranding "+ and more" far to the right.
+  // Drop the ones that don't fit and let the track hug what's left.
+  const strip = document.querySelector<HTMLElement>("[data-sponsor-strip]");
+  const track = strip?.querySelector<HTMLElement>("[data-sponsor-logos]");
+  const more = strip?.querySelector<HTMLElement>("[data-sponsor-more]");
+
+  if (strip && track && more) {
+    const label = strip.firstElementChild as HTMLElement;
+    const logosInOrder = () => Array.from(track.children) as HTMLElement[];
+    const gapOf = (el: HTMLElement) =>
+      parseFloat(getComputedStyle(el).columnGap) || 0;
+
+    const fit = () => {
+      // Measure from a clean slate — hidden elements report zero width.
+      track.style.display = "";
+      track.style.flex = "";
+      const logos = logosInOrder();
+      logos.forEach((logo) => (logo.style.display = ""));
+
+      const outerGap = gapOf(strip);
+      const innerGap = gapOf(track);
+      const available =
+        strip.clientWidth - label.offsetWidth - more.offsetWidth - outerGap * 2;
+
+      // Stop at the first logo that doesn't fit — carrying on would show a
+      // narrow gold logo while the platinum one ahead of it stayed hidden.
+      let used = 0;
+      let dropping = false;
+      logos.forEach((logo) => {
+        const width = logo.offsetWidth + (used > 0 ? innerGap : 0);
+        if (!dropping && used + width <= available) {
+          used += width;
+        } else {
+          dropping = true;
+          logo.style.display = "none";
+        }
+      });
+
+      // Hug the survivors so the link sits right beside the last logo.
+      track.style.flex = "0 0 auto";
+      track.style.display = used > 0 ? "" : "none";
+    };
+
+    // No sponsor should always be the one that gets truncated away, so the
+    // order within a tier is reshuffled on every load. Platinum stays put —
+    // it's a single sponsor and leads by rank.
+    const shuffleTier = (tier: string) => {
+      const group = Array.from(
+        track.querySelectorAll<HTMLElement>(`[data-tier="${tier}"]`),
+      );
+      if (group.length < 2) return;
+      const after = group[group.length - 1].nextSibling;
+      for (let i = group.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [group[i], group[j]] = [group[j], group[i]];
+      }
+      group.forEach((logo) => track.insertBefore(logo, after));
+    };
+
+    shuffleTier("Gold");
+    shuffleTier("Silver");
+
+    fit();
+    addEventListener("resize", fit);
+    // Font swaps change the label and link widths.
+    document.fonts?.ready.then(fit);
+  }
+</script>
