@@ -30,20 +30,19 @@ export const formatTime = (time: string) => {
   return `${hour}:${String(m).padStart(2, "0")} ${suffix}`;
 };
 
-// One-sentence track blurbs, keyed by slot title. The page adds the
-// full stop. Tracks that run twice in a day share one
-// entry; a title with no entry simply renders without a description.
+// Track descriptions, keyed by slot title. Tracks that run twice in a day
+// share one entry; a title with no entry simply renders without a description.
 export const trackDescriptions: Record<string, string> = {
   Agents:
-    "Protocols, tools, runtimes, planning, and orchestration for building capable, dependable systems that can act",
+    "Protocols, tools, runtimes, planning, and orchestration for building capable, dependable systems that can act.",
   Models:
-    "Building and improving AI models through better data, representation choices, training, adaptation, and optimization",
+    "Building and improving AI models through better data, representation choices, training, adaptation, and optimization.",
   "Applied AI":
-    "Turning AI into useful products and experiences, from new interfaces and design patterns to practical applications across industries",
+    "Turning AI into useful products and experiences, from new interfaces and design patterns to practical applications across industries.",
   Evals:
-    "Measuring AI behavior, uncovering failures, and improving reliability through testing, observability, and production feedback",
+    "Measuring AI behavior, uncovering failures, and improving reliability through testing, observability, and production feedback.",
   Security:
-    "Protecting AI systems and their users across privacy, identity, permissions, trust, secure execution, and supply-chain defense",
+    "Protecting AI systems and their users across privacy, identity, permissions, trust, secure execution, and supply-chain defense.",
 };
 
 export const days: Day[] = [

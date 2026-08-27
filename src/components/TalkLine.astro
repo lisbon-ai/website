@@ -13,15 +13,41 @@ interface Props {
 
 const { name } = Astro.props;
 const speaker = speakerByName.get(name);
-// Show the talk once it's confirmed; until then fall back to the speaker's org.
-const detail = speaker?.talk || speaker?.org;
-const profileUrl = speaker?.profileUrl;
 ---
 
-{/* The marker is its own flex item, so wrapped lines align under the text
-    rather than a guessed indent width. */}
-<li class="flex gap-1 text-sm">
-  <span aria-hidden="true">//</span>
-  {/* prettier-ignore */}
-  <span><span>{profileUrl ? <a href={profileUrl} class="underline decoration-white/30 underline-offset-4 hover:decoration-white">{name}</a> : name}</span>{detail && <span class="text-muted">{` · ${detail}`}</span>}</span>
+<li>
+  {speaker?.talk && (
+    <div class="text-base leading-snug text-cream/90">{speaker.talk}</div>
+  )}
+  <div
+    class={speaker?.talk
+      ? "mt-1 text-sm text-muted"
+      : "text-base text-cream/90"}
+  >
+    {speaker?.profileUrl ? (
+      <a
+        href={speaker.profileUrl}
+        class="hover:text-cream focus-visible:text-cream focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-white/50"
+      >
+        {name}
+      </a>
+    ) : (
+      name
+    )}
+    {speaker?.org && (
+      <span class={speaker.talk ? "text-faint" : "text-muted"}>
+        {" · "}
+        {speaker.orgUrl ? (
+          <a
+            href={speaker.orgUrl}
+            class="hover:text-cream focus-visible:text-cream focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-white/50"
+          >
+            {speaker.org}
+          </a>
+        ) : (
+          speaker.org
+        )}
+      </span>
+    )}
+  </div>
 </li>

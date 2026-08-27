@@ -6,22 +6,6 @@ import Footer from "../components/Footer.astro";
 import { days, formatTime, trackDescriptions } from "../data/schedule";
 import TalkLine from "../components/TalkLine.astro";
 
-// Every speaker booked under a topic, in the order the schedule shows them:
-// blocks in chronological order, sorted by name within each block.
-const speakersByTopic = new Map<string, string[]>();
-days.forEach((day) =>
-  day.slots.forEach((slot) => {
-    if (slot.kind || !slot.speakers) return;
-    speakersByTopic.set(slot.title, [
-      ...(speakersByTopic.get(slot.title) ?? []),
-      ...[...slot.speakers].sort((a, b) => a.localeCompare(b)),
-    ]);
-  }),
-);
-const talksFor = (topic: string) => speakersByTopic.get(topic) ?? [];
-
-
-
 // Each track is anchored at its first appearance so //topics-of-discussion on
 // the landing page can link straight to it.
 const slugify = (title: string) =>
@@ -51,20 +35,10 @@ days.forEach((day, dayIndex) =>
         <div class="mb-16 border-b border-white/10">
           {
             Object.entries(trackDescriptions).map(([track, description]) => (
-              <details class="group border-t border-white/10 py-3 open:pb-10">
-                <summary class="flex cursor-pointer list-none items-center justify-between font-mono text-xs text-faint">
-                  <span>{track}</span>
-                  <span class="transition group-open:rotate-45">+</span>
-                </summary>
-                <p class="mt-2 text-sm text-soft md:pl-50">{description}.</p>
-                {talksFor(track).length > 0 && (
-                  <ul class="mt-4 flex flex-col gap-3 text-soft md:pl-50">
-                    {talksFor(track).map((name) => (
-                      <TalkLine name={name} />
-                    ))}
-                  </ul>
-                )}
-              </details>
+              <div class="grid gap-2 border-t border-white/10 py-5 md:grid-cols-[11rem_1fr] md:gap-6">
+                <h2 class="font-mono text-xs text-faint">{track}</h2>
+                <p class="text-sm leading-relaxed text-soft">{description}</p>
+              </div>
             ))
           }
         </div>
@@ -91,23 +65,30 @@ days.forEach((day, dayIndex) =>
                           }
                           class="flex scroll-mt-24 flex-col gap-4 border-t border-white/10 py-4 md:flex-row md:items-baseline md:gap-6"
                         >
-                          <span class="shrink-0 font-mono text-xs text-faint md:w-44">
-                            {formatTime(start)} &ndash; {formatTime(end)}
-                          </span>
-                          <span class="text-base md:text-lg">
-                            {host && title.includes(host.name) ? (
-                              <>
-                                {title.slice(0, title.indexOf(host.name))}
-                                <a
-                                  href={host.url}
-                                  class="underline decoration-white/30 underline-offset-4 hover:decoration-white"
-                                >
-                                  {host.name}
-                                </a>
-                                {title.slice(title.indexOf(host.name) + host.name.length)}
-                              </>
-                            ) : (
-                              title
+                          <div class="shrink-0 font-mono text-xs md:w-44">
+                            <div class="text-faint">
+                              {formatTime(start)} &ndash; {formatTime(end)}
+                            </div>
+                            {speakers && (
+                              <div class="mt-1.5 uppercase text-muted">{title}</div>
+                            )}
+                          </div>
+                          <div class="min-w-0 text-base md:flex-1 md:text-lg">
+                            {!speakers && (
+                              host && title.includes(host.name) ? (
+                                <>
+                                  {title.slice(0, title.indexOf(host.name))}
+                                  <a
+                                    href={host.url}
+                                    class="underline decoration-white/30 underline-offset-4 hover:decoration-white"
+                                  >
+                                    {host.name}
+                                  </a>
+                                  {title.slice(title.indexOf(host.name) + host.name.length)}
+                                </>
+                              ) : (
+                                title
+                              )
                             )}
                             {org && (
                               <a
@@ -128,7 +109,7 @@ days.forEach((day, dayIndex) =>
                               </a>
                             )}
                             {speakers && (
-                              <ul class="mt-2 flex flex-col gap-2 text-soft">
+                              <ul class="flex flex-col gap-4">
                                 {[...speakers]
                                   .sort((a, b) => a.localeCompare(b))
                                   .map((name) => (
@@ -136,7 +117,7 @@ days.forEach((day, dayIndex) =>
                                   ))}
                               </ul>
                             )}
-                          </span>
+                          </div>
                         </li>
                       ))}
                     </ul>
@@ -151,8 +132,8 @@ days.forEach((day, dayIndex) =>
                     </div>
                   )}
                   <p class="mt-4 font-mono text-xs text-faint">
-                    //Times are subject to change. More talks and talk titles
-                    will be announced as they are confirmed.
+                    Times are subject to change. More talks and talk titles will
+                    be announced as they are confirmed.
                   </p>
                 </div>
               ))
