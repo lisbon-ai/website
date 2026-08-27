@@ -13,17 +13,12 @@ interface Props {
 
 const { name } = Astro.props;
 const speaker = speakerByName.get(name);
+const talk = speaker?.talk || "TBD";
 ---
 
 <li>
-  {speaker?.talk && (
-    <div class="text-base leading-snug text-cream/90">{speaker.talk}</div>
-  )}
-  <div
-    class={speaker?.talk
-      ? "mt-1 text-sm text-muted"
-      : "text-base text-cream/90"}
-  >
+  <div class="text-base leading-snug text-cream/90">{talk}</div>
+  <div class="mt-1 text-sm text-muted">
     {speaker?.profileUrl ? (
       <a
         href={speaker.profileUrl}
@@ -35,7 +30,7 @@ const speaker = speakerByName.get(name);
       name
     )}
     {speaker?.org && (
-      <span class={speaker.talk ? "text-faint" : "text-muted"}>
+      <span class="text-faint">
         {" · "}
         {speaker.orgUrl ? (
           <a
