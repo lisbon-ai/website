@@ -25,30 +25,36 @@ export const sponsorTiers: SponsorTier[] = [
   },
   {
     label: "Gold",
-    gridClass: "grid-cols-3",
+    // Four logos as 2 x 2. The nth-child rule drops the right border on the
+    // second column so it doesn't double up against the panel's own border-x.
+    gridClass: "grid-cols-2 [&>*:nth-child(2n)]:border-r-0",
     panelClass: "border-x border-white/10",
     sponsors: [
       { name: "AWS", url: "https://aws.amazon.com/", logo: "aws.png", logoClass: "h-6" },
       { name: "DoiT", url: "https://www.doit.com", logo: "doit.png", logoClass: "h-4" },
       { name: "Humanos", url: "https://www.humanos.tech", logo: "humanos.svg", logoClass: "h-5" },
+      { name: "CNCA", url: "https://www.acnca.pt/", logo: "cnca.svg", logoClass: "h-4" },
     ],
   },
   {
     label: "Silver",
-    gridClass: "grid-cols-2",
+    gridClass: "grid-cols-3",
     panelClass: "border-x border-white/10",
     sponsors: [
       { name: "YLD", url: "https://yld.com", logo: "yld.svg", logoClass: "h-10" },
       { name: "Supabase", url: "https://supabase.com", logo: "supabase.svg" },
+      { name: "Duvo AI", url: "https://www.duvo.ai", logo: "duvo-ai.svg", logoClass: "h-6" },
     ],
   },
   {
     label: "Community",
-    // Two per row. The nth-child rule drops the right border on the last
-    // column so it doesn't double up against the panel's own border-x.
-    // A trailing odd logo stretches across the row rather than leaving a gap.
+    // Five logos as 3 + 2, both rows spanning the full width: a 6-column track
+    // where the first three take two columns each and the last two take three.
+    // Tuned to the current count — a sixth logo needs the spans revisited.
+    // The nth-child rule drops the right border on the first row's last column
+    // so it doesn't double up against the panel's own border-x.
     gridClass:
-      "grid-cols-2 [&>*:nth-child(2n)]:border-r-0 [&>*:last-child:nth-child(odd)]:col-span-2",
+      "grid-cols-6 [&>*]:col-span-2 [&>*:nth-child(n+4)]:col-span-3 [&>*:nth-child(3n)]:border-r-0",
     panelClass: "border-x border-white/10",
     sponsors: [
       { name: "tldraw", url: "https://tldraw.dev/", logo: "tldraw.svg", logoClass: "h-4" },

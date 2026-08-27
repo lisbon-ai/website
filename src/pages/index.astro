@@ -7,7 +7,12 @@ import Location from "../components/Location.astro";
 
 import { format } from "../data/format";
 import { faqs } from "../data/faqs";
-import { speakers, logoHeight } from "../data/speakers";
+import { trackDescriptions } from "../data/schedule";
+import { speakers as allSpeakers, logoHeight } from "../data/speakers";
+
+// Only speakers with a full card are shown here; the rest exist for the
+// schedule until their details land.
+const speakers = allSpeakers.filter((speaker) => speaker.published);
 import { sponsorTiers } from "../data/sponsors";
 
 const brailleFrames = ["⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷"];
@@ -52,17 +57,16 @@ const texturePositions = [
         <div class="small-headline pt-6">//topics-of-discussion</div>
         <ul class="flex flex-wrap items-center gap-3">
           {
-            [
-              "Agentic Engineering",
-              "Foundational Models",
-              "Model training",
-              "Security",
-              "Evals",
-            ].map((item, i) => (
+            Object.keys(trackDescriptions).map((item, i) => (
               <>
                 {i > 0 && <li class="small-headline">+</li>}
-                <li class="rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-xl md:text-2xl">
-                  {item}
+                <li>
+                  <a
+                    href={`${import.meta.env.BASE_URL}schedule/#${item.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`}
+                    class="block rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-xl transition-colors hover:border-white/20 hover:bg-white/[0.06] md:text-2xl"
+                  >
+                    {item}
+                  </a>
                 </li>
               </>
             ))
@@ -75,8 +79,13 @@ const texturePositions = [
             format.map((item, i) => (
               <>
                 {i > 0 && <li class="small-headline">+</li>}
-                <li class="rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-xl md:text-2xl">
-                  {item}
+                <li>
+                  <a
+                    href={`${import.meta.env.BASE_URL}schedule/`}
+                    class="block rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-xl transition-colors hover:border-white/20 hover:bg-white/[0.06] md:text-2xl"
+                  >
+                    {item}
+                  </a>
                 </li>
               </>
             ))
@@ -238,7 +247,10 @@ const texturePositions = [
                   //{tier.label}{tier.label === "Community" ? "" : " sponsors"}
                 </div>
                 {tier.sponsors.length > 0 ? (
-                  <div class:list={["grid border-t border-white/10", tier.gridClass ?? "grid-cols-2 sm:grid-cols-3 md:grid-cols-4"]}>
+                  <div
+                    data-shuffle={tier.sponsors.length > 1 ? "" : undefined}
+                    class:list={["grid border-t border-white/10", tier.gridClass ?? "grid-cols-2 sm:grid-cols-3 md:grid-cols-4"]}
+                  >
                     {tier.sponsors.map(({ name, url, logo, logoClass }, i) => {
                       const isLast = i === tier.sponsors.length - 1;
                       const img = (
@@ -275,3 +287,21 @@ const texturePositions = [
 
   <Footer />
 </Layout>
+
+<script>
+  // Sponsors within a tier are peers, so their order is reshuffled on every
+  // load rather than baked in at build time.
+  document.querySelectorAll<HTMLElement>("[data-shuffle]").forEach((grid) => {
+    const cells = Array.from(grid.children) as HTMLElement[];
+    for (let i = cells.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [cells[i], cells[j]] = [cells[j], cells[i]];
+    }
+    // The divider belongs to position, not to the logo that moved into it:
+    // every cell but the last carries the right border.
+    cells.forEach((cell, i) => {
+      grid.appendChild(cell);
+      cell.classList.toggle("border-r", i < cells.length - 1);
+    });
+  });
+</script>

@@ -1,4 +1,4 @@
-export type SlotKind = "opening" | "break" | "social";
+export type SlotKind = "opening" | "closing" | "break" | "social";
 
 // Slots with no `kind` are programme blocks; the page numbers them per day.
 export type Slot = {
@@ -6,6 +6,13 @@ export type Slot = {
   end: string;
   title: string;
   kind?: SlotKind;
+  // Linked where the name appears inside `title`.
+  host?: { name: string; url: string };
+  // Logo shown after the title; filename in public/images/logos.
+  org?: { name: string; url: string; logo: string; logoClass?: string };
+  // Names referencing src/data/speakers.ts, where the org lives. The page
+  // sorts them and resolves each name against that list.
+  speakers?: string[];
 };
 
 export type Day = {
@@ -28,15 +35,15 @@ export const formatTime = (time: string) => {
 // entry; a title with no entry simply renders without a description.
 export const trackDescriptions: Record<string, string> = {
   Agents:
-    "The protocols, tooling, and runtimes that let agents orchestrate real work",
+    "Protocols, tools, runtimes, planning, and orchestration for building capable, dependable systems that can act",
   Models:
-    "How models get built, from data and training through post-training and optimization",
-  Evals:
-    "Measuring what systems actually do, and keeping them observable and reliable",
-  Security:
-    "Privacy, identity, and trust, down to the supply chain your models depend on",
+    "Building and improving AI models through better data, representation choices, training, adaptation, and optimization",
   "Applied AI":
-    "AI applied to products, interfaces, design, and domain applications",
+    "Turning AI into useful products and experiences, from new interfaces and design patterns to practical applications across industries",
+  Evals:
+    "Measuring AI behavior, uncovering failures, and improving reliability through testing, observability, and production feedback",
+  Security:
+    "Protecting AI systems and their users across privacy, identity, permissions, trust, secure execution, and supply-chain defense",
 };
 
 export const days: Day[] = [
@@ -45,15 +52,58 @@ export const days: Day[] = [
     date: "September 23",
     slots: [
       { start: "09:30", end: "09:45", title: "Opening", kind: "opening" },
-      { start: "09:45", end: "11:15", title: "Agents" },
+      {
+        start: "09:45",
+        end: "11:15",
+        title: "Agents",
+        speakers: [
+          "Lukas Wirth",
+          "Marcelo Lebre",
+          "Matt Carey",
+        ],
+      },
       { start: "11:15", end: "11:45", title: "Coffee break", kind: "break" },
-      { start: "11:45", end: "13:00", title: "Agents" },
-      { start: "13:00", end: "14:30", title: "Lunch break", kind: "break" },
-      { start: "14:30", end: "16:00", title: "Models" },
+      {
+        start: "11:45",
+        end: "13:00",
+        title: "Agents",
+        speakers: [
+          "Alcides Fonseca",
+          "Harshil Agrawal",
+        ],
+      },
+      { start: "13:00", end: "14:30", title: "Riverside lunch", kind: "break" },
+      {
+        start: "14:30",
+        end: "16:00",
+        title: "Models",
+        speakers: [
+          "Duarte Carmo",
+          "Joan Rodriguez",
+        ],
+      },
       { start: "16:00", end: "16:30", title: "Coffee break", kind: "break" },
-      { start: "16:30", end: "17:20", title: "Models" },
-      { start: "17:20", end: "18:10", title: "Applied AI" },
-      { start: "18:10", end: "19:30", title: "Networking", kind: "social" },
+      {
+        start: "16:30",
+        end: "17:20",
+        title: "Models",
+        speakers: [
+          "Prince Canuma",
+          "Bojan Jakimovski",
+          "Oğuz Gültepe",
+        ],
+      },
+      {
+        start: "17:20",
+        end: "18:10",
+        title: "Applied AI",
+        speakers: [
+          "Sergio Paniego",
+          "Daniel Bukac",
+          "Luis Monteiro",
+        ],
+      },
+      { start: "18:10", end: "19:30", title: "Sunset Party", kind: "social" },
     ],
   },
   {
@@ -61,13 +111,56 @@ export const days: Day[] = [
     date: "September 24",
     slots: [
       { start: "09:30", end: "09:45", title: "Opening w/ Cloudflare", kind: "opening" },
-      { start: "09:45", end: "11:15", title: "Applied AI" },
+      {
+        start: "09:45",
+        end: "11:15",
+        title: "Applied AI",
+        speakers: [
+          "Aayush Kapoor",
+          "Piotr Skalski",
+          "Cristiana Carpinteiro",
+        ],
+      },
       { start: "11:15", end: "11:45", title: "Coffee break", kind: "break" },
-      { start: "11:45", end: "13:00", title: "Evals" },
-      { start: "13:00", end: "14:30", title: "Lunch break", kind: "break" },
-      { start: "14:30", end: "16:00", title: "Security" },
+      {
+        start: "11:45",
+        end: "13:00",
+        title: "Evals",
+        speakers: [
+          "Will Burstein",
+          "Thom Jenkins",
+          "Yomi Eluwande",
+          "Simão Nogueira",
+          "Jack Fitzsimons",
+        ],
+      },
+      { start: "13:00", end: "14:30", title: "Riverside lunch", kind: "break" },
+      {
+        start: "14:30",
+        end: "16:00",
+        title: "Security",
+        speakers: [
+          "Diogo Mónica",
+          "Nina Torgunakova",
+          "Boda Zhao",
+          "Afonso Oliveira",
+          "Artur Goulão",
+        ],
+      },
       { start: "16:00", end: "16:30", title: "Coffee break", kind: "break" },
-      { start: "16:30", end: "18:00", title: "Whiteboard session with David" },
+      {
+        start: "16:30",
+        end: "17:45",
+        title: "Whiteboarding session with David Gomes",
+        host: { name: "David Gomes", url: "https://x.com/davidgomes" },
+        org: {
+          name: "SpaceX",
+          url: "https://www.spacex.com/",
+          logo: "spacex.svg",
+          logoClass: "h-3 aspect-[147/19]",
+        },
+      },
+      { start: "17:45", end: "18:00", title: "Closing", kind: "closing" },
       { start: "18:00", end: "19:30", title: "Networking", kind: "social" },
     ],
   },

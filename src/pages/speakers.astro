@@ -3,7 +3,11 @@ import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 
-import { speakers, logoHeight } from "../data/speakers";
+import { speakers as allSpeakers, logoHeight } from "../data/speakers";
+
+// Only speakers with a full card are shown here; the rest exist for the
+// schedule until their details land.
+const speakers = allSpeakers.filter((speaker) => speaker.published);
 
 // Vary the texture crop per card so no two cards show the same region.
 const texturePositions = [
