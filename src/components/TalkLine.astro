@@ -1,5 +1,6 @@
 ---
-import { speakers as siteSpeakers } from "../data/speakers";
+import { speakers as siteSpeakers, talkAnchor } from "../data/speakers";
+import SpeakerByline from "./SpeakerByline.astro";
 
 // Slots and topics list speaker names; org, talk title and profile link are all
 // resolved from the speakers list so there is one place to edit them.
@@ -9,40 +10,129 @@ const speakerByName = new Map(
 
 interface Props {
   name: string;
+  // Set on /talks, which puts the speaker and this track label in a left
+  // column. The schedule passes nothing: its slot heading already names the
+  // track, so rows stay a single column of title plus byline.
+  track?: string;
+  // /talks runs the full abstract under the title.
+  withAbstract?: boolean;
 }
 
-const { name } = Astro.props;
+const { name, track, withAbstract } = Astro.props;
 const speaker = speakerByName.get(name);
 const talk = speaker?.talk || "TBD";
+
+// Abstracts arrive as pasted prose: blank lines separate paragraphs, and a
+// single newline inside one is just where the source happened to wrap — except
+// where it starts a "- " bullet, which is a real line.
+const flatten = (text: string) => text.replace(/\s*\n\s*/g, " ").trim();
+
+const blocks = withAbstract
+  ? (speaker?.abstract ?? "")
+      .split(/\n\s*\n/)
+      .map((block) => {
+        const [lead, ...bullets] = block.split(/\n(?=-\s)/);
+        return {
+          text: flatten(lead),
+          items: bullets.map((bullet) => flatten(bullet).replace(/^-\s*/, "")),
+        };
+      })
+      .filter(({ text, items }) => text || items.length > 0)
+  : [];
+
+const proseClass = "text-sm leading-relaxed text-soft";
+
+// Abstracts can carry inline [label](url) links, split out here so the prose
+// stays plain text in the data file.
+type Segment = { text: string } | { label: string; href: string };
+
+const segments = (text: string): Segment[] => {
+  const out: Segment[] = [];
+  let last = 0;
+  for (const match of text.matchAll(/\[([^\]]+)\]\(([^)]+)\)/g)) {
+    if (match.index > last) out.push({ text: text.slice(last, match.index) });
+    out.push({ label: match[1], href: match[2] });
+    last = match.index + match[0].length;
+  }
+  if (last < text.length) out.push({ text: text.slice(last) });
+  return out;
+};
+
+// /talks leads with the title, so it sits a step above the schedule's rows.
+const titleClass = track
+  ? "text-lg leading-snug text-balance text-cream/90 md:text-xl"
+  : "text-base leading-snug text-balance text-cream/90";
 ---
 
-<li>
-  <div class="text-base leading-snug text-cream/90">{talk}</div>
-  <div class="mt-1 text-sm text-muted">
-    {speaker?.profileUrl ? (
-      <a
-        href={speaker.profileUrl}
-        class="hover:text-cream focus-visible:text-cream focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-white/50"
-      >
-        {name}
-      </a>
-    ) : (
-      name
-    )}
-    {speaker?.org && (
-      <span class="text-faint">
-        {" · "}
-        {speaker.orgUrl ? (
-          <a
-            href={speaker.orgUrl}
-            class="hover:text-cream focus-visible:text-cream focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-white/50"
-          >
-            {speaker.org}
-          </a>
-        ) : (
-          speaker.org
-        )}
-      </span>
+<li
+  id={track ? talkAnchor(name) : undefined}
+  class:list={
+    track && "grid scroll-mt-24 gap-3 py-6 md:grid-cols-[11rem_1fr] md:gap-6"
+  }
+>
+  {track && (
+    <div class="flex flex-col gap-1">
+      {speaker?.image && (
+        <img
+          src={`${import.meta.env.BASE_URL}images/speakers/${speaker.image}`}
+          alt={name}
+          class="mb-2 h-16 w-16 rounded-xl object-cover"
+        />
+      )}
+      <SpeakerByline name={name} stacked />
+      <div class="font-mono text-xs uppercase text-faint">{track}</div>
+    </div>
+  )}
+  <div class="flex flex-col gap-1">
+    <div class={titleClass}>
+      {track ? (
+        talk
+      ) : (
+        /* On the schedule the title links through to its abstract on /talks. */
+        <a
+          href={`${import.meta.env.BASE_URL}talks/#${talkAnchor(name)}`}
+          class="hover:text-muted focus-visible:text-muted focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-white/50"
+        >
+          {talk}
+        </a>
+      )}
+    </div>
+    {!track && <SpeakerByline name={name} />}
+    {blocks.length > 0 && (
+      <div class="mt-2 flex flex-col gap-3">
+        {blocks.map(({ text, items }) => (
+          <>
+            {text && (
+              <p class={proseClass}>
+                {segments(text).map((segment) =>
+                  "href" in segment ? (
+                    /* Kept on one line: whitespace here lands inside the
+                       anchor and gets underlined alongside the label. */
+                    <a href={segment.href} class="underline hover:text-cream">{segment.label}</a>
+                  ) : (
+                    segment.text
+                  ),
+                )}
+              </p>
+            )}
+            {items.length > 0 && (
+              <ul class:list={["flex list-disc flex-col gap-1 pl-5", proseClass]}>
+                {items.map((item) => (
+                  <li>
+                    {segments(item).map((segment) =>
+                      "href" in segment ? (
+                        <a href={segment.href} class="underline hover:text-cream">{segment.label}</a>
+                      ) : (
+                        segment.text
+                      ),
+                    )}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </>
+        ))}
+      </div>
     )}
   </div>
 </li>

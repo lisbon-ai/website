@@ -4,6 +4,7 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 
 import { days, formatTime, trackDescriptions } from "../data/schedule";
+import { hasTalk } from "../data/speakers";
 import TalkLine from "../components/TalkLine.astro";
 
 // Each track is anchored at its first appearance so //topics-of-discussion on
@@ -36,7 +37,7 @@ days.forEach((day, dayIndex) =>
           {
             Object.entries(trackDescriptions).map(([track, description]) => (
               <div class="grid gap-2 border-t border-white/10 py-5 md:grid-cols-[11rem_1fr] md:gap-6">
-                <h2 class="font-mono text-xs text-faint">{track}</h2>
+                <h2 class="font-mono text-xs uppercase text-faint">{track}</h2>
                 <p class="text-sm leading-relaxed text-soft">{description}</p>
               </div>
             ))
@@ -78,12 +79,12 @@ days.forEach((day, dayIndex) =>
                               host && title.includes(host.name) ? (
                                 <>
                                   {title.slice(0, title.indexOf(host.name))}
+                                  {/* Kept on one line: whitespace here lands
+                                      inside the anchor and gets underlined. */}
                                   <a
                                     href={host.url}
                                     class="underline decoration-white/30 underline-offset-4 hover:decoration-white"
-                                  >
-                                    {host.name}
-                                  </a>
+                                  >{host.name}</a>
                                   {title.slice(title.indexOf(host.name) + host.name.length)}
                                 </>
                               ) : (
@@ -112,6 +113,7 @@ days.forEach((day, dayIndex) =>
                               <ul class="flex flex-col gap-4">
                                 {[...speakers]
                                   .sort((a, b) => a.localeCompare(b))
+                                  .filter(hasTalk)
                                   .map((name) => (
                                     <TalkLine name={name} />
                                   ))}
