@@ -40,6 +40,27 @@
     }
 }
 
+/* Logos ship as white-on-transparent art, so a filter can only ever make them
+   white. Masking the shape and painting the background instead tints them to
+   any token colour; the <img> inside is invisible but still supplies the
+   intrinsic width, so `w-auto` keeps working. */
+.logo-tint {
+    display: inline-block;
+    background-color: var(--color-muted);
+    -webkit-mask-image: var(--logo);
+    mask-image: var(--logo);
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+}
+
+.logo-tint img {
+    opacity: 0;
+}
+
 /* Dithered texture treatment, concentrated at the top and fading out —
    from the LisbonAI 2026 speaker-card key art. */
 .speaker-texture::before {

@@ -3,11 +3,25 @@ import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 
-import { speakers as allSpeakers, logoHeight } from "../data/speakers";
+import { speakers as allSpeakers, hasCard, logoHeight, talkAnchor } from "../data/speakers";
+import { days } from "../data/schedule";
 
-// Only speakers with a full card are shown here; the rest exist for the
-// schedule until their details land.
-const speakers = allSpeakers.filter((speaker) => speaker.published);
+// Topic and day both come from the schedule slot a speaker sits in, which is
+// also what /talks is built from. So a speaker with no slot has neither a
+// session line nor an entry to link to: their title still shows, unlinked.
+const sessionByName = new Map(
+  days.flatMap((day) =>
+    day.slots.flatMap((slot) =>
+      (slot.speakers ?? []).map(
+        (name) => [name, `${slot.title}, ${day.label}`],
+      ),
+    ),
+  ),
+);
+
+// Only speakers whose photo and bio have landed get a card; the rest exist for
+// the schedule until then.
+const speakers = allSpeakers.filter(hasCard);
 
 // Vary the texture crop per card so no two cards show the same region.
 const texturePositions = [
@@ -37,7 +51,7 @@ const texturePositions = [
         <div class="px-3 md:px-6">
           <div class="grid gap-0 border-x border-white/10 md:grid-cols-2">
             {
-              speakers.map(({ name, org, role, profileUrl, orgUrl, logo, image, bio }, i) => (
+              speakers.map(({ name, org, role, profileUrl, orgUrl, logo, image, bio, talk }, i) => (
                 <div
                   class:list={[
                     "speaker-texture relative isolate flex flex-col items-start gap-3 border-b border-white/10 p-8 text-xl md:p-12 md:text-2xl",
@@ -68,33 +82,65 @@ const texturePositions = [
                       <span class="font-mono text-xs text-faint">
                         {orgUrl ? (
                           <a href={orgUrl} class="hover:text-muted">
-                            //{role}, {org}
+                            //{[role, org].filter(Boolean).join(", ")}
                           </a>
                         ) : (
-                          <>//{role}, {org}</>
+                          <>//{[role, org].filter(Boolean).join(", ")}</>
                         )}
                       </span>
                     </div>
                     {logo && (orgUrl ? (
-                      <a href={orgUrl} class="shrink-0">
+                      <a
+                        href={orgUrl}
+                        class="logo-tint shrink-0"
+                        style={`--logo: url("${import.meta.env.BASE_URL}images/logos/${logo}")`}
+                      >
                         <img
                           src={`${import.meta.env.BASE_URL}images/logos/${logo}`}
                           alt={org}
-                          class:list={["w-auto brightness-0 invert", logoHeight(logo)]}
+                          class:list={["w-auto", logoHeight(logo)]}
                         />
                       </a>
                     ) : (
-                      <img
-                        src={`${import.meta.env.BASE_URL}images/logos/${logo}`}
-                        alt={org}
-                        class:list={["w-auto shrink-0 brightness-0 invert", logoHeight(logo)]}
-                      />
+                      <span
+                        class="logo-tint shrink-0"
+                        style={`--logo: url("${import.meta.env.BASE_URL}images/logos/${logo}")`}
+                      >
+                        <img
+                          src={`${import.meta.env.BASE_URL}images/logos/${logo}`}
+                          alt={org}
+                          class:list={["w-auto", logoHeight(logo)]}
+                        />
+                      </span>
                     ))}
                   </div>
                   {bio && (
                     <p class="mt-2 text-base leading-relaxed text-muted">
                       {bio}
                     </p>
+                  )}
+                  {talk && (
+                    <div class="mt-2 w-full border-t border-white/10 pt-4">
+                      {/* Links through to the full abstract on /talks, the same
+                          target the schedule uses. */}
+                      <div class="text-base leading-snug text-balance text-muted">
+                        {sessionByName.has(name) ? (
+                          <a
+                            href={`${import.meta.env.BASE_URL}talks/#${talkAnchor(name)}`}
+                            class="hover:text-cream"
+                          >
+                            {talk}
+                          </a>
+                        ) : (
+                          talk
+                        )}
+                      </div>
+                      {sessionByName.has(name) && (
+                        <p class="mt-1 font-mono text-xs text-faint">
+                          {sessionByName.get(name)}
+                        </p>
+                      )}
+                    </div>
                   )}
                 </div>
               ))

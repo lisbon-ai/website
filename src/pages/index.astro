@@ -8,11 +8,11 @@ import Location from "../components/Location.astro";
 import { format } from "../data/format";
 import { faqs } from "../data/faqs";
 import { trackDescriptions } from "../data/schedule";
-import { speakers as allSpeakers, logoHeight } from "../data/speakers";
+import { speakers as allSpeakers, hasCard, logoHeight } from "../data/speakers";
 
-// Only speakers with a full card are shown here; the rest exist for the
-// schedule until their details land.
-const speakers = allSpeakers.filter((speaker) => speaker.published);
+// Only speakers whose photo and bio have landed get a card; the rest exist for
+// the schedule until then.
+const speakers = allSpeakers.filter(hasCard);
 import { sponsorTiers } from "../data/sponsors";
 
 const brailleFrames = ["⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷"];
@@ -102,23 +102,32 @@ const texturePositions = [
         <div class="small-headline">/speakers</div>
       </div>
       <div class="px-3 md:col-span-12 md:px-6">
-        <div class="grid gap-0 border-x border-white/10 md:grid-cols-2">
+        <div class="grid gap-0 border-x border-white/10 md:grid-cols-2 2xl:grid-cols-3">
           {
             speakers.map(({ name, org, role, profileUrl, orgUrl, logo, image }, i) => (
               <div
                 class:list={[
-                  "speaker-texture relative isolate flex flex-col items-start gap-3 border-b border-white/10 p-8 text-xl md:p-12 md:text-2xl",
-                  { "md:border-l md:border-white/10": i % 2 === 1 },
+                  "speaker-texture relative isolate flex-col items-start gap-3 border-b border-white/10 p-8 text-xl md:p-12 md:text-2xl",
+                  // One column is a long scroll, so it stops at 15 and offers
+                  // the full list instead.
+                  { flex: i < 15 },
+                  { "hidden md:flex": i >= 15 },
                   { "border-t border-white/10": i === 0 },
+                  // Two columns from md, three from 2xl. Later breakpoints win,
+                  // so the 2xl rules reset the md borders where the row changes.
+                  { "md:border-l md:border-white/10": i % 2 === 1 },
                   { "md:border-t md:border-white/10": i === 1 },
+                  { "2xl:border-l 2xl:border-white/10": i % 3 !== 0 },
+                  { "2xl:border-l-0": i % 3 === 0 },
+                  { "2xl:border-t 2xl:border-white/10": i === 2 },
                 ]}
                 style={`--tex-pos: ${texturePositions[i % texturePositions.length]}`}
               >
-                <figure class="mb-6 flex h-[200px] w-full items-center justify-center overflow-hidden rounded-2xl">
+                <figure class="mb-6 flex h-[160px] w-full items-center justify-center overflow-hidden rounded-2xl">
                   <img
                     src={`${import.meta.env.BASE_URL}images/speakers/${image}`}
                     alt={name}
-                    class="h-[200px] w-[200px] rounded-2xl object-cover"
+                    class="h-[160px] w-[160px] rounded-2xl object-cover"
                   />
                 </figure>
                 <div class="flex w-full items-center justify-between gap-3">
@@ -135,27 +144,36 @@ const texturePositions = [
                     <span class="font-mono text-xs text-faint">
                       {orgUrl ? (
                         <a href={orgUrl} class="hover:text-muted">
-                          //{role}, {org}
+                          //{[role, org].filter(Boolean).join(", ")}
                         </a>
                       ) : (
-                        <>//{role}, {org}</>
+                        <>//{[role, org].filter(Boolean).join(", ")}</>
                       )}
                     </span>
                   </div>
                   {logo && (orgUrl ? (
-                    <a href={orgUrl} class="shrink-0">
+                    <a
+                      href={orgUrl}
+                      class="logo-tint shrink-0"
+                      style={`--logo: url("${import.meta.env.BASE_URL}images/logos/${logo}")`}
+                    >
                       <img
                         src={`${import.meta.env.BASE_URL}images/logos/${logo}`}
                         alt={org}
-                        class:list={["w-auto brightness-0 invert", logoHeight(logo)]}
+                        class:list={["w-auto", logoHeight(logo)]}
                       />
                     </a>
                   ) : (
-                    <img
-                      src={`${import.meta.env.BASE_URL}images/logos/${logo}`}
-                      alt={org}
-                      class:list={["w-auto shrink-0 brightness-0 invert", logoHeight(logo)]}
-                    />
+                    <span
+                      class="logo-tint shrink-0"
+                      style={`--logo: url("${import.meta.env.BASE_URL}images/logos/${logo}")`}
+                    >
+                      <img
+                        src={`${import.meta.env.BASE_URL}images/logos/${logo}`}
+                        alt={org}
+                        class:list={["w-auto", logoHeight(logo)]}
+                      />
+                    </span>
                   ))}
                 </div>
               </div>
@@ -164,16 +182,27 @@ const texturePositions = [
           <div
             class:list={[
               "flex flex-col items-center justify-center gap-2 border-b border-white/10 p-8 text-center md:p-12",
+              // Fills out whatever is left of the last row at each width.
               { "md:col-span-2": speakers.length % 2 === 0 },
               { "md:border-l md:border-white/10": speakers.length % 2 === 1 },
+              { "2xl:col-span-3": speakers.length % 3 === 0 },
+              { "2xl:col-span-2": speakers.length % 3 === 1 },
+              { "2xl:col-span-1": speakers.length % 3 === 2 },
+              { "2xl:border-l 2xl:border-white/10": speakers.length % 3 !== 0 },
+              { "2xl:border-l-0": speakers.length % 3 === 0 },
             ]}
           >
-            <p class="text-lg leading-snug md:text-xl">
+            <p class="hidden text-lg leading-snug md:block md:text-xl">
               More speakers landing every few days.
             </p>
-            <p class="font-mono text-xs text-faint">
+            <p class="hidden font-mono text-xs text-faint md:block">
               Keep an eye on this space
             </p>
+            <a
+              href={`${import.meta.env.BASE_URL}speakers/`}
+              class="mt-2 font-mono text-xs uppercase text-muted underline hover:text-cream md:hidden"
+              >All speakers</a
+            >
           </div>
         </div>
       </div>

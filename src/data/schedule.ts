@@ -77,6 +77,7 @@ export const days: Day[] = [
         end: "16:00",
         title: "Models",
         speakers: [
+          "Chema Garabito",
           "Duarte Carmo",
           "Joan Rodriguez",
         ],
