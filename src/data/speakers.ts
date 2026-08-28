@@ -1,9 +1,6 @@
 export type Speaker = {
   name: string;
   org: string;
-  // `published` speakers get a card on /speakers and the landing page. The rest
-  // exist so the schedule can reference them before their details are ready.
-  published?: boolean;
   role?: string;
   title?: string;
   // Empty until the talk title is confirmed.
@@ -19,12 +16,30 @@ export type Speaker = {
   abstract?: string;
 };
 
-// Most logos read well at h-4; these wordmarks need a nudge to match optically.
+// Most logos read well at h-4; these need a nudge up or down to match optically.
 const logoHeights: Record<string, string> = {
   "huggingface.svg": "h-7",
+  // Tall or heavy glyphs that hold their own below the default.
+  "dash0.svg": "h-3",
+  "haun.svg": "h-3",
+  "peecai.svg": "h-3",
+  "quiver.svg": "h-3",
+  "vercel.svg": "h-3",
   "roboflow.svg": "h-5",
+  "cloudflare.svg": "h-5",
+  // Square marks and stacked lockups rather than single-line wordmarks, so
+  // they need the most height for their type to stay legible.
+  "evilmartians.svg": "h-8",
+  "petsapp.svg": "h-8",
+  "yld.svg": "h-10",
 };
 export const logoHeight = (logo: string) => logoHeights[logo] ?? "h-4";
+
+// A speaker gets a card on /speakers and the landing page once their details
+// have landed: a photo and a bio alongside the name. The rest exist so the
+// schedule can reference them in the meantime.
+export const hasCard = (speaker: Speaker) =>
+  Boolean(speaker.image && speaker.bio);
 
 // Speakers whose talk title is still unconfirmed are held back from the
 // schedule and /talks until there is a title to show.
@@ -44,7 +59,6 @@ export const talkAnchor = (name: string) =>
 export const speakers: Speaker[] = [
   {
     name: "Steve Ruiz",
-    published: true,
     role: "Founder & CEO",
     org: "tldraw",
     profileUrl: "https://x.com/steveruizok",
@@ -55,7 +69,6 @@ export const speakers: Speaker[] = [
   },
   {
     name: "Lukas Wirth",
-    published: true,
     role: "Rust-analyzer Lead",
     org: "Zed",
     profileUrl: "https://github.com/veykril",
@@ -64,20 +77,8 @@ export const speakers: Speaker[] = [
     image: "lukas.png",
     bio: "Lukas Wirth leads the rust-analyzer team, shaping the official Rust language server he’s worked on since 2021. He joined Zed in August 2025 to help build the next-generation editor with a focus on collaboration, building on a background in safety-critical Rust toolchains and co-authoring the Ferrocene Language Specification.",
   },
-  // Off the speakers and landing-page lists; Lukas Wirth took the Zed card.
-  {
-    name: "Ben Brandt",
-    role: "Staff Engineer",
-    org: "Zed Industries",
-    profileUrl: "https://x.com/benjaminbrandt",
-    orgUrl: "https://zed.dev",
-    logo: "zed.svg",
-    image: "ben.png",
-    bio: "Ben Brandt works at Zed, helping shape how engineers collaborate with AI and with each other. He is also a Lead Maintainer of the Agent Client Protocol, an open standard for interoperability between editors and coding agents.",
-  },
   {
     name: "Matt Carey",
-    published: true,
     role: "AI Engineer",
     org: "Cloudflare",
     profileUrl: "https://x.com/mattzcarey",
@@ -88,12 +89,12 @@ export const speakers: Speaker[] = [
   },
   {
     name: "Duarte Carmo",
-    published: true,
     role: "Founder & AI Consultant",
     org: "Independent",
     talk: "The Hitchhiker’s Guide to European Portuguese LLMs",
     profileUrl: "https://x.com/duarteocarmo",
     orgUrl: "https://duarteocarmo.com/",
+    logo: "olivegradient.svg",
     image: "duarte.png",
     bio: "Duarte is an AI technologist and consultant based in Copenhagen, working across ML/AI, data, and software. His background spans pharma, climate tech, and YC-backed startups.",
     abstract: `Large language models are eating the world. Frontier labs keep pushing the boundary, open-weights models are quickly closing the gap, Europe is — as always — stuck somewhere in the middle, and even Portugal has now released AMÁLIA, its own effort in the space.
@@ -102,7 +103,6 @@ But what does it actually take to build an LLM trained on European Portuguese da
   },
   {
     name: "Diogo Mónica",
-    published: true,
     role: "General Partner",
     org: "Anchorage, Haun Ventures",
     profileUrl: "https://x.com/diogomonica",
@@ -113,7 +113,6 @@ But what does it actually take to build an LLM trained on European Portuguese da
   },
   {
     name: "Joan Rodriguez",
-    published: true,
     role: "Co-founder, CEO & Chief Scientist",
     org: "QuiverAI",
     talk: "Design as visual code",
@@ -134,7 +133,6 @@ of AI for design.`,
   },
   {
     name: "Aayush Kapoor",
-    published: true,
     role: "Software Engineer, AI SDK",
     org: "Vercel",
     talk: "The Slopbowl-ification of Software",
@@ -147,7 +145,6 @@ of AI for design.`,
   },
   {
     name: "Sergio Paniego",
-    published: true,
     role: "ML Engineer",
     org: "Hugging Face",
     talk: "Training a coding agent through a harness you did not write",
@@ -162,7 +159,6 @@ This talk is a walkthrough of the other way round. We take an off-the-shelf open
   },
   {
     name: "Will Burstein",
-    published: true,
     role: "Head of Product",
     org: "PromptLayer",
     talk: "From Vibes to Scorecards: Building Review Loops for Production AI",
@@ -181,7 +177,6 @@ Takeaways:
   },
   {
     name: "Chema Garabito",
-    published: true,
     role: "Founder",
     org: "Sperid Labs",
     talk: "Spatial AI and 3D World Models",
@@ -194,7 +189,6 @@ Takeaways:
   },
   {
     name: "Piotr Skalski",
-    published: true,
     role: "Open Source Lead",
     org: "Roboflow",
     talk: "Computer Vision, Meet Sports",
@@ -209,7 +203,6 @@ This talk walks through the complete computer vision pipeline I built for basket
   },
   {
     name: "Cristiana Carpinteiro",
-    published: true,
     role: "ML Engineer",
     org: "Loka",
     talk: "Foundation Models for Drug Discovery: From Hype to the Lab",
@@ -222,7 +215,6 @@ This talk walks through the complete computer vision pipeline I built for basket
   },
   {
     name: "Marcelo Lebre",
-    published: true,
     role: "Co-founder & President",
     org: "Remote",
     talk: "Icarus, operational harness",
@@ -238,9 +230,11 @@ This talk walks through the complete computer vision pipeline I built for basket
   {
     name: "Afonso Oliveira",
     org: "OliveGradient",
+    orgUrl: "https://olivegradient.com",
     talk: "Building AI people trust without giving away the product",
     talkType: "lightning",
     image: "afonso.png",
+    bio: "Afonso Oliveira has spent 14 years figuring out how to make AI useful. He first applied this in research, earning a PhD with honors from Instituto Superior Técnico on neural networks for 5G resource allocation, then brought that rigor into product development. At Siemens, he turned scattered AI projects into a unified product that cut proof-of-concept delivery from a week to under an hour. At Mindmymind, he built cognitive profiling and self-reflection systems where ML, games, and LLMs meet mental health. Today he writes and consults on AI engineering through OliveGradient, while advising on and implementing AI solutions for a growing SME. Somewhere along the way he also co-founded a startup, earned awards at international hackathons, spoke at AI conferences and wrote a chapter in a book on AI published by ISCTE.",
     abstract: `AI products are increasingly asking users for their most sensitive data: private thoughts, health information, personal journals, and conversations they would never have anywhere else. That creates an uncomfortable trade-off.
 
 Keep the data on the user’s device, and privacy improves... but now the AI model and the entire inference pipeline have to run where an attacker can inspect them. Keep the computation in the cloud, and the company can protect its IP... but users have to trust someone else with their most private data.
@@ -273,7 +267,9 @@ In this talk, I will show how to use [aeon](https://github.com/alcides/aeon) to 
     talkType: "lightning",
     profileUrl: "https://linkedin.com/in/arturgoulaoferreira",
     orgUrl: "https://www.humanos.tech",
+    logo: "humanos.svg",
     image: "artur.png",
+    bio: "Artur Goulão is co-founder and Chief AI Officer at Humanos, and the creator of VIA Protocol, an authorization and credential issuance layer for AI agents built on W3C Verifiable Credentials 2.0, in production across healthcare and insurance. A repeat founder, he previously co-founded Utrust (acquired) and Exclusible. His work focuses on runtime trust infrastructure: verifiable identity, delegated authority and cryptographic accountability for autonomous systems.",
     abstract: `AI agents are beginning to operate autonomously across finance, healthcare and enterprise software, but every critical action still depends on a simple question:
 
 Can this AI be trusted before it acts?
@@ -293,6 +289,7 @@ The session is a technical walkthrough of the architecture, APIs and runtime ver
     talkType: "lightning",
     profileUrl: "https://www.linkedin.com/in/bojan-jakimovski/",
     orgUrl: "https://www.loka.com",
+    bio: "Bojan Jakimovski is a Machine Learning and Applied Research Lead at Loka, an AWS Ambassador, 9x AWS Certified engineer, and College Professor at Brainster Next. He works at the intersection of applied GenAI, inference infrastructure, MLOps, and cloud-native AI systems, helping teams move models from experiments into production. He is active in open source and research, with interests spanning LLM pre-training and post-training, small language models, synthetic data generation, and distributed systems, and recent work on open-source model experiments and production deployments using AWS Trainium and Inferentia.",
     abstract: "Can an open model learn to investigate biological evidence, use scientific tools, and produce structured reasoning? To find out, we at Loka teamed up with Arcee and AWS and post-trained Arcee AI's Trinity Mini (a 26B-parameter mixture-of-experts LLM with 3B active parameters) into a biomedical AI scientist, using RLVR with GRPO across two RL environments. It worked. Over 21 controlled auto-research runs, held-out Drug Tool accuracy climbed from 70.8% to 81.2%, and BioReason accuracy reached 86.3%. In this session we'll show you how: optimizing the environment before the policy, designing rewards that expose the right failures, rejecting plausible ablations, and keeping every single run inspectable. Then we close the loop, pairing the trained model with an open-source agentic harness that makes a strong model stronger. Our thesis is simple. Science needs models we can inspect, adapt, evaluate, and improve, not black boxes we can only query.",
   },
   {
@@ -302,7 +299,9 @@ The session is a technical walkthrough of the architecture, APIs and runtime ver
     talkType: "lightning",
     profileUrl: "https://www.linkedin.com/in/boda-zhao/",
     orgUrl: "https://yld.com",
+    logo: "yld.svg",
     image: "boda.png",
+    bio: "Boda Zhao is a software engineer at YLD with over seven years of professional experience. He holds a Master’s in Computer Science from the University of York and is a frequent public speaker, passionate about demystifying modern software and bringing clarity and fresh perspectives to the developer community.",
     abstract: "Autonomous agents are accelerating development, but they also increase the risk of supply chain attacks. This talk outlines actionable strategies to secure coding agents and broader agentic workflows. Attendees will leave with a clear mental starting point to help their teams navigate this rapidly evolving threat landscape.",
   },
   {
@@ -312,7 +311,9 @@ The session is a technical walkthrough of the architecture, APIs and runtime ver
     talkType: "lightning",
     profileUrl: "https://www.linkedin.com/in/daniel-bukac-9b45a5279",
     orgUrl: "https://www.duvo.ai",
+    logo: "duvo.svg",
     image: "daniel.png",
+    bio: "I was the second engineer to join Duvo AI, where I led our browsing and computer-use work before taking on Duvo Clarity - a process mapping engine that helps companies understand how they actually operate before they try to automate it.",
     abstract: `A third mode of HCI: not typing at a chatbot, not screen-sharing with a person — a real-time voice agent that watches your screen as you work. Built for Clarity. What makes it work:
 
 Two agents, split by job — a fast realtime voice model owns the conversation and its sub-second latencyA smarter model runs silently behind it — Claude reads the transcript + screenshots every few seconds and keeps the canonical state; the voice agent pulls it on demandWatching a screen cheaply — 5 fps capture, drop any frame that changed <10%, so a static screen costs zero vision tokensAlignment is just a wall clock — frames named by timestamp, no semantic matching; survives dropped frames and blips`,
@@ -324,16 +325,21 @@ Two agents, split by job — a fast realtime voice model owns the conversation a
     talkType: "lightning",
     profileUrl: "https://www.linkedin.com/in/harshil1712/",
     orgUrl: "https://www.cloudflare.com",
+    logo: "cloudflare.svg",
     image: "harshil.png",
+    bio: "Harshil Agrawal is a Senior Developer Educator at Cloudflare, where he helps developers build with data, storage, and AI technologies. Based in Berlin, he has spent six years in developer relations creating practical education, building production applications, and speaking about web development, AI agents, and developer platforms.",
     abstract: "Containers have become the default for running AI-generated code, but for interactive apps, the cold start tax kills you. PromptMotion, my AI video generation app waited seconds for a container to spin up before a user could see a preview. The cost of keeping containers warm was unsustainable. The architecture — Durable Objects, networking, lifecycle management — was more complex than the app itself. This talk covers my migration from containers to V8 isolates (Dynamic Workers). Sub-millisecond cold starts, lower cost, faster previews. But the move wasn't free: I lost the file system, had to rethink how skills and tools work inside an isolate, and rebuilt the previewing, rendering, and download pipeline from scratch. I'll show what broke, what I used to replace the file system, how Artifacts solved versioning, and what I'd do differently if I started over.",
   },
   {
     name: "Jack Fitzsimons",
     org: "Oblivious",
+    orgUrl: "https://www.oblivious.com",
+    logo: "oblivious.svg",
     talk: "The PR is the Eval",
     talkType: "lightning",
     profileUrl: "https://www.linkedin.com/in/jack-f-300810122/",
     image: "jack.png",
+    bio: "Jack Fitzsimons is a founder and researcher whose work spans statistical machine learning, foundation-model systems and trustworthy AI. He holds a DPhil in Machine Learning from Oxford, where he researched scalable kernel methods, Bayesian learning, algorithmic fairness and quantum machine learning. He has applied AI at NASA JPL, ElectroRoute and Disperse, and co-founded Oblivious. Today, he focuses on building more capable and reliable LLM systems and the infrastructure and safeguards needed to deploy AI securely, privately and fairly.",
     abstract: `Most coding agents are evaluated at the moment they answer. Software teams discover whether an answer was useful much later: a test fails, a reviewer requests changes, the pull request stalls, or the code ships. This talk shows how to turn those delayed signals into a continuous evaluation system. We instrument AI conversations, tool calls, diffs, commits, CI runs, review comments, and merge outcomes, then join them into one trace from prompt to production.
 
 Using a working implementation, I’ll walk through the event model, correlation logic, and queries that separate accepted work from rework and repeated failure. I’ll show the hard parts: carrying trace context across unrelated tools, distinguishing flaky CI from agent errors, protecting developer privacy, and avoiding vanity metrics. Finally, we’ll turn recurring corrections into human-approved candidate skills and test whether they improve first-pass CI, review rounds, and time-to-merge.
@@ -355,7 +361,9 @@ Attendees will leave with a product-agnostic blueprint for outcome-based evaluat
     talkType: "lightning",
     profileUrl: "https://www.linkedin.com/in/nina-torgunakova/",
     orgUrl: "https://evilmartians.com",
+    logo: "evilmartians.svg",
     image: "nina.png",
+    bio: "Frontend Engineer at Evil Martians, a product development consultancy. I'm driven by turning ideas into easy-to-use products and articles, and I love speaking publicly — lately, more and more about security. As cyber attacks grow in frequency and scale, I've become deeply invested in what we, as developers, can actually do to prevent them.",
     abstract: `Supply chain attacks are no longer a theoretical threat — they are a daily reality. npm packages, including some of the most widely used libraries in the ecosystem, have been weaponized to compromise thousands of developers and their users at once. New incidents surface every day, each one larger than the last, and no project is out of reach.
 
 Every breach gets its post-mortem. But by the time you read it, the next attack is already being planned.
@@ -369,7 +377,9 @@ This talk is about getting ahead of it. I'll walk through two real dependency up
     talkType: "lightning",
     profileUrl: "https://www.linkedin.com/in/oguzgultepe/",
     orgUrl: "https://peec.ai",
+    logo: "peecai.svg",
     image: "oguz.png",
+    bio: "Oğuz is a senior data scientist at Peec AI, where he builds advanced data-driven systems for AI Search Visibility Analytics. He has a background in Computer Science, Natural Language Processing, and Data Engineering/Analytics.",
     abstract: `Most prompt engineering is a person staring at outputs and editing by hand. This talk shows how to automate that judgment instead. A small model generates outputs, a set of reward models score each one and explain its failures in natural language, and a heavy optimizer rewrites the meta-prompt from that feedback history. The loop repeats until rewards converge, and the result ships as a static prompt, so production pays no extra latency or cost.
 
 The interesting part is where it goes wrong. I will walk through a production failure at Peec AI, where we run this loop to generate brand-tracking queries across many clients, languages, and markets. I will show how the optimizer can be working perfectly and still produce bad outputs when the reward is underspecified.
@@ -381,7 +391,9 @@ The takeaway for builders: reward design is the real engineering work, natural-l
     org: "Neywa Labs",
     profileUrl: "https://www.linkedin.com/in/prince-canuma/",
     orgUrl: "https://neywalabs.ai",
+    logo: "neywalabs.svg",
     image: "prince.png",
+    bio: "Prince Canuma is the Founder & CEO of Neywa Labs, building the inference layer for multimodal AI on Apple Silicon, and Nativ, a native macOS app for running AI models locally. He’s the creator of mlx-vlm and mlx-audio — open-source libraries with millions of downloads and partnerships with Google DeepMind, Hugging Face, Liquid AI, Cohere, and more.",
   },
   {
     name: "Simão Nogueira",
@@ -390,7 +402,9 @@ The takeaway for builders: reward design is the real engineering work, natural-l
     talkType: "lightning",
     profileUrl: "https://www.linkedin.com/in/policarponogueira/",
     orgUrl: "https://www.noticed.so",
+    logo: "noticed.png",
     image: "simao.png",
+    bio: "Simão is a co-founder of noticed, building AI models for professional relationships, and an experienced technical AI and engineering leader. A designer turned developer turned founder, he holds a bachelor’s degree in design and a master’s degree in business from Católica Lisbon School of Business and Economics. His master’s thesis on European startup accelerator design won Católica Lisbon’s Best Master Thesis Award. He led AI at Talent Protocol, where he built a scoring system used by organisations like Coinbase to distribute $600K+ in incentives to software developers. Simão also co-founded Input/Reach, an AI knowledge-management startup, and Web3Grad, which helped hundreds of candidates move into web3 careers. He led company-wide GenAI adoption strategy at Critical Software.",
     abstract: `There’s 8 coding agents running in parallel on my machine at all times, each in its own git worktree. At night I hand each agent a wider goal to pursue alone, then steer the outcome over coffee the next morning. That’s billions of tokens per month. No team can review the performance of that much output. Mine certainly can’t.
 
 When your team’s small or your output outpaces your QA, linters, evals and “intelligent” CI can inherit the job code reviewers used to do. The catch is that the agent doing the work is also the agent evaluating it, and when a model is asked to make a number go up, lowering the threshold can look reasonable from where it stands.
@@ -406,7 +420,9 @@ I’ll showcase three of our open-source skills that enforce this discipline —
     talkType: "lightning",
     profileUrl: "https://www.linkedin.com/in/thomjenkins/",
     orgUrl: "https://petsapp.com",
+    logo: "petsapp.svg",
     image: "thom.png",
+    bio: "Thom is co-founder and CEO of PetsApp, helping millions of pets access care through hundreds of veterinary clinics. He received the Royal College of Veterinary Surgeons Impact Award in 2024 for his contributions to innovation in veterinary medicine. Having trained as a vet and zoologist at Cambridge University, he recently became interested in the behavioral ecology of AI systems. That work led him to develop Focal Prompt, an open-source toolkit for investigating how AI agents allocate attention across complex prompts and how to identify context that helps, distracts, or gets ignored.",
     abstract: `You've tried bribes. You've tried threats. YOUR ENTIRE PROMPT IS IN ALL CAPS AT THIS POINT. And yet, even with these highly sophisticated prompt engineering techniques, your agent still won't listen to you, or your users.
 
 I've been there... PetsApp runs AI copilots across veterinary clinics, handling client communication, triage workflows, and operational support for millions of pets.
@@ -426,7 +442,9 @@ The core operational insight: increasing context size often decreases instructio
     talkType: "lightning",
     profileUrl: "https://www.linkedin.com/in/eluwandeyomi/",
     orgUrl: "https://www.dash0.com",
+    logo: "dash0.svg",
     image: "yomi.png",
+    bio: "Yomi Eluwande is a Senior Product Engineer at Dash0. He builds observability products and developer tools, with a focus on data visualization and frontend performance. He enjoys turning performance hypotheses into measurable changes.",
     abstract: `AI agents produce plenty of performance ideas. Deciding which are worth shipping is a separate problem.
 
 Our product uses a hand-written Canvas flamegraph renderer that was already heavily optimized. We ran 43 agent passes and collected 66 proposed optimizations. Microbenchmarks reduced the list to eight candidates. Live product measurements reduced it to one PR with two changes.

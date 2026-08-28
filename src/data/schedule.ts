@@ -77,6 +77,7 @@ export const days: Day[] = [
         end: "16:00",
         title: "Models",
         speakers: [
+          "Chema Garabito",
           "Duarte Carmo",
           "Joan Rodriguez",
         ],
@@ -152,12 +153,6 @@ export const days: Day[] = [
         end: "17:45",
         title: "Whiteboarding session with David Gomes",
         host: { name: "David Gomes", url: "https://x.com/davidgomes" },
-        org: {
-          name: "SpaceX",
-          url: "https://www.spacex.com/",
-          logo: "spacex.svg",
-          logoClass: "h-3 aspect-[147/19]",
-        },
       },
       { start: "17:45", end: "18:00", title: "Closing", kind: "closing" },
       { start: "18:00", end: "19:30", title: "Networking", kind: "social" },
