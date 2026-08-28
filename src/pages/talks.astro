@@ -1,0 +1,55 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
+import { days } from "../data/schedule";
+import { hasTalk } from "../data/speakers";
+import TalkLine from "../components/TalkLine.astro";
+
+// Same order as /schedule: day, then slot, then speakers sorted within a slot.
+const talks = days.flatMap((day) =>
+  day.slots.flatMap((slot) =>
+    [...(slot.speakers ?? [])]
+      .sort((a, b) => a.localeCompare(b))
+      .filter(hasTalk)
+      .map((name) => ({ name, track: slot.title })),
+  ),
+);
+---
+
+<Layout
+  title="Talks — Lisbon AI 2026"
+  description="Every talk at Lisbon AI 2026, listed in schedule order."
+>
+  <Header />
+
+  <main>
+    <section class="border-t border-white/10">
+      <div class="mx-auto max-w-3xl py-16 px-6 md:px-0">
+        <div class="small-headline mb-4">/talks</div>
+        <h1
+          class="font-display text-3xl font-bold uppercase tracking-tight mb-8"
+        >
+          All the talks
+        </h1>
+
+        <ul class="flex flex-col border-y border-white/10 divide-y divide-white/10">
+          {talks.map(({ name, track }) => (
+            <TalkLine name={name} track={track} withAbstract />
+          ))}
+        </ul>
+
+        <p class="mt-4 font-mono text-xs text-faint">
+          More talks appear here as titles are confirmed. See the <a
+            href={`${import.meta.env.BASE_URL}schedule/`}
+            class="underline decoration-white/30 underline-offset-4 hover:decoration-white"
+            >schedule</a
+          > for times.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>

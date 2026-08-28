@@ -1,0 +1,47 @@
+---
+import { speakers as siteSpeakers } from "../data/speakers";
+
+// Name, org and their links, resolved from the speakers list. Kept separate so
+// TalkLine can place it above or below the talk title without duplication.
+const speakerByName = new Map(
+  siteSpeakers.map((speaker) => [speaker.name, speaker]),
+);
+
+interface Props {
+  name: string;
+  // Puts the org on its own line under the name, for the /talks left column.
+  // The schedule keeps both inline so rows stay one line tall.
+  stacked?: boolean;
+}
+
+const { name, stacked } = Astro.props;
+const speaker = speakerByName.get(name);
+const linkClass =
+  "hover:text-cream focus-visible:text-cream focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-white/50";
+---
+
+<div class="text-sm text-muted">
+  <span class:list={stacked && "text-cream"}>
+    {speaker?.profileUrl ? (
+      <a href={speaker.profileUrl} class={linkClass}>
+        {name}
+      </a>
+    ) : (
+      name
+    )}
+  </span>
+  {speaker?.org && (
+    <span
+      class:list={["text-faint", stacked && "mt-1 block font-mono text-xs"]}
+    >
+      {!stacked && " · "}
+      {speaker.orgUrl ? (
+        <a href={speaker.orgUrl} class={linkClass}>
+          {speaker.org}
+        </a>
+      ) : (
+        speaker.org
+      )}
+    </span>
+  )}
+</div>
