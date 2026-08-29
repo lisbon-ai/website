@@ -18,12 +18,12 @@
             </div>
             <div class="md:pl-8" data-venue-grid data-base={import.meta.env.BASE_URL}>
                 <div>
-                    <img data-venue-main class="w-full rounded-lg" />
+                    <img data-venue-main alt="" class="w-full rounded-lg" />
                 </div>
                 <div class="grid grid-cols-3 gap-4 mt-4">
-                    <img data-venue-thumb class="aspect-[4/3] w-full rounded-lg object-cover" />
-                    <img data-venue-thumb class="aspect-[4/3] w-full rounded-lg object-cover" />
-                    <img data-venue-thumb class="aspect-[4/3] w-full rounded-lg object-cover" />
+                    <img data-venue-thumb alt="" class="aspect-[4/3] w-full rounded-lg object-cover" />
+                    <img data-venue-thumb alt="" class="aspect-[4/3] w-full rounded-lg object-cover" />
+                    <img data-venue-thumb alt="" class="aspect-[4/3] w-full rounded-lg object-cover" />
                 </div>
             </div>
         </div>
@@ -35,11 +35,31 @@
         const grid = document.querySelector("[data-venue-grid]");
         if (!grid) return;
         const base = grid.dataset.base;
-        const order = [1, 2, 3, 4].sort(() => Math.random() - 0.5);
-        grid.querySelector("[data-venue-main]").src =
-            `${base}images/venue/${order[0]}.jpg`;
+        const photos = [
+            {
+                file: "1.jpg",
+                alt: "Aerial view of Centro Champalimaud and its riverside amphitheatre",
+            },
+            {
+                file: "2.jpg",
+                alt: "Outdoor amphitheatre at Centro Champalimaud overlooking the Tagus River",
+            },
+            {
+                file: "3.jpg",
+                alt: "Oval opening and shaded terrace in Centro Champalimaud’s stone façade",
+            },
+            {
+                file: "4.jpg",
+                alt: "Auditorium at Centro Champalimaud overlooking the Tagus through an oval window",
+            },
+        ].sort(() => Math.random() - 0.5);
+        const setPhoto = (img, photo) => {
+            img.src = `${base}images/venue/${photo.file}`;
+            img.alt = photo.alt;
+        };
+        setPhoto(grid.querySelector("[data-venue-main]"), photos[0]);
         grid.querySelectorAll("[data-venue-thumb]").forEach((img, i) => {
-            img.src = `${base}images/venue/${order[i + 1]}.jpg`;
+            setPhoto(img, photos[i + 1]);
         });
     })();
 </script>
