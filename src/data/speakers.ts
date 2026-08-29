@@ -454,3 +454,14 @@ The first change merged two render passes and used a cached character-width tabl
 Normal renders moved from about 21 ms to 6 ms. Inverted renders moved from about 44 ms to 8 ms. This lightning talk shows how the two changes work, and why measurement rejected the more obvious ideas.`,
   },
 ];
+
+// The card grids on the landing page and /speakers. Only speakers whose photo
+// and bio have landed get a card; the rest exist for the schedule until then.
+// Full sessions lead and the lightning talks follow, and since the sort is
+// stable each group keeps the order it has in the list above.
+export const cardSpeakers = speakers
+  .filter(hasCard)
+  .sort(
+    (a, b) =>
+      Number(a.talkType === "lightning") - Number(b.talkType === "lightning"),
+  );
