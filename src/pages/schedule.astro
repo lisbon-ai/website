@@ -4,13 +4,22 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 
 import { days, formatTime, trackDescriptions } from "../data/schedule";
-import { hasTalk } from "../data/speakers";
+import { hasTalk, speakers as siteSpeakers } from "../data/speakers";
 import TalkLine from "../components/TalkLine.astro";
 
 // Each track is anchored at its first appearance so //topics-of-discussion on
 // the landing page can link straight to it.
 const slugify = (title: string) =>
   title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+
+// The talk list and the row of photos under it share one order, so a slot's
+// names are sorted and filtered in one place.
+const lineup = (names: string[]) =>
+  [...names].sort((a, b) => a.localeCompare(b)).filter(hasTalk);
+
+const speakerByName = new Map(
+  siteSpeakers.map((speaker) => [speaker.name, speaker]),
+);
 
 const anchoredAt = new Map<string, string>();
 days.forEach((day, dayIndex) =>
@@ -110,14 +119,29 @@ days.forEach((day, dayIndex) =>
                               </a>
                             )}
                             {speakers && (
-                              <ul class="flex flex-col gap-4">
-                                {[...speakers]
-                                  .sort((a, b) => a.localeCompare(b))
-                                  .filter(hasTalk)
-                                  .map((name) => (
+                              <>
+                                <ul class="flex flex-col gap-4">
+                                  {lineup(speakers).map((name) => (
                                     <TalkLine name={name} />
                                   ))}
-                              </ul>
+                                </ul>
+                                {/* The block closes on its line-up, in the same
+                                    order as the talks above. Speakers still
+                                    waiting on a photo simply sit this out. */}
+                                <div class="mt-5 flex flex-wrap gap-2 md:gap-3">
+                                  {lineup(speakers)
+                                    .map((name) => speakerByName.get(name))
+                                    .filter((speaker) => speaker?.image)
+                                    .map((speaker) => (
+                                      <img
+                                        src={`${import.meta.env.BASE_URL}images/speakers/${speaker!.image}`}
+                                        alt={speaker!.name}
+                                        title={speaker!.name}
+                                        class="h-14 w-14 rounded-lg object-cover md:h-20 md:w-20 md:rounded-xl"
+                                      />
+                                    ))}
+                                </div>
+                              </>
                             )}
                           </div>
                         </li>

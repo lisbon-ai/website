@@ -8,11 +8,7 @@ import Location from "../components/Location.astro";
 import { format } from "../data/format";
 import { faqs } from "../data/faqs";
 import { trackDescriptions } from "../data/schedule";
-import { speakers as allSpeakers, hasCard, logoHeight } from "../data/speakers";
-
-// Only speakers whose photo and bio have landed get a card; the rest exist for
-// the schedule until then.
-const speakers = allSpeakers.filter(hasCard);
+import { cardSpeakers as speakers, logoHeight } from "../data/speakers";
 import { sponsorTiers } from "../data/sponsors";
 
 const brailleFrames = ["⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷"];
