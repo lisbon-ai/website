@@ -39,19 +39,6 @@ days.forEach((day, dayIndex) =>
   <main>
     <section class="border-t border-white/10">
       <div class="mx-auto max-w-3xl py-16 px-6 md:px-0">
-        <div class="small-headline mb-4">/topics-of-discussion</div>
-
-        <div class="mb-16 border-b border-white/10">
-          {
-            Object.entries(trackDescriptions).map(([track, description]) => (
-              <div class="grid gap-2 border-t border-white/10 py-5 md:grid-cols-[11rem_1fr] md:gap-6">
-                <h2 class="font-mono text-xs uppercase text-faint">{track}</h2>
-                <p class="text-sm leading-relaxed text-soft">{description}</p>
-              </div>
-            ))
-          }
-        </div>
-
         <div class="small-headline mb-4">/schedule</div>
 
         <div>
@@ -164,6 +151,19 @@ days.forEach((day, dayIndex) =>
               ))
             }
           </div>
+        </div>
+
+        <div class="small-headline mb-4 mt-16">/topics-of-discussion</div>
+
+        <div class="border-b border-white/10">
+          {
+            Object.entries(trackDescriptions).map(([track, description]) => (
+              <div class="grid gap-2 border-t border-white/10 py-5 md:grid-cols-[11rem_1fr] md:gap-6">
+                <h2 class="font-mono text-xs uppercase text-faint">{track}</h2>
+                <p class="text-sm leading-relaxed text-soft">{description}</p>
+              </div>
+            ))
+          }
         </div>
 
       </div>
