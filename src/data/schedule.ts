@@ -52,6 +52,9 @@ export const days: Day[] = [
     slots: [
       { start: "09:00", end: "09:30", title: "Arrival & coffee", kind: "arrival" },
       { start: "09:30", end: "09:45", title: "Opening", kind: "opening" },
+      // Prince opens on the concrete promise of running multimodal models
+      // locally; Joan moves from execution to structured visual output; Chema
+      // closes by expanding that representational ambition to entire 3D worlds.
       {
         start: "09:45",
         end: "11:15",
@@ -63,6 +66,9 @@ export const days: Day[] = [
         ],
       },
       { start: "11:15", end: "11:45", title: "Coffee break", kind: "break" },
+      // Duarte resets after coffee with end-to-end model building under data
+      // scarcity; Sergio advances into a reusable RL post-training method;
+      // Bojan closes with measured results from applying those ideas to science.
       {
         start: "11:45",
         end: "13:00",
@@ -74,6 +80,10 @@ export const days: Day[] = [
         ],
       },
       { start: "13:00", end: "14:30", title: "Riverside lunch", kind: "break" },
+      // Matt retains the broad agent-infrastructure opener while his title is
+      // TBD; Marcelo grounds the block in an operational harness; Vitalii
+      // follows its knowledge graph with memory; Harshil covers execution; and
+      // Alcides closes on rejecting invalid plans before they can run.
       {
         start: "14:30",
         end: "16:30",
@@ -87,6 +97,9 @@ export const days: Day[] = [
         ],
       },
       { start: "16:30", end: "17:00", title: "Coffee break", kind: "break" },
+      // Will establishes the evaluation framework; Thom makes failure tangible;
+      // Oğuz examines reward design; Yomi insists ideas survive measurement;
+      // Simão tackles evals at agent scale; and Jack closes on real outcomes.
       {
         start: "17:00",
         end: "18:30",
@@ -109,6 +122,9 @@ export const days: Day[] = [
     slots: [
       { start: "09:00", end: "09:30", title: "Arrival & coffee", kind: "arrival" },
       { start: "09:30", end: "09:45", title: "Opening w/ Cloudflare", kind: "opening" },
+      // Steve opens the day from a product-and-interface perspective; Daniel
+      // makes that theme concrete; Piotr broadens it into an end-to-end applied
+      // pipeline; and Cristiana closes on higher-stakes, lab-validated outcomes.
       {
         start: "09:45",
         end: "11:30",
@@ -121,6 +137,9 @@ export const days: Day[] = [
         ],
       },
       { start: "11:30", end: "11:45", title: "Coffee break", kind: "break" },
+      // Lukas provides an engineering-heavy reset after coffee; Aayush zooms
+      // out from cheap implementation to product judgment and restraint; Luis
+      // closes with the wider question of what AI means for creative design.
       {
         start: "11:45",
         end: "13:00",
@@ -132,6 +151,9 @@ export const days: Day[] = [
         ],
       },
       { start: "13:00", end: "14:30", title: "Riverside lunch", kind: "break" },
+      // Diogo's full session establishes the security stakes; Afonso grounds
+      // trust in a privacy trade-off; Boda maps the supply-chain threat; Nina
+      // demonstrates concrete inspection; and Artur closes on runtime proof.
       {
         start: "14:30",
         end: "16:00",
