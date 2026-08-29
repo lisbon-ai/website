@@ -7,11 +7,10 @@ import { days } from "../data/schedule";
 import { hasTalk } from "../data/speakers";
 import TalkLine from "../components/TalkLine.astro";
 
-// Same order as /schedule: day, then slot, then speakers sorted within a slot.
+// Same running order as /schedule: day, then slot, then speaker.
 const talks = days.flatMap((day) =>
   day.slots.flatMap((slot) =>
-    [...(slot.speakers ?? [])]
-      .sort((a, b) => a.localeCompare(b))
+    (slot.speakers ?? [])
       .filter(hasTalk)
       .map((name) => ({ name, track: slot.title })),
   ),

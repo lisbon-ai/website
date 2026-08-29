@@ -12,10 +12,9 @@ import TalkLine from "../components/TalkLine.astro";
 const slugify = (title: string) =>
   title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 
-// The talk list and the row of photos under it share one order, so a slot's
-// names are sorted in one place.
-const lineup = (names: string[]) =>
-  [...names].sort((a, b) => a.localeCompare(b));
+// Speaker arrays define the running order. The talk list and photo row share
+// that order so the published line-up matches the programme.
+const lineup = (names: string[]) => names;
 
 const speakerByName = new Map(
   siteSpeakers.map((speaker) => [speaker.name, speaker]),
