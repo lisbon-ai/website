@@ -136,13 +136,13 @@ export const days: Day[] = [
           "Cristiana Carpinteiro",
         ],
       },
-      { start: "11:30", end: "11:45", title: "Coffee break", kind: "break" },
+      { start: "11:30", end: "12:00", title: "Coffee break", kind: "break" },
       // Lukas provides an engineering-heavy reset after coffee; Aayush zooms
       // out from cheap implementation to product judgment and restraint; Luis
       // closes with the wider question of what AI means for creative design.
       {
-        start: "11:45",
-        end: "13:00",
+        start: "12:00",
+        end: "13:15",
         title: "Applied AI",
         speakers: [
           "Lukas Wirth",
@@ -150,13 +150,13 @@ export const days: Day[] = [
           "Luis Monteiro",
         ],
       },
-      { start: "13:00", end: "14:30", title: "Riverside lunch", kind: "break" },
+      { start: "13:15", end: "14:45", title: "Riverside lunch", kind: "break" },
       // Diogo's full session establishes the security stakes; Afonso grounds
       // trust in a privacy trade-off; Boda maps the supply-chain threat; Nina
       // demonstrates concrete inspection; and Artur closes on runtime proof.
       {
-        start: "14:30",
-        end: "16:00",
+        start: "14:45",
+        end: "16:15",
         title: "Security",
         speakers: [
           "Diogo Mónica",
@@ -166,15 +166,15 @@ export const days: Day[] = [
           "Artur Goulão",
         ],
       },
-      { start: "16:00", end: "16:30", title: "Coffee break", kind: "break" },
+      { start: "16:15", end: "16:45", title: "Coffee break", kind: "break" },
       {
-        start: "16:30",
-        end: "18:00",
+        start: "16:45",
+        end: "18:15",
         title: "Whiteboarding session with David Gomes",
         host: { name: "David Gomes", url: "https://x.com/davidgomes" },
       },
-      { start: "18:00", end: "18:15", title: "Closing", kind: "closing" },
-      { start: "18:15", end: "19:45", title: "Networking", kind: "social" },
+      { start: "18:15", end: "18:30", title: "Closing", kind: "closing" },
+      { start: "18:30", end: "20:00", title: "Networking", kind: "social" },
     ],
   },
 ];
