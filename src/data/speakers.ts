@@ -40,8 +40,8 @@ export const logoHeight = (logo: string) => logoHeights[logo] ?? "h-4";
 export const hasCard = (speaker: Speaker) =>
   Boolean(speaker.image && speaker.bio);
 
-// Speakers whose talk title is still unconfirmed are held back from the
-// schedule and /talks until there is a title to show.
+// Speakers whose talk title is still unconfirmed appear as TBD on the
+// schedule and are held back from /talks until there is a title to show.
 export const hasTalk = (name: string) =>
   speakers.some((speaker) => speaker.name === name && speaker.talk);
 
