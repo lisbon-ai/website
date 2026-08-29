@@ -8,7 +8,7 @@ import Location from "../components/Location.astro";
 import { format } from "../data/format";
 import { faqs } from "../data/faqs";
 import { trackDescriptions } from "../data/schedule";
-import { cardSpeakers as speakers, logoHeight } from "../data/speakers";
+import { cardSpeakers, logoHeight } from "../data/speakers";
 import { sponsorTiers } from "../data/sponsors";
 
 const brailleFrames = ["⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷"];
@@ -24,6 +24,19 @@ const texturePositions = [
   "100% 60%",
   "25% 80%",
   "80% 100%",
+];
+
+const fullSessionSpeakers = cardSpeakers.filter(
+  ({ talkType }) => talkType === "full",
+);
+const lightningSpeakers = cardSpeakers.filter(
+  ({ talkType }) => talkType === "lightning",
+);
+const featuredLightning =
+  lightningSpeakers[Math.floor(Math.random() * lightningSpeakers.length)];
+const homepageSpeakers = [
+  ...fullSessionSpeakers,
+  ...(featuredLightning ? [featuredLightning] : []),
 ];
 ---
 
@@ -98,16 +111,19 @@ const texturePositions = [
         <div class="small-headline">/speakers</div>
       </div>
       <div class="px-3 md:col-span-12 md:px-6">
-        <div class="grid gap-0 border-x border-white/10 md:grid-cols-2 2xl:grid-cols-3">
+        <div
+          data-home-speaker-grid
+          class="grid gap-0 border-x border-white/10 md:grid-cols-2 2xl:grid-cols-3"
+        >
           {
-            speakers.map(({ name, org, role, profileUrl, orgUrl, logo, image }, i) => (
+            homepageSpeakers.map(({ name, org, role, profileUrl, orgUrl, logo, image, talkType }, i) => (
               <div
+                data-home-speaker
+                data-talk-type={talkType}
                 class:list={[
                   "speaker-texture relative isolate flex-col items-start gap-3 border-b border-white/10 p-8 text-xl md:p-12 md:text-2xl",
-                  // One column is a long scroll, so it stops at 15 and offers
-                  // the full list instead.
-                  { flex: i < 15 },
-                  { "hidden md:flex": i >= 15 },
+                  { flex: talkType === "full" },
+                  { "hidden 2xl:flex": talkType === "lightning" },
                   { "border-t border-white/10": i === 0 },
                   // Two columns from md, three from 2xl. Later breakpoints win,
                   // so the 2xl rules reset the md borders where the row changes.
@@ -175,29 +191,14 @@ const texturePositions = [
               </div>
             ))
           }
-          <div
-            class:list={[
-              "flex flex-col items-center justify-center gap-2 border-b border-white/10 p-8 text-center md:p-12",
-              // Fills out whatever is left of the last row at each width.
-              { "md:col-span-2": speakers.length % 2 === 0 },
-              { "md:border-l md:border-white/10": speakers.length % 2 === 1 },
-              { "2xl:col-span-3": speakers.length % 3 === 0 },
-              { "2xl:col-span-2": speakers.length % 3 === 1 },
-              { "2xl:col-span-1": speakers.length % 3 === 2 },
-              { "2xl:border-l 2xl:border-white/10": speakers.length % 3 !== 0 },
-              { "2xl:border-l-0": speakers.length % 3 === 0 },
-            ]}
-          >
-            <p class="hidden text-lg leading-snug md:block md:text-xl">
-              More speakers landing every few days.
-            </p>
-            <p class="hidden font-mono text-xs text-faint md:block">
-              Keep an eye on this space
+          <div class="flex flex-col items-center justify-center gap-2 border-b border-white/10 p-8 text-center md:col-span-2 md:p-12 2xl:hidden">
+            <p class="text-lg leading-snug md:text-xl">
+              And more people shaping AI.
             </p>
             <a
               href={`${import.meta.env.BASE_URL}speakers/`}
-              class="mt-2 font-mono text-xs uppercase text-muted underline hover:text-cream md:hidden"
-              >All speakers</a
+              class="mt-2 font-mono text-xs uppercase text-muted underline hover:text-cream"
+              >See all speakers</a
             >
           </div>
         </div>
@@ -247,8 +248,7 @@ const texturePositions = [
       </div>
       <div>
         <p class="max-w-2xl text-2xl leading-snug md:text-3xl">
-          We're slowly starting to roll out to tickets to the 2026 edition of
-          Lisbon AI.
+          The final batch of regular tickets is live. Late bird is next.
         </p>
         <a href="https://tickets.lisbonai.org/lisbonai-2026" class="mt-8 btn-primary">
           Get your ticket &rarr;
@@ -314,6 +314,38 @@ const texturePositions = [
 </Layout>
 
 <script>
+  // Every full session appears on the homepage, but no speaker owns the lead
+  // position. The one lightning card only appears when the grid has three
+  // columns, filling the final cell without lengthening smaller layouts.
+  const speakerGrid = document.querySelector<HTMLElement>(
+    "[data-home-speaker-grid]",
+  );
+  if (speakerGrid) {
+    const fullSessions = Array.from(
+      speakerGrid.querySelectorAll<HTMLElement>(
+        '[data-home-speaker][data-talk-type="full"]',
+      ),
+    );
+    const lightning = speakerGrid.querySelector<HTMLElement>(
+      '[data-home-speaker][data-talk-type="lightning"]',
+    );
+
+    for (let i = fullSessions.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [fullSessions[i], fullSessions[j]] = [fullSessions[j], fullSessions[i]];
+    }
+    fullSessions.forEach((card) => speakerGrid.insertBefore(card, lightning));
+
+    [...fullSessions, ...(lightning ? [lightning] : [])].forEach((card, i) => {
+      card.classList.toggle("border-t", i === 0);
+      card.classList.toggle("md:border-l", i % 2 === 1);
+      card.classList.toggle("md:border-t", i === 1);
+      card.classList.toggle("2xl:border-l", i % 3 !== 0);
+      card.classList.toggle("2xl:border-l-0", i % 3 === 0);
+      card.classList.toggle("2xl:border-t", i === 2);
+    });
+  }
+
   // Sponsors within a tier are peers, so their order is reshuffled on every
   // load rather than baked in at build time.
   document.querySelectorAll<HTMLElement>("[data-shuffle]").forEach((grid) => {
