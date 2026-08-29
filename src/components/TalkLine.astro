@@ -85,10 +85,10 @@ const titleClass = track
   )}
   <div class="flex flex-col gap-1">
     <div class={titleClass}>
-      {track ? (
+      {track || !speaker?.talk ? (
         talk
       ) : (
-        /* On the schedule the title links through to its abstract on /talks. */
+        /* Confirmed titles on the schedule link through to /talks. */
         <a
           href={`${import.meta.env.BASE_URL}talks/#${talkAnchor(name)}`}
           class="hover:text-muted focus-visible:text-muted focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-white/50"
