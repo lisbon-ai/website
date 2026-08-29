@@ -67,6 +67,7 @@ export const days: Day[] = [
         end: "13:00",
         title: "Agents",
         speakers: [
+          "Sergio Paniego",
           "Alcides Fonseca",
           "Harshil Agrawal",
         ],
@@ -98,7 +99,7 @@ export const days: Day[] = [
         end: "18:10",
         title: "Applied AI",
         speakers: [
-          "Sergio Paniego",
+          "Steve Ruiz",
           "Daniel Bukac",
           "Luis Monteiro",
         ],
