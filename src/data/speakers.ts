@@ -449,6 +449,17 @@ In this session we'll tear apart our naive prompt architecture in realtime, and 
 The core operational insight: increasing context size often decreases instruction adherence unless attention is actively controlled.`,
   },
   {
+    name: "Vitalii Ratushnyi",
+    role: "Lead Research Engineer",
+    org: "Harmix.AI",
+    talk: "Agentic Memory in a nutshell: Do’s and Don’ts",
+    talkType: "lightning",
+    profileUrl: "https://www.linkedin.com/in/v-ratyshnyi/",
+    orgUrl: "https://www.harmix.ai/",
+    bio: "Lead Research Engineer @ Harmix.AI working on long-term memory for Agents (1-10B tokens inputs), ex-Quant, currently in Madrid.",
+    abstract: `Context windows are barely working beyond 400k, and the context we work over across several days  easilty overcome 10-50M tokens. The community has no consensus over what memory looks like for long-running agents, with options ranging from classic vector stores as RAGs to file-based LLM wikis and beyond (Agentic RAG/SIRA). In this lightning talk I'll compress two years of research and production experience into how to organize scalable memory and share recipes that work.`,
+  },
+  {
     name: "Yomi Eluwande",
     org: "Dash0",
     talk: "Red teaming AI performance ideas: what survived measurement",
