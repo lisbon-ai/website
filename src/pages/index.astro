@@ -32,11 +32,17 @@ const fullSessionSpeakers = cardSpeakers.filter(
 const lightningSpeakers = cardSpeakers.filter(
   ({ talkType }) => talkType === "lightning",
 );
-const featuredLightning =
-  lightningSpeakers[Math.floor(Math.random() * lightningSpeakers.length)];
+const featuredLightning = [...lightningSpeakers];
+for (let i = featuredLightning.length - 1; i > 0; i--) {
+  const j = Math.floor(Math.random() * (i + 1));
+  [featuredLightning[i], featuredLightning[j]] = [
+    featuredLightning[j],
+    featuredLightning[i],
+  ];
+}
 const homepageSpeakers = [
   ...fullSessionSpeakers,
-  ...(featuredLightning ? [featuredLightning] : []),
+  ...featuredLightning.slice(0, 3),
 ];
 ---
 
@@ -191,7 +197,7 @@ const homepageSpeakers = [
               </div>
             ))
           }
-          <div class="flex flex-col items-center justify-center gap-2 border-b border-white/10 p-8 text-center md:col-span-2 md:p-12 2xl:hidden">
+          <div class="flex flex-col items-center justify-center gap-2 border-b border-white/10 p-8 text-center md:col-span-2 md:p-12 2xl:col-span-1 2xl:border-l 2xl:border-white/10">
             <p class="text-lg leading-snug md:text-xl">
               And more people shaping AI.
             </p>
@@ -315,8 +321,8 @@ const homepageSpeakers = [
 
 <script>
   // Every full session appears on the homepage, but no speaker owns the lead
-  // position. The one lightning card only appears when the grid has three
-  // columns, filling the final cell without lengthening smaller layouts.
+  // position. Lightning cards only appear in the three-column layout, where
+  // three of them pair with the full-line-up link to complete two rows.
   const speakerGrid = document.querySelector<HTMLElement>(
     "[data-home-speaker-grid]",
   );
@@ -326,17 +332,21 @@ const homepageSpeakers = [
         '[data-home-speaker][data-talk-type="full"]',
       ),
     );
-    const lightning = speakerGrid.querySelector<HTMLElement>(
-      '[data-home-speaker][data-talk-type="lightning"]',
+    const lightning = Array.from(
+      speakerGrid.querySelectorAll<HTMLElement>(
+        '[data-home-speaker][data-talk-type="lightning"]',
+      ),
     );
 
     for (let i = fullSessions.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [fullSessions[i], fullSessions[j]] = [fullSessions[j], fullSessions[i]];
     }
-    fullSessions.forEach((card) => speakerGrid.insertBefore(card, lightning));
+    fullSessions.forEach((card) =>
+      speakerGrid.insertBefore(card, lightning[0] ?? null),
+    );
 
-    [...fullSessions, ...(lightning ? [lightning] : [])].forEach((card, i) => {
+    [...fullSessions, ...lightning].forEach((card, i) => {
       card.classList.toggle("border-t", i === 0);
       card.classList.toggle("md:border-l", i % 2 === 1);
       card.classList.toggle("md:border-t", i === 1);
