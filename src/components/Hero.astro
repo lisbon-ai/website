@@ -1,4 +1,5 @@
 ---
+import { speakers } from "../data/speakers";
 import { sponsorTiers } from "../data/sponsors";
 
 // Hero strip runs platinum → gold → silver; community sits this one out.
@@ -70,8 +71,8 @@ const heroNudge: Record<string, string> = {
 
     <h1 class="big-headline">LISBON AI</h1>
     <div class="mt-8 mb-8 max-w-xl text-xl leading-snug text-muted md:mb-10">
-      2 days. 400 builders.<br />
-      Join us September 23-24.
+      2 days. {speakers.length} speakers. 400 builders.<br />
+      No other place to be. Sep 23–24.
     </div>
     <div>
       <a href="https://tickets.lisbonai.org/lisbonai-2026" class="tickets-cta">
