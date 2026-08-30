@@ -156,7 +156,7 @@ export const days: Day[] = [
       // demonstrates concrete inspection; and Artur closes on runtime proof.
       {
         start: "14:45",
-        end: "16:15",
+        end: "16:00",
         title: "Security",
         speakers: [
           "Diogo Mónica",
@@ -166,9 +166,9 @@ export const days: Day[] = [
           "Artur Goulão",
         ],
       },
-      { start: "16:15", end: "16:45", title: "Coffee break", kind: "break" },
+      { start: "16:00", end: "16:30", title: "Coffee break", kind: "break" },
       {
-        start: "16:45",
+        start: "16:30",
         end: "18:15",
         title: "Whiteboarding session with David Gomes",
         host: { name: "David Gomes", url: "https://x.com/davidgomes" },
