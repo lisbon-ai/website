@@ -2,6 +2,8 @@
 import { speakers } from "../data/speakers";
 import { sponsorTiers } from "../data/sponsors";
 
+const base = import.meta.env.BASE_URL;
+
 // Hero strip runs platinum → gold → silver; community sits this one out.
 const heroSponsors = ["Platinum", "Gold", "Silver"].flatMap((label) =>
   (sponsorTiers.find((tier) => tier.label === label)?.sponsors ?? []).map(
@@ -74,7 +76,10 @@ const heroNudge: Record<string, string> = {
       2 days. {speakers.length} speakers. 400 builders.<br />
       No other place to be. Sep 23–24.
     </div>
-    <div>
+    <div class="flex flex-wrap items-center gap-3">
+      <a href={`${base}schedule/`} class="schedule-cta">
+        See the schedule
+      </a>
       <a href="https://tickets.lisbonai.org/lisbonai-2026" class="tickets-cta">
         Get your ticket &rarr;
       </a>

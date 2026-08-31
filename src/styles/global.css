@@ -26,8 +26,12 @@
     @apply font-display text-8xl font-bold uppercase tracking-tight;
 }
 
+.schedule-cta {
+    @apply inline-flex whitespace-nowrap rounded-full border border-white/70 px-4 py-2 text-sm text-white transition-colors hover:border-white hover:bg-white hover:text-ink;
+}
+
 .tickets-cta {
-    @apply rounded-full bg-cream-warm px-4 py-2 text-sm text-ink hover:bg-cream;
+    @apply inline-flex whitespace-nowrap rounded-full border border-transparent bg-cream-warm px-4 py-2 text-sm text-ink hover:bg-cream;
 }
 
 .btn-primary {
