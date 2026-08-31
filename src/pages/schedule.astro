@@ -52,7 +52,7 @@ days.forEach((day, dayIndex) =>
 
                   {slots.length > 0 ? (
                     <ul class="flex flex-col border-b border-white/10">
-                      {slots.map(({ start, end, title, kind, host, org, speakers }, slotIndex) => (
+                      {slots.map(({ start, end, title, subtitle, kind, host, org, speakers }, slotIndex) => (
                         <li
                           id={
                             anchoredAt.get(title) === `${dayIndex}-${slotIndex}`
@@ -71,20 +71,27 @@ days.forEach((day, dayIndex) =>
                           </div>
                           <div class="min-w-0 text-base md:flex-1 md:text-lg">
                             {!speakers && (
-                              host && title.includes(host.name) ? (
-                                <>
-                                  {title.slice(0, title.indexOf(host.name))}
-                                  {/* Kept on one line: whitespace here lands
-                                      inside the anchor and gets underlined. */}
-                                  <a
-                                    href={host.url}
-                                    class="underline decoration-white/30 underline-offset-4 hover:decoration-white"
-                                  >{host.name}</a>
-                                  {title.slice(title.indexOf(host.name) + host.name.length)}
-                                </>
-                              ) : (
-                                title
-                              )
+                              <>
+                                <div>{title}</div>
+                                {subtitle && (
+                                  <div class="mt-1 text-sm text-soft md:text-base">
+                                    {host && subtitle.includes(host.name) ? (
+                                      <>
+                                        {subtitle.slice(0, subtitle.indexOf(host.name))}
+                                        {/* Kept on one line: whitespace here lands
+                                            inside the anchor and gets underlined. */}
+                                        <a
+                                          href={host.url}
+                                          class="underline decoration-white/30 underline-offset-4 hover:decoration-white"
+                                        >{host.name}</a>
+                                        {subtitle.slice(subtitle.indexOf(host.name) + host.name.length)}
+                                      </>
+                                    ) : (
+                                      subtitle
+                                    )}
+                                  </div>
+                                )}
+                              </>
                             )}
                             {org && (
                               <a

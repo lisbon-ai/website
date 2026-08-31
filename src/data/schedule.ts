@@ -5,8 +5,9 @@ export type Slot = {
   start: string;
   end: string;
   title: string;
+  subtitle?: string;
   kind?: SlotKind;
-  // Linked where the name appears inside `title`.
+  // Linked where the name appears inside `subtitle`.
   host?: { name: string; url: string };
   // Logo shown after the title; filename in public/images/logos.
   org?: { name: string; url: string; logo: string; logoClass?: string };
@@ -166,15 +167,16 @@ export const days: Day[] = [
           "Artur Goulão",
         ],
       },
-      { start: "16:00", end: "16:30", title: "Coffee break", kind: "break" },
+      { start: "16:00", end: "16:15", title: "Closing", kind: "closing" },
       {
-        start: "16:30",
-        end: "18:15",
-        title: "Whiteboarding session with David Gomes",
+        start: "16:15",
+        end: "17:45",
+        title: "Coffee break",
+        subtitle: "Tell us about your side project with David Gomes",
+        kind: "break",
         host: { name: "David Gomes", url: "https://x.com/davidgomes" },
       },
-      { start: "18:15", end: "18:30", title: "Closing", kind: "closing" },
-      { start: "18:30", end: "20:00", title: "Networking", kind: "social" },
+      { start: "17:45", end: "20:00", title: "Networking", kind: "social" },
     ],
   },
 ];
