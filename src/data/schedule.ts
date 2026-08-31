@@ -80,7 +80,14 @@ export const days: Day[] = [
           "Bojan Jakimovski",
         ],
       },
-      { start: "13:00", end: "14:30", title: "Riverside lunch", kind: "break" },
+      {
+        start: "13:00",
+        end: "14:30",
+        title: "Riverside lunch",
+        subtitle: "Powered by YLD",
+        kind: "break",
+        host: { name: "YLD", url: "https://yld.com" },
+      },
       // Matt retains the broad agent-infrastructure opener while his title is
       // TBD; Marcelo grounds the block in an operational harness; Vitalii
       // follows its knowledge graph with memory; Harshil covers execution; and
