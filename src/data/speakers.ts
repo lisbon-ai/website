@@ -97,7 +97,6 @@ export const speakers: Speaker[] = [
     talkType: "full",
     profileUrl: "https://x.com/duarteocarmo",
     orgUrl: "https://duarteocarmo.com/",
-    logo: "olivegradient.svg",
     image: "duarte.png",
     bio: "Duarte is an AI technologist and consultant based in Copenhagen, working across ML/AI, data, and software. His background spans pharma, climate tech, and YC-backed startups.",
     abstract: `Large language models are eating the world. Frontier labs keep pushing the boundary, open-weights models are quickly closing the gap, Europe is — as always — stuck somewhere in the middle, and even Portugal has now released AMÁLIA, its own effort in the space.
