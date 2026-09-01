@@ -11,7 +11,7 @@ export type Speaker = {
   logo?: string;
   image?: string;
   bio?: string;
-  // Talk abstract. Not rendered anywhere yet.
+  // Talk details shown on /talks. Supports Markdown links, lists, and images.
   abstract?: string;
 };
 
@@ -82,12 +82,16 @@ export const speakers: Speaker[] = [
     name: "Matt Carey",
     role: "AI Engineer",
     org: "Cloudflare",
+    talk: "Agents that Scale",
     talkType: "full",
     profileUrl: "https://x.com/mattzcarey",
     orgUrl: "https://cloudflare.com",
     logo: "cloudflare.svg",
     image: "matt.png",
     bio: "Matt Carey works on agents and MCP at Cloudflare. He built Cloudflare MCP server, Artifacts and he is a maintainer of MCP Typescript SDK.",
+    abstract: `Build agents that scale up to everyone on the planet.
+
+![Oprah Winfrey pointing to the audience with the words “You get an agent” above and below.](images/talks/you-get-an-agent.png)`,
   },
   {
     name: "Duarte Carmo",

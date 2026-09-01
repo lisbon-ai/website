@@ -27,18 +27,35 @@ const talk = speaker?.talk || "TBD";
 // where it starts a "- " bullet, which is a real line.
 const flatten = (text: string) => text.replace(/\s*\n\s*/g, " ").trim();
 
+type AbstractImage = { src: string; alt: string };
+type AbstractBlock = {
+  text: string;
+  items: string[];
+  image?: AbstractImage;
+};
+
+const parseBlock = (block: string): AbstractBlock => {
+  const image = block.trim().match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
+  if (image) {
+    return { text: "", items: [], image: { alt: image[1], src: image[2] } };
+  }
+
+  const [lead, ...bullets] = block.split(/\n(?=-\s)/);
+  return {
+    text: flatten(lead),
+    items: bullets.map((bullet) => flatten(bullet).replace(/^-\s*/, "")),
+  };
+};
+
 const blocks = withAbstract
   ? (speaker?.abstract ?? "")
       .split(/\n\s*\n/)
-      .map((block) => {
-        const [lead, ...bullets] = block.split(/\n(?=-\s)/);
-        return {
-          text: flatten(lead),
-          items: bullets.map((bullet) => flatten(bullet).replace(/^-\s*/, "")),
-        };
-      })
-      .filter(({ text, items }) => text || items.length > 0)
+      .map(parseBlock)
+      .filter(({ text, items, image }) => image || text || items.length > 0)
   : [];
+
+const abstractImageSrc = (src: string) =>
+  /^(?:[a-z]+:|\/)/i.test(src) ? src : `${import.meta.env.BASE_URL}${src}`;
 
 const proseClass = "text-sm leading-relaxed text-soft";
 
@@ -100,37 +117,48 @@ const titleClass = track
     {!track && <SpeakerByline name={name} />}
     {blocks.length > 0 && (
       <div class="mt-2 flex flex-col gap-3">
-        {blocks.map(({ text, items }) => (
-          <>
-            {text && (
-              <p class={proseClass}>
-                {segments(text).map((segment) =>
-                  "href" in segment ? (
-                    /* Kept on one line: whitespace here lands inside the
-                       anchor and gets underlined alongside the label. */
-                    <a href={segment.href} class="underline hover:text-cream">{segment.label}</a>
-                  ) : (
-                    segment.text
-                  ),
-                )}
-              </p>
-            )}
-            {items.length > 0 && (
-              <ul class:list={["flex list-disc flex-col gap-1 pl-5", proseClass]}>
-                {items.map((item) => (
-                  <li>
-                    {segments(item).map((segment) =>
-                      "href" in segment ? (
-                        <a href={segment.href} class="underline hover:text-cream">{segment.label}</a>
-                      ) : (
-                        segment.text
-                      ),
-                    )}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </>
+        {blocks.map(({ text, items, image }) => (
+          image ? (
+            <figure class="max-w-md overflow-hidden rounded-xl border border-white/10">
+              <img
+                src={abstractImageSrc(image.src)}
+                alt={image.alt}
+                loading="lazy"
+                class="block h-auto w-full"
+              />
+            </figure>
+          ) : (
+            <>
+              {text && (
+                <p class={proseClass}>
+                  {segments(text).map((segment) =>
+                    "href" in segment ? (
+                      /* Kept on one line: whitespace here lands inside the
+                         anchor and gets underlined alongside the label. */
+                      <a href={segment.href} class="underline hover:text-cream">{segment.label}</a>
+                    ) : (
+                      segment.text
+                    ),
+                  )}
+                </p>
+              )}
+              {items.length > 0 && (
+                <ul class:list={["flex list-disc flex-col gap-1 pl-5", proseClass]}>
+                  {items.map((item) => (
+                    <li>
+                      {segments(item).map((segment) =>
+                        "href" in segment ? (
+                          <a href={segment.href} class="underline hover:text-cream">{segment.label}</a>
+                        ) : (
+                          segment.text
+                        ),
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </>
+          )
         ))}
       </div>
     )}
