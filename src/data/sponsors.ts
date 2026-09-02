@@ -33,7 +33,7 @@ export const sponsorTiers: SponsorTier[] = [
       { name: "AWS", url: "https://aws.amazon.com/", logo: "aws.png", logoClass: "h-6" },
       { name: "DoiT", url: "https://www.doit.com", logo: "doit.png", logoClass: "h-4" },
       { name: "Humanos", url: "https://www.humanos.tech", logo: "humanos.svg", logoClass: "h-5" },
-      { name: "CNCA", url: "https://www.acnca.pt/", logo: "cnca.svg", logoClass: "h-4" },
+      { name: "CNCA", url: "https://bsc-aifactory.eu", logo: "cnca.svg", logoClass: "h-9" },
     ],
   },
   {
