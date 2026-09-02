@@ -271,6 +271,8 @@ The goal isn’t another introduction to confidential computing. It’s a practi
     talkType: "lightning",
     profileUrl: "https://www.linkedin.com/in/alcidesfonseca/",
     orgUrl: "https://www.ulisboa.pt/en",
+    image: "alcides.png",
+    bio: "Alcides Fonseca is an Associate Professor at the University of Lisbon, where he teaches Compilers, Functional Programming and Software Engineering. His research covers the intersection of artificial intelligence, programming languages and software engineering. In particular, he has been working on aeon, a programming language designed for program synthesis with logical guardrails. On the side, he has worked on and with several startups: Smash, Sentilant, Genomed and, currently, Dragonboat.",
     abstract: `LLMs can generate plans of action, usually as bash, python, AppleScript or other untyped programs. These plans can be wrong from the beginning, but you will have to execute them until you find out, possibly hours later.
 
 I have built aeon, a programming language that features Liquid and Linear Types that reject during compilation programs that logically do not make sense. If your program has a bug in the last line, it will not start executing. These bugs are not necessarily about using an integer where you expect a boolean, but conceptual. You will not read from a file handle after you closed it. You will not train a NaiveBayes classifier on imbalanced data. You will not test your model on previously seen data. You will not start your drone without loading the flight plan first. 

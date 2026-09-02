@@ -7,8 +7,10 @@ export type Slot = {
   title: string;
   subtitle?: string;
   kind?: SlotKind;
-  // Linked where the name appears inside `subtitle`.
-  host?: { name: string; url: string };
+  // Linked where the name appears inside `subtitle`. An `image` in
+  // public/images/speakers puts their photo under the slot, the same size as
+  // the speaker line-ups.
+  host?: { name: string; url: string; image?: string };
   // Logo shown after the title; filename in public/images/logos.
   org?: { name: string; url: string; logo: string; logoClass?: string };
   // Names referencing src/data/speakers.ts, where the org lives. The page
@@ -181,7 +183,11 @@ export const days: Day[] = [
         title: "Coffee break",
         subtitle: "Tell us about your side project with David Gomes",
         kind: "break",
-        host: { name: "David Gomes", url: "https://x.com/davidgomes" },
+        host: {
+          name: "David Gomes",
+          url: "https://x.com/davidgomes",
+          image: "david.png",
+        },
       },
       { start: "17:45", end: "20:00", title: "Networking", kind: "social" },
     ],

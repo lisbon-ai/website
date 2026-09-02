@@ -1,0 +1,36 @@
+---
+import { trackDescriptions } from "../data/schedule";
+
+// The track descriptions run at the foot of both /schedule and /talks, so the
+// markup lives here rather than in each page.
+
+interface Props {
+  // Track name to the id of the first thing on that track on this page: a slot
+  // on /schedule, a talk on /talks. A track with no entry stays a plain label.
+  anchors?: Record<string, string>;
+}
+
+const { anchors = {} } = Astro.props;
+---
+
+<div class="small-headline mb-4 mt-16">/topics-of-discussion</div>
+
+<div class="border-b border-white/10">
+  {
+    Object.entries(trackDescriptions).map(([track, description]) => (
+      <div class="grid gap-2 border-t border-white/10 py-5 md:grid-cols-[11rem_1fr] md:gap-6">
+        <h2 class="font-mono text-xs uppercase text-faint">
+          {anchors[track] ? (
+            <a
+              href={`#${anchors[track]}`}
+              class="hover:text-cream focus-visible:text-cream focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-white/50"
+            >{track}</a>
+          ) : (
+            track
+          )}
+        </h2>
+        <p class="text-sm leading-relaxed text-soft">{description}</p>
+      </div>
+    ))
+  }
+</div>

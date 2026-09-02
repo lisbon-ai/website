@@ -3,9 +3,10 @@ import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 
-import { days, formatTime, trackDescriptions } from "../data/schedule";
+import { days, formatTime } from "../data/schedule";
 import { speakers as siteSpeakers } from "../data/speakers";
 import TalkLine from "../components/TalkLine.astro";
+import Topics from "../components/Topics.astro";
 
 // Each track is anchored at its first appearance so //topics-of-discussion on
 // the landing page can link straight to it.
@@ -27,6 +28,10 @@ days.forEach((day, dayIndex) =>
       anchoredAt.set(slot.title, `${dayIndex}-${slotIndex}`);
     }
   }),
+);
+// Tracks are anchored at their first slot, which is where topic links land.
+const topicAnchors = Object.fromEntries(
+  [...anchoredAt.keys()].map((track) => [track, slugify(track)]),
 );
 ---
 
@@ -90,6 +95,14 @@ days.forEach((day, dayIndex) =>
                                       subtitle
                                     )}
                                   </div>
+                                )}
+                                {host?.image && (
+                                  <img
+                                    src={`${import.meta.env.BASE_URL}images/speakers/${host.image}`}
+                                    alt={host.name}
+                                    title={host.name}
+                                    class="mt-5 h-14 w-14 rounded-lg object-cover md:h-20 md:w-20 md:rounded-xl"
+                                  />
                                 )}
                               </>
                             )}
@@ -160,18 +173,7 @@ days.forEach((day, dayIndex) =>
           </div>
         </div>
 
-        <div class="small-headline mb-4 mt-16">/topics-of-discussion</div>
-
-        <div class="border-b border-white/10">
-          {
-            Object.entries(trackDescriptions).map(([track, description]) => (
-              <div class="grid gap-2 border-t border-white/10 py-5 md:grid-cols-[11rem_1fr] md:gap-6">
-                <h2 class="font-mono text-xs uppercase text-faint">{track}</h2>
-                <p class="text-sm leading-relaxed text-soft">{description}</p>
-              </div>
-            ))
-          }
-        </div>
+        <Topics anchors={topicAnchors} />
 
       </div>
     </section>
