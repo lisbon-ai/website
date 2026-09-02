@@ -90,10 +90,10 @@ export const days: Day[] = [
         kind: "break",
         host: { name: "YLD", url: "https://yld.com" },
       },
-      // Matt retains the broad agent-infrastructure opener while his title is
-      // TBD; Marcelo grounds the block in an operational harness; Vitalii
-      // follows its knowledge graph with memory; Harshil covers execution; and
-      // Alcides closes on rejecting invalid plans before they can run.
+      // Matt frames agent infrastructure at global scale; Marcelo grounds the
+      // block in an operational harness; Vitalii follows with durable memory;
+      // Peter closes the product loop from telemetry to agent-authored PRs;
+      // Harshil covers execution mechanics; and Alcides closes on guardrails.
       {
         start: "14:30",
         end: "16:30",
@@ -102,6 +102,7 @@ export const days: Day[] = [
           "Matt Carey",
           "Marcelo Lebre",
           "Vitalii Ratushnyi",
+          "Peter Kirkham",
           "Harshil Agrawal",
           "Alcides Fonseca",
         ],

@@ -408,6 +408,18 @@ The interesting part is where it goes wrong. I will walk through a production fa
 The takeaway for builders: reward design is the real engineering work, natural-language failure explanations are a far better signal than aggregate scores, and an expensive model earns its keep as an offline evaluator amortized over every future call.`,
   },
   {
+    name: "Peter Kirkham",
+    role: "Product Engineer",
+    org: "PostHog",
+    talk: "Teaching your product to fix and build itself",
+    talkType: "lightning",
+    orgUrl: "https://posthog.com/",
+    logo: "posthog.svg",
+    image: "peter.png",
+    bio: "Currently building PostHog Desktop.  Recent Ericeira transplant, 10+ year engineer turned vibe coder, recovering founder, father of 2.",
+    abstract: "Everyone demos an agent writing code. But how does the agent know what to work on? Peter Kirkham (PostHog) has spent the last year building the full loop. A product that watches its own telemetry, turns signals into tasks, hands tasks to agents, and publishes the resulting PRs. He'll cover how we built a self driving product and what you need to do to build your own.",
+  },
+  {
     name: "Prince Canuma",
     org: "Neywa Labs",
     talk: "Inference Engineering: Frontier Open Models on the Hardware You Already Own",
