@@ -5,7 +5,7 @@ export type Speaker = {
   title?: string;
   // Empty until the talk title is confirmed.
   talk?: string;
-  talkType: "full" | "lightning";
+  talkType: "full" | "lightning" | "interviewer";
   profileUrl?: string;
   orgUrl?: string;
   logo?: string;
@@ -486,15 +486,28 @@ The first change merged two render passes and used a cached character-width tabl
 
 Normal renders moved from about 21 ms to 6 ms. Inverted renders moved from about 44 ms to 8 ms. This lightning talk shows how the two changes work, and why measurement rejected the more obvious ideas.`,
   },
+  {
+    name: "David Gomes",
+    org: "SpaceXAI",
+    talkType: "interviewer",
+    profileUrl: "https://x.com/davidgomes",
+    orgUrl: "https://x.ai",
+    logo: "spacexai.svg",
+    image: "david.png",
+    bio: "Currently member of technical staff at SpaceXAI. Former member of technical staff at Cursor and at Databricks via Neon's acquisition. Software generalist with a competitive programming spine. Started coding before high school, sharpened edge cases on the IOI stage, and built an algorithmic toolkit deep in data structures and performance hacks.",
+  },
 ];
 
 // The card grids on the landing page and /speakers. Only speakers whose photo
 // and bio have landed get a card; the rest exist for the schedule until then.
-// Full sessions lead and the lightning talks follow, and since the sort is
-// stable each group keeps the order it has in the list above.
+// Full sessions lead, the lightning talks follow and interviewers close, and
+// since the sort is stable each group keeps the order it has in the list above.
+const cardOrder: Record<Speaker["talkType"], number> = {
+  full: 0,
+  lightning: 1,
+  interviewer: 2,
+};
+
 export const cardSpeakers = speakers
   .filter(hasCard)
-  .sort(
-    (a, b) =>
-      Number(a.talkType === "lightning") - Number(b.talkType === "lightning"),
-  );
+  .sort((a, b) => cardOrder[a.talkType] - cardOrder[b.talkType]);
