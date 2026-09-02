@@ -34,6 +34,10 @@ const topicAnchors = Object.fromEntries(
   <main>
     <section class="border-t border-white/10">
       <div class="mx-auto max-w-3xl py-16 px-6 md:px-0">
+        <div class="mb-16">
+          <Topics anchors={topicAnchors} />
+        </div>
+
         <div class="small-headline mb-4">/talks</div>
         <h1
           class="font-display text-3xl font-bold uppercase tracking-tight mb-8"
@@ -54,8 +58,6 @@ const topicAnchors = Object.fromEntries(
             >schedule</a
           > for times.
         </p>
-
-        <Topics anchors={topicAnchors} />
       </div>
     </section>
   </main>
