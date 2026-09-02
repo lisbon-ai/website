@@ -413,6 +413,7 @@ The takeaway for builders: reward design is the real engineering work, natural-l
     org: "PostHog",
     talk: "Teaching your product to fix and build itself",
     talkType: "lightning",
+    profileUrl: "https://x.com/k11kirky",
     orgUrl: "https://posthog.com/",
     logo: "posthog.svg",
     image: "peter.png",
