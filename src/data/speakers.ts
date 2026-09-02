@@ -409,12 +409,16 @@ The takeaway for builders: reward design is the real engineering work, natural-l
   {
     name: "Prince Canuma",
     org: "Neywa Labs",
+    talk: "Inference Engineering: Frontier Open Models on the Hardware You Already Own",
     talkType: "full",
     profileUrl: "https://www.linkedin.com/in/prince-canuma/",
     orgUrl: "https://neywalabs.ai",
     logo: "neywalabs.svg",
     image: "prince.png",
     bio: "Prince Canuma is the Founder & CEO of Neywa Labs, building the inference layer for multimodal AI on Apple Silicon, and Nativ, a native macOS app for running AI models locally. He’s the creator of mlx-vlm and mlx-audio — open-source libraries with millions of downloads and partnerships with Google DeepMind, Hugging Face, Liquid AI, Cohere, and more.",
+    abstract: `Open models are everywhere. Running them well is still hard. This talk is about the engineering that happens after training: making a frontier model fast, memory-efficient, and usable on the hardware you already have. Apple Silicon is the case study — unified memory, no discrete GPU, and a hard ceiling that makes every optimization count.
+
+We'll cover the three levers that matter most on memory-bound hardware: quantization (weights and KV cache, with custom Metal kernels), token eviction for long context, and speculative decoding — with real benchmarks across Gemma and Qwen models, including where it works, where it doesn't, and why. We'll finish with multimodal inference and the parts of the pipeline most teams forget to profile. You'll leave with a clear mental model of the inference stack and a checklist of what to measure before you ship.`,
   },
   {
     name: "Simão Nogueira",
