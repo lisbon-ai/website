@@ -48,13 +48,9 @@ export const sponsorTiers: SponsorTier[] = [
   },
   {
     label: "Community",
-    // Five logos as 3 + 2, both rows spanning the full width: a 6-column track
-    // where the first three take two columns each and the last two take three.
-    // Tuned to the current count — a sixth logo needs the spans revisited.
-    // The nth-child rule drops the right border on the first row's last column
-    // so it doesn't double up against the panel's own border-x.
-    gridClass:
-      "grid-cols-6 [&>*]:col-span-2 [&>*:nth-child(n+4)]:col-span-3 [&>*:nth-child(3n)]:border-r-0",
+    // Six logos as a uniform 3 x 2 grid. The nth-child rule drops the right
+    // border at the end of each row so it doesn't double up against the panel.
+    gridClass: "grid-cols-3 [&>*:nth-child(3n)]:border-r-0",
     panelClass: "border-x border-white/10",
     sponsors: [
       { name: "tldraw", url: "https://tldraw.dev/", logo: "tldraw.svg", logoClass: "h-4" },
@@ -62,6 +58,7 @@ export const sponsorTiers: SponsorTier[] = [
       { name: "Loka", url: "https://www.loka.com", logo: "loka.svg", logoClass: "h-4" },
       { name: "Sperid Labs", url: "https://speridlabs.com", logo: "sperid-labs.svg", logoClass: "h-4" },
       { name: "Neywa Labs", url: "https://neywalabs.ai", logo: "neywa-labs.svg", logoClass: "h-3.5" },
+      { name: "QuiverAI", url: "https://quiver.ai/", logo: "quiver.svg", logoClass: "h-3.5" },
     ],
   },
 ];
