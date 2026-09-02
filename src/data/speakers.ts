@@ -246,6 +246,7 @@ This talk walks through the complete computer vision pipeline I built for basket
   // Announced in the schedule; card details still to come.
   {
     name: "Afonso Oliveira",
+    role: "AI Engineer & Consultant",
     org: "OliveGradient",
     orgUrl: "https://olivegradient.com",
     talk: "Building AI people trust without giving away the product",
@@ -266,6 +267,7 @@ The goal isn’t another introduction to confidential computing. It’s a practi
   },
   {
     name: "Alcides Fonseca",
+    role: "Associate Professor",
     org: "U. Lisbon, DragonBoat",
     talk: "Guardrailing your Agents with Types and Logic",
     talkType: "lightning",
@@ -281,6 +283,7 @@ In this talk, I will show how to use [aeon](https://github.com/alcides/aeon) to 
   },
   {
     name: "Artur Goulão",
+    role: "Co-founder & Chief AI Officer",
     org: "Humanos",
     talk: "Runtime Trust for AI: Building the Network That Verifies Autonomous Systems",
     talkType: "lightning",
@@ -303,6 +306,7 @@ The session is a technical walkthrough of the architecture, APIs and runtime ver
   },
   {
     name: "Bojan Jakimovski",
+    role: "Machine Learning & Applied Research Lead",
     org: "Loka",
     talk: "Teaching an Open Model to do Science",
     talkType: "lightning",
@@ -315,6 +319,7 @@ The session is a technical walkthrough of the architecture, APIs and runtime ver
   },
   {
     name: "Boda Zhao",
+    role: "Software Engineer",
     org: "YLD",
     talk: "Prevent supply chain attacks in coding agents",
     talkType: "lightning",
@@ -327,6 +332,7 @@ The session is a technical walkthrough of the architecture, APIs and runtime ver
   },
   {
     name: "Daniel Bukac",
+    role: "Founding Product Engineer",
     org: "Duvo",
     talk: "Screen-aware voice agents: a new interaction pattern",
     talkType: "lightning",
@@ -341,6 +347,7 @@ Two agents, split by job — a fast realtime voice model owns the conversation a
   },
   {
     name: "Harshil Agrawal",
+    role: "Senior Developer Educator",
     org: "Cloudflare",
     talk: "Ditching Containers for Computer",
     talkType: "lightning",
@@ -353,6 +360,7 @@ Two agents, split by job — a fast realtime voice model owns the conversation a
   },
   {
     name: "Jack Fitzsimons",
+    role: "Co-founder & CTO",
     org: "Oblivious",
     orgUrl: "https://www.oblivious.com",
     logo: "oblivious.svg",
@@ -377,6 +385,7 @@ Attendees will leave with a product-agnostic blueprint for outcome-based evaluat
   },
   {
     name: "Nina Torgunakova",
+    role: "Frontend Engineer",
     org: "Evil Martians",
     talk: "Trust nothing, ship safely: surviving the supply chain attack era",
     talkType: "lightning",
@@ -393,6 +402,7 @@ This talk is about getting ahead of it. I'll walk through two real dependency up
   },
   {
     name: "Oğuz Gültepe",
+    role: "Senior Data Scientist",
     org: "Peec AI",
     talk: "Prompt Learning: Distilling Expensive Reasoning Into Fast Production Prompts",
     talkType: "lightning",
@@ -437,6 +447,7 @@ In this lightning talk, I’ll demo an incident response workflow that starts wi
   },
   {
     name: "Prince Canuma",
+    role: "Founder & CEO",
     org: "Neywa Labs",
     talk: "Inference Engineering: Frontier Open Models on the Hardware You Already Own",
     talkType: "full",
@@ -451,6 +462,7 @@ We'll cover the three levers that matter most on memory-bound hardware: quantiza
   },
   {
     name: "Simão Nogueira",
+    role: "Co-founder",
     org: "Noticed",
     talk: "Evals as the code factory",
     talkType: "lightning",
@@ -469,6 +481,7 @@ I’ll showcase three of our open-source skills that enforce this discipline —
   },
   {
     name: "Thom Jenkins",
+    role: "Co-founder & CEO",
     org: "PetsApp",
     talk: "Your Agent Is Ignoring You: Fixing Instruction Drift in Production AI",
     talkType: "lightning",
@@ -503,6 +516,7 @@ The core operational insight: increasing context size often decreases instructio
   },
   {
     name: "Yomi Eluwande",
+    role: "Senior Product Engineer",
     org: "Dash0",
     talk: "Red teaming AI performance ideas: what survived measurement",
     talkType: "lightning",
@@ -521,6 +535,7 @@ Normal renders moved from about 21 ms to 6 ms. Inverted renders moved from about
   },
   {
     name: "David Gomes",
+    role: "Member of Technical Staff",
     org: "SpaceXAI",
     talkType: "interviewer",
     profileUrl: "https://x.com/davidgomes",
