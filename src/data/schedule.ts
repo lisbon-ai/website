@@ -91,9 +91,10 @@ export const days: Day[] = [
         host: { name: "YLD", url: "https://yld.com" },
       },
       // Matt frames agent infrastructure at global scale; Marcelo grounds the
-      // block in an operational harness; Vitalii follows with durable memory;
-      // Peter closes the product loop from telemetry to agent-authored PRs;
-      // Harshil covers execution mechanics; and Alcides closes on guardrails.
+      // block in an operational harness; Vitalii carries that context into
+      // durable memory; Peter closes the autonomous product loop; Pedro brings
+      // interactive apps into the conversation; Harshil covers the execution
+      // substrate; and Alcides closes on correctness and guardrails.
       {
         start: "14:30",
         end: "16:30",
@@ -103,6 +104,7 @@ export const days: Day[] = [
           "Marcelo Lebre",
           "Vitalii Ratushnyi",
           "Peter Kirkham",
+          "Pedro Rodrigues",
           "Harshil Agrawal",
           "Alcides Fonseca",
         ],

@@ -421,6 +421,21 @@ The takeaway for builders: reward design is the real engineering work, natural-l
     abstract: "Everyone demos an agent writing code. But how does the agent know what to work on? Peter Kirkham (PostHog) has spent the last year building the full loop. A product that watches its own telemetry, turns signals into tasks, hands tasks to agents, and publishes the resulting PRs. He'll cover how we built a self driving product and what you need to do to build your own.",
   },
   {
+    name: "Pedro Rodrigues",
+    role: "AI Tooling Engineer",
+    org: "Supabase",
+    talk: "Apps Are the New Tools",
+    talkType: "lightning",
+    profileUrl: "https://www.linkedin.com/in/pedro-neves-rodrigues/",
+    orgUrl: "https://supabase.com/",
+    logo: "supabase.svg",
+    image: "pedro.png",
+    bio: "AI Tooling Engineer at Supabase, part of the team maintaining all AI initiatives, including our MCP server, product Evals, AI assistant, and Skills. I’ve been involved with the MCP protocol since its early days, contributing to its SDKs and open source projects like Skybridge. I'm the co-founder of LisbonAI Week and organized MCP events in my hometown, Lisbon, Portugal.",
+    abstract: `Agents are moving beyond simple tool calls. The next step is bringing interactive apps directly into the conversation: rich, contextual interfaces that help people inspect, decide, and act without jumping between links, dashboards, and screenshots.
+
+In this lightning talk, I’ll demo an incident response workflow that starts with a pager alert and moves through triage, investigation, resolution, postmortem drafting, and team celebration, all inside a shared agent session. Using a mocked incident environment inspired by real engineering workflows, I’ll show why apps are becoming the new tools agents use to turn conversation into action.`,
+  },
+  {
     name: "Prince Canuma",
     org: "Neywa Labs",
     talk: "Inference Engineering: Frontier Open Models on the Hardware You Already Own",
