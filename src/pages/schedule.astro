@@ -57,15 +57,8 @@ const topicAnchors = Object.fromEntries(
 
                   {slots.length > 0 ? (
                     <ul class="flex flex-col border-b border-white/10">
-                      {slots.map(({ start, end, title, subtitle, kind, host, org, speakers }, slotIndex) => {
-                        const picturedSpeakers = speakers
-                          ? lineup(speakers)
-                              .map((name) => speakerByName.get(name))
-                              .filter((speaker) => speaker?.image)
-                          : [];
-                        const isDenseLineup = picturedSpeakers.length >= 7;
-
-                        return <li
+                      {slots.map(({ start, end, title, subtitle, kind, host, org, speakers }, slotIndex) => (
+                        <li
                           id={
                             anchoredAt.get(title) === `${dayIndex}-${slotIndex}`
                               ? slugify(title)
@@ -108,7 +101,7 @@ const topicAnchors = Object.fromEntries(
                                     src={`${import.meta.env.BASE_URL}images/speakers/${host.image}`}
                                     alt={host.name}
                                     title={host.name}
-                                    class="mt-5 h-14 w-14 rounded-lg object-cover md:h-20 md:w-20 md:rounded-xl"
+                                    class="mt-5 h-14 w-14 rounded-lg object-cover md:h-18 md:w-18 md:rounded-xl"
                                   />
                                 )}
                               </>
@@ -141,33 +134,24 @@ const topicAnchors = Object.fromEntries(
                                 {/* The block closes on its line-up, in the same
                                     order as the talks above. Speakers still
                                     waiting on a photo simply sit this out. */}
-                                <div
-                                  class:list={[
-                                    "mt-5 flex flex-wrap gap-2",
-                                    isDenseLineup
-                                      ? "md:grid md:grid-cols-7 md:gap-2"
-                                      : "md:gap-3",
-                                  ]}
-                                >
-                                  {picturedSpeakers.map((speaker) => (
+                                <div class="mt-5 flex flex-wrap gap-2">
+                                  {lineup(speakers)
+                                    .map((name) => speakerByName.get(name))
+                                    .filter((speaker) => speaker?.image)
+                                    .map((speaker) => (
                                       <img
                                         src={`${import.meta.env.BASE_URL}images/speakers/${speaker!.image}`}
                                         alt={speaker!.name}
                                         title={speaker!.name}
-                                        class:list={[
-                                          "h-14 w-14 rounded-lg object-cover md:rounded-xl",
-                                          isDenseLineup
-                                            ? "md:aspect-square md:h-auto md:w-full md:max-w-20"
-                                            : "md:h-20 md:w-20",
-                                        ]}
+                                        class="h-14 w-14 rounded-lg object-cover md:h-18 md:w-18 md:rounded-xl"
                                       />
                                     ))}
                                 </div>
                               </>
                             )}
                           </div>
-                        </li>;
-                      })}
+                        </li>
+                      ))}
                     </ul>
                   ) : (
                     <div class="border-t border-white/10 py-8">
