@@ -377,10 +377,14 @@ Attendees will leave with a product-agnostic blueprint for outcome-based evaluat
   },
   {
     name: "Luis Monteiro",
+    role: "Chief Design Officer",
     org: "Pixelmatters",
     talk: "Design is over",
     talkType: "lightning",
+    profileUrl: "https://www.linkedin.com/in/luismsmonteiro/",
     orgUrl: "https://www.pixelmatters.com",
+    image: "luis.png",
+    bio: "Luís Monteiro is Chief Design Officer at Pixelmatters, a Digital Product Studio based in Porto that works with industry leaders and next-gen disruptors. He leads the design team with a focus on creative direction, design operations, and how AI fits into the way designers work, all shaped by his own years working as a product designer.",
     abstract: "If AI begins with a prompt, does creativity still begin with a canvas? As AI reshapes the way we create, this talk explores the evolving relationship between the two — and asks why the canvas still matters in a world where almost anything can be generated.",
   },
   {
