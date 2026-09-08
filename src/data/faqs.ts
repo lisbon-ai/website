@@ -1,4 +1,4 @@
-export type Faq = { q: string; a: string };
+export type Faq = { q: string; a: string; aHtml?: string };
 
 export const faqs: Faq[] = [
   {
@@ -19,7 +19,9 @@ export const faqs: Faq[] = [
   },
   {
     q: "Can I volunteer?",
-    a: "We'll open volunteer applications closer to the event. Join us on Discord to hear about that first.",
+    a: "Yes, you can. If you're interested in volunteering submit your application.",
+    aHtml:
+      'Yes, you can. If you\'re interested in volunteering <a href="https://resisted-geranium-f4e.notion.site/3d4b0dd5c34f804c9a74ebad36f7efeb" target="_blank" rel="noopener noreferrer" class="underline hover:text-cream">submit your application</a>.',
   },
   {
     q: "Who is organizing this?",

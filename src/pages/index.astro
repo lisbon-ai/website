@@ -237,7 +237,7 @@ const homepageSpeakers = [
                 </span>
               </summary>
               <p class="mt-4 max-w-2xl text-base leading-relaxed text-muted">
-                {faq.a}
+                {faq.aHtml ? <Fragment set:html={faq.aHtml} /> : faq.a}
               </p>
             </details>
           ))
