@@ -1,0 +1,25 @@
+{
+  "version": "1.1.0",
+  "source": "https://github.com/lisbon-ai/motifs",
+  "treatment": "CO01 / refined Later red + PT01 / Smaller + denser",
+  "crop": true,
+  "stillTime": 10.3,
+  "files": {
+    "motifs.js": {
+      "bytes": 39965,
+      "sha256": "a39d550319cc13fb5478ea4a5503da877514778bc2a6c78a80c75265aeceacc1"
+    },
+    "alexnet-filters.png": {
+      "bytes": 38357,
+      "sha256": "39be31d696822295d173db1f180441424405eb7e56d6ca9d790af4490ec8b965"
+    },
+    "poster.webp": {
+      "bytes": 470324,
+      "sha256": "171af25aed591df21fbc58dd17cb1ff6e85132090b9815f5e12cb29f8f072380"
+    },
+    "README.md": {
+      "bytes": 2343,
+      "sha256": "07b54ffd306d14994bb06920bec348c7101d2250333dd2cb0ea501761dda5797"
+    }
+  }
+}

@@ -52,3 +52,24 @@ This is the source for [lisbonai.org](https://lisbonai.org) — built with [Astr
 bun install
 bun dev
 ```
+
+### Hero animation
+
+The homepage uses a pinned, locally served WebGL build from
+[lisbon-ai/motifs](https://github.com/lisbon-ai/motifs). It is the selected refined
+Later red score with PT01's Smaller + denser material, not a video. Reduced motion, unavailable WebGL or disabled
+JavaScript show the matching **10.3-second still**. Playback pauses offscreen and
+in hidden tabs. An accessible Play/Pause button permits manual control.
+
+`src/components/HeroArtwork.astro` owns the site's layout and responsive video framing.
+`public/motifs/1.1.0/` contains the generated build, filter image, poster,
+attribution and integrity manifest. Do not edit the generated files here.
+Copy a new version directory from Motifs and update the component's version.
+There is no runtime GitHub request and no public-facing link to the study.
+
+The nine-motif catalogue, source renderer, research notes, interactive experiments
+and rendering tests belong to the separate Motifs project. The original reference
+video is retained there, not loaded or shipped by this website.
+
+Run `npm test` to verify the pinned files and integration contract. See
+[the integration notes](docs/hero-integration.md) for framing, fallbacks and checks.

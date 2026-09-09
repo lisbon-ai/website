@@ -25,6 +25,8 @@ jobs:
         with:
           package-manager: bun@latest
           node-version: 22
+      - name: Verify the pinned Motifs build
+        run: npm test
 
   deploy:
     needs: build
