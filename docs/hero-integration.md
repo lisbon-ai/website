@@ -40,19 +40,24 @@ fix keeps the existing dependency versions and the immutable Motifs release.
 
 ## Presentation
 
-Container sizing follows measurements of the original 2026 website. Vertical
-fitting follows the user's subsequent correction and the live 2025 reference
-at https://2025.lisbonai.org/: its video uses `cover` with `50% 50%` positioning.
+Desktop artwork width and centered `cover` fitting follow direct measurements
+of https://2025.lisbonai.org/. The previous 2026 container was 80% wide, making
+the drawing about 14% larger on wide screens. It now uses 70%.
 
-- Below 900px, the artwork container occupies the hero's top half. The media is
-  twice the container height, full width, centered, and uses `object-fit: cover`.
-- At 900px and above, the container occupies the right 80% of the full hero height.
+- Below 900px, the artwork container still occupies the hero's top half. The media
+  is twice the container height, full width, centered, and uses `object-fit: cover`.
+- At 900px and above, the container occupies the right 70% of the full hero height.
   The media fills it with the same centered `cover` fitting.
+- Header and hero together fill the initial viewport (`100svh`). Shared header
+  height tokens preserve its existing 81px mobile / 61px desktop dimensions at
+  the default font size. The header remains sticky beyond the hero.
+- Desktop bottom padding is 32px instead of 96px. Mobile stays at 52px. At
+  1512×982 this lowers the content by about 101px and puts the next divider at
+  y=982. Short windows may grow beyond the fold rather than clip the content.
 
-The vertical crop is now shared between the top and bottom rather than cutting
-only the bottom. At 1512×982, this moves the square image up about 163 CSS pixels.
-The 2025 site uses a narrower 70%-wide desktop video; the current site's 80%
-container remains unchanged. `cover` still clips art in some configurations.
+The artwork remains centered in its container. Height is the space below the
+2026 header, not the 2025 video's full viewport height. `cover` still clips art
+in some configurations.
 Do not replace this with `contain` to force all nine motifs into view: that makes
 intermediate sizes much smaller and shifts the composition to the right. No added
 scrim obscures the image. Poster and canvas have identical presentation, without
@@ -116,11 +121,13 @@ GitHub's Ubuntu runner already includes Chrome. Both local and CI checks use Swi
 GPU. These are Chromium integration checks, not Firefox, Safari or physical-phone
 certification.
 
-`tests/fixtures/hero-video-layout.json` records measurements of the live original
-at 390, 600, 768, 899, 900, 1024, 1280, 1440 and 1920px widths, with varied heights.
-The host suite compares media boxes, clipping boxes and painted-frame positions
-against that independent fixture, applying the newly selected centered fitting
-to both expected and actual frames. It checks absent playback controls, ordinary
+`tests/fixtures/hero-video-2025-layout.json` records direct measurements of the
+2025 video at 390, 600, 768, 899, 900, 1024, 1280, 1440, 1512 and 1920px widths.
+It replaces the previous 2026 80%-width / 90vh fixture as the desktop-width
+reference. The host suite checks that width and centered fitting, unchanged
+header dimensions, the divider at the fold, sponsor spacing, and live/still
+boxes. It separately retains the mobile half-height clipping policy and checks
+that short windows can grow and that the header stays sticky after the hero. It checks absent playback controls, ordinary
 autoplay, advancing frames and reduced-motion pause, compares poster/live framing,
 exercises DPR 2 and no-JavaScript states, and samples exposed lower-row pixels.
 It holds the runtime request to check that autoplay never flashes the poster
@@ -128,9 +135,9 @@ before initialization. Uncaught browser errors fail the test. A two-pixel
 painted-frame tolerance accounts for the original 2158×2160 video's almost-square
 aspect ratio versus the square renderer.
 
-The first integration's bottom scrim hid art. The first correction then
-inappropriately forced `contain` and right alignment. The fixture guards the
-actual original layout rather than either of those intermediate implementations.
+The first integration's bottom scrim hid art. An earlier correction
+inappropriately forced `contain` and right alignment. Neither is part of the
+current framing: this change reduces the desktop container's width instead.
 
 The Motifs release browser suite checks the actual bundled module against source
 pixels at 10.3 seconds, exact winning uniforms, no-GPU reduced motion, explicit

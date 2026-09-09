@@ -60,7 +60,9 @@ The homepage uses a pinned, locally served WebGL build from
 Later red score with PT01's Smaller + denser material, not a video. Reduced motion, unavailable WebGL or disabled
 JavaScript show the matching **10.3-second still**. Playback pauses offscreen and
 in hidden tabs. The decorative hero has no playback button. Autoplay begins
-without flashing the still first; fitting is vertically centered, as in 2025.
+without flashing the still first. Centered fitting and 70%-wide desktop artwork
+follow the 2025 reference. The header and hero fill the initial viewport, with
+short windows allowed to grow rather than clip the content.
 
 `src/components/HeroArtwork.astro` owns the site's layout and responsive video framing.
 `public/motifs/1.2.0/` contains the generated build, filter image, poster,

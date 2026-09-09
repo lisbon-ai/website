@@ -1,0 +1,162 @@
+{
+  "source": "https://2025.lisbonai.org/",
+  "captured": "2026-09-09T21:46:51.487Z",
+  "note": "Measured from the 2025 video. Desktop width and centered cover fitting are the reference. The 2026 header, viewport-filling hero and mobile half-height clipping are tested separately.",
+  "cases": [
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "clientWidth": 390,
+      "fit": "cover",
+      "position": "50% 50%",
+      "media": {
+        "x": 0,
+        "y": 3,
+        "width": 390,
+        "height": 599.234375
+      }
+    },
+    {
+      "viewport": {
+        "width": 600,
+        "height": 900
+      },
+      "clientWidth": 600,
+      "fit": "cover",
+      "position": "50% 50%",
+      "media": {
+        "x": 0,
+        "y": 3,
+        "width": 600,
+        "height": 639
+      }
+    },
+    {
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "clientWidth": 768,
+      "fit": "cover",
+      "position": "50% 50%",
+      "media": {
+        "x": 0,
+        "y": 3,
+        "width": 768,
+        "height": 727.0390625
+      }
+    },
+    {
+      "viewport": {
+        "width": 899,
+        "height": 900
+      },
+      "clientWidth": 899,
+      "fit": "cover",
+      "position": "50% 50%",
+      "media": {
+        "x": 269.703125,
+        "y": 3,
+        "width": 629.296875,
+        "height": 900
+      }
+    },
+    {
+      "viewport": {
+        "width": 900,
+        "height": 900
+      },
+      "clientWidth": 900,
+      "fit": "cover",
+      "position": "50% 50%",
+      "media": {
+        "x": 270,
+        "y": 3,
+        "width": 630,
+        "height": 900
+      }
+    },
+    {
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "clientWidth": 1024,
+      "fit": "cover",
+      "position": "50% 50%",
+      "media": {
+        "x": 307.203125,
+        "y": 3,
+        "width": 716.796875,
+        "height": 768
+      }
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "clientWidth": 1280,
+      "fit": "cover",
+      "position": "50% 50%",
+      "media": {
+        "x": 384,
+        "y": 3,
+        "width": 896,
+        "height": 800
+      }
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "clientWidth": 1440,
+      "fit": "cover",
+      "position": "50% 50%",
+      "media": {
+        "x": 432,
+        "y": 3,
+        "width": 1008,
+        "height": 1000
+      }
+    },
+    {
+      "viewport": {
+        "width": 1512,
+        "height": 982
+      },
+      "clientWidth": 1512,
+      "fit": "cover",
+      "position": "50% 50%",
+      "media": {
+        "x": 453.6015625,
+        "y": 3,
+        "width": 1058.3984375,
+        "height": 982
+      }
+    },
+    {
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "clientWidth": 1920,
+      "fit": "cover",
+      "position": "50% 50%",
+      "media": {
+        "x": 576,
+        "y": 3,
+        "width": 1344,
+        "height": 1080
+      }
+    }
+  ],
+  "media": "https://2025.lisbonai.org/external/framerusercontent.com/assets/mGDJHyiXNFlERzAzWKLWnquR0VE.mp4",
+  "intrinsic": {
+    "width": 2158,
+    "height": 2160
+  }
+}

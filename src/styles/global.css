@@ -3,6 +3,8 @@
 @theme {
     /* Collapse all multi-column layouts to a single column below 900px. */
     --breakpoint-md: 900px;
+    --spacing-header: calc(5rem + 1px);
+    --spacing-header-desktop: calc(3.75rem + 1px);
 
     --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
     --font-mono:

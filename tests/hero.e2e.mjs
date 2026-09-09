@@ -5,7 +5,7 @@ import { after, before, test } from 'node:test';
 import { preview } from 'astro';
 import { openBrowserPage } from './browser.mjs';
 
-const reference = JSON.parse(await readFile(new URL('./fixtures/hero-video-layout.json', import.meta.url)));
+const reference = JSON.parse(await readFile(new URL('./fixtures/hero-video-2025-layout.json', import.meta.url)));
 let server, page, url;
 before(async () => {
   server = await preview({ root: fileURLToPath(new URL('../', import.meta.url)), logLevel: 'silent', server: { host: '127.0.0.1', port: 0 } });
@@ -16,7 +16,7 @@ after(async () => {
   try { await page?.close(); } finally { await server?.stop(); }
 });
 
-test('the built homepage autoplays without a control and centers the responsive framing', { timeout: 120000 }, async () => {
+test('the built homepage uses the 2025 desktop width and fills the first viewport', { timeout: 120000 }, async () => {
   await page.command('Page.enable');
   await page.command('Runtime.enable');
   await page.command('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-motion', value: 'reduce' }] });
@@ -47,6 +47,16 @@ test('the built homepage autoplays without a control and centers the responsive 
     await inspect('canvas', expected);
     assert.equal(await page.evaluate(() => document.querySelector('[data-motifs]').dataset.frame), pausedFrame);
   }
+  await page.command('Emulation.setDeviceMetricsOverride', { width: 1280, height: 500, deviceScaleFactor: 1, mobile: false });
+  await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+  assert.equal(await page.evaluate(() => {
+    const hero = document.querySelector('[data-motifs]').closest('section').getBoundingClientRect();
+    const sponsors = document.querySelector('[data-sponsor-strip]').getBoundingClientRect();
+    return hero.bottom > innerHeight && sponsors.bottom <= hero.bottom - 32;
+  }), true, 'Short windows must allow the content to grow below the fold, not clip it.');
+  await page.evaluate(() => scrollTo(0, 700));
+  assert.equal(await page.evaluate(() => document.querySelector('header').getBoundingClientRect().top), 0, 'The header must remain sticky beyond the hero.');
+  await page.evaluate(() => scrollTo(0, 0));
   await page.command('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-motion', value: 'no-preference' }] });
   await page.command('Page.addScriptToEvaluateOnNewDocument', { source: `
     window.__posterSeen = false;
@@ -103,8 +113,12 @@ async function inspect(kind, expected) {
     const root = document.querySelector('[data-motifs]');
     const media = root.querySelector(`[data-motifs-${kind}]`);
     const box = element => { const r = element.getBoundingClientRect(); return { x: r.x, y: r.y, width: r.width, height: r.height }; };
-    const css = getComputedStyle(media);
+    const css = getComputedStyle(media), hero = root.closest('section');
+    let divider = hero.nextElementSibling;
+    while (divider && divider.tagName !== 'SECTION') divider = divider.nextElementSibling;
     return {
+      header: box(document.querySelector('header')), hero: box(hero),
+      sponsors: box(hero.querySelector('[data-sponsor-strip]')), divider: box(divider),
       hidden: media.hidden, fit: css.objectFit, position: css.objectPosition,
       intrinsic: kind === 'poster' ? { width: media.naturalWidth, height: media.naturalHeight } : { width: media.width, height: media.height },
       media: box(media), clip: box(root), viewportHeight: innerHeight,
@@ -114,17 +128,27 @@ async function inspect(kind, expected) {
   }, kind);
   assert.equal(state.hidden, false);
   assert.equal(state.fit, expected.fit);
-  // Keep the 2026 boxes, with the centered fitting confirmed on the 2025 site.
-  assert.equal(state.position, '50% 50%');
+  assert.equal(state.position, expected.position);
   assert.equal(state.overflow, false);
+  const desktop = expected.viewport.width >= 900;
+  const headerHeight = desktop ? 61 : 81;
+  const height = expected.viewport.height - headerHeight;
+  assertBox(state.header, { x: 0, y: 0, width: state.clientWidth, height: headerHeight }, .1, 'Unchanged header');
+  assertBox(state.hero, { x: 0, y: headerHeight, width: state.clientWidth, height }, .1, 'Header and hero must fill the viewport');
+  assert.ok(Math.abs(state.divider.y - expected.viewport.height) < .1, 'The divider must sit at the fold.');
+  assert.ok(Math.abs(state.hero.y + height - state.sponsors.y - state.sponsors.height - (desktop ? 32 : 52)) < .1, 'Sponsor-strip bottom spacing');
   const horizontalScale = state.clientWidth / expected.clientWidth;
-  const scale = box => ({ ...box, x: box.x * horizontalScale, width: box.width * horizontalScale });
-  assertBox(state.media, scale(expected.media), .1, 'Original video element');
-  assertBox(state.clip, scale(expected.clip), .1, 'Original clipping container');
+  const media = {
+    x: desktop ? expected.media.x * horizontalScale : 0,
+    y: headerHeight,
+    width: desktop ? expected.media.width * horizontalScale : state.clientWidth,
+    height,
+  };
+  assertBox(state.media, media, .1, '2025 desktop width inside the viewport-filling hero');
+  assertBox(state.clip, { ...media, height: desktop ? height : height / 2 }, .1, 'Responsive clipping container');
   const frame = coverFrame(state.media, state.intrinsic);
-  // The original is 2158×2160; the renderer is square. The sub-0.1% aspect
-  // difference accounts for at most two CSS pixels across this matrix.
-  assertBox(frame, coverFrame(scale(expected.media), reference.intrinsic), 2, 'Painted reference frame');
+  // Apply the 2025 source's almost-square aspect to the new host box.
+  assertBox(frame, coverFrame(media, reference.intrinsic), 2, 'Painted reference frame');
 
   // Check lower-row pixels only where the centered cover exposes them. Mobile
   // still clips the double-height media; no scrim may obscure exposed art.
