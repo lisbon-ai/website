@@ -71,5 +71,7 @@ The nine-motif catalogue, source renderer, research notes, interactive experimen
 and rendering tests belong to the separate Motifs project. The original reference
 video is retained there, not loaded or shipped by this website.
 
-Run `npm test` to verify the pinned files and integration contract. See
+Sync dependencies with `bun install --frozen-lockfile` before building. Run
+`npm test` to verify the pinned files and integration contract, then
+`npm run build && npm run test:build` to check the compiled native loader. See
 [the integration notes](docs/hero-integration.md) for framing, fallbacks and checks.

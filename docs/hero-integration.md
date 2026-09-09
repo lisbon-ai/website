@@ -18,6 +18,21 @@ conference website deliberately has no link to the study.
 Do not edit generated files. For an update, build and test a new version in
 Motifs, copy its whole release directory and change the component's version.
 `npm test` checks the copied manifest, file hashes and component contract.
+After building, `npm run test:build` verifies the actual emitted loader. Both
+checks run in CI before deployment.
+
+The host loader is a native `<script is:inline type="module">`. Motifs is already
+a self-contained build loaded from a runtime URL, not a source dependency for
+Vite to rewrite. Processing this import with the website's Astro 7.0.6 / Vite
+8.1.3 toolchain left an unresolved `__VITE_PRELOAD__` placeholder in the compiled
+page. That stopped initialization before the runtime or its fallback handler
+could run. The inline module avoids that build rewrite, and the output test
+asserts that Astro preserves its source exactly.
+
+The first local verification missed this because the installed website packages
+were stale (Astro 6.3.1 / Vite 7.3.2), despite newer versions in the checked-in
+manifest and lockfile. Sync dependencies from `bun.lock` before building. This
+fix keeps the existing dependency versions and the immutable Motifs release.
 
 ## Presentation
 

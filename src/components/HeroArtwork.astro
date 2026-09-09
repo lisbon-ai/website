@@ -21,14 +21,12 @@ const release = `${import.meta.env.BASE_URL}motifs/1.1.0/`;
     class="pointer-events-auto absolute top-4 right-6 z-10 min-h-11 border border-white/20 bg-ink/95 px-3 font-mono text-[10px] text-soft hover:text-cream focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent md:top-auto md:right-8 md:bottom-6"
   >Play animation</button>
 </div>
-<script>
-  const root = document.querySelector<HTMLElement>("[data-motifs]")!;
-  const release = new URL(root.dataset.motifsRelease!, location.href);
-  let dispose: (() => void) | undefined, stopped = false;
-  import(/* @vite-ignore */ new URL("motifs.js", release).href)
-    .then(({ mountMotifs }) => { if (!stopped) dispose = mountMotifs(root); })
-    .catch(() => { if (!stopped) root.dataset.renderer = "fallback"; });
-  import.meta.hot?.dispose(() => { stopped = true; dispose?.(); });
+<script is:inline type="module">
+  const root = document.querySelector("[data-motifs]");
+  const release = new URL(root.dataset.motifsRelease, location.href);
+  import(new URL("motifs.js", release).href)
+    .then(({ mountMotifs }) => mountMotifs(root))
+    .catch(() => { root.dataset.renderer = "fallback"; });
 </script>
 <style>
   [hidden] { display: none !important; }
