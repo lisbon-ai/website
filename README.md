@@ -59,10 +59,11 @@ The homepage uses a pinned, locally served WebGL build from
 [lisbon-ai/motifs](https://github.com/lisbon-ai/motifs). It is the selected refined
 Later red score with PT01's Smaller + denser material, not a video. Reduced motion, unavailable WebGL or disabled
 JavaScript show the matching **10.3-second still**. Playback pauses offscreen and
-in hidden tabs. An accessible Play/Pause button permits manual control.
+in hidden tabs. The decorative hero has no playback button. Autoplay begins
+without flashing the still first; fitting is vertically centered, as in 2025.
 
 `src/components/HeroArtwork.astro` owns the site's layout and responsive video framing.
-`public/motifs/1.1.0/` contains the generated build, filter image, poster,
+`public/motifs/1.2.0/` contains the generated build, filter image, poster,
 attribution and integrity manifest. Do not edit the generated files here.
 Copy a new version directory from Motifs and update the component's version.
 There is no runtime GitHub request and no public-facing link to the study.
@@ -71,7 +72,15 @@ The nine-motif catalogue, source renderer, research notes, interactive experimen
 and rendering tests belong to the separate Motifs project. The original reference
 video is retained there, not loaded or shipped by this website.
 
-Sync dependencies with `bun install --frozen-lockfile` before building. Run
-`npm test` to verify the pinned files and integration contract, then
-`npm run build && npm run test:build` to check the compiled native loader. See
-[the integration notes](docs/hero-integration.md) for framing, fallbacks and checks.
+`npm test` runs the fast Node tests. It verifies the pinned files and component
+contract without building the site or requiring a browser.
+
+For end-to-end checks, sync dependencies with `bun install --frozen-lockfile` and
+run `npm run test:e2e`. This builds the site and tests it in Chrome/Chromium.
+Only this opt-in task requires a browser. Set `CHROME_PATH` if it is not in a
+standard macOS location or on `PATH`. No running server or debugging session is
+needed. The tests launch and clean up their own server, browser and temporary
+profile. CI runs both commands before uploading the tested build.
+
+See [the integration notes](docs/hero-integration.md) for framing, fallbacks and
+checks.

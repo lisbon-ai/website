@@ -9,25 +9,29 @@ catalogue, experiments and model/GPU tests have one owner there.
 
 ## Pinned build
 
-`src/components/HeroArtwork.astro` loads `public/motifs/1.1.0/motifs.js` from this
+`src/components/HeroArtwork.astro` loads `public/motifs/1.2.0/motifs.js` from this
 website's own origin. The adjacent image, 10.3-second poster, attribution and
-integrity manifest are copied as a unit from `motifs/public/releases/1.1.0/`.
+integrity manifest are copied as a unit from `motifs/public/releases/1.2.0/`.
+Release 1.2 changes startup presentation and makes the host toggle optional;
+the 1.1 material, still, score and timing are unchanged.
 No iframe, external runtime service, video or GitHub fetch is involved. The
 conference website deliberately has no link to the study.
 
 Do not edit generated files. For an update, build and test a new version in
 Motifs, copy its whole release directory and change the component's version.
-`npm test` checks the copied manifest, file hashes and component contract.
-After building, `npm run test:build` verifies the actual emitted loader. Both
-checks run in CI before deployment.
+`npm test` checks the copied manifest, file hashes and component contract using
+Node alone. `npm run test:e2e` builds the site and opens the compiled homepage in
+a managed browser. CI runs both and uploads that tested build only after all
+checks pass.
 
 The host loader is a native `<script is:inline type="module">`. Motifs is already
 a self-contained build loaded from a runtime URL, not a source dependency for
 Vite to rewrite. Processing this import with the website's Astro 7.0.6 / Vite
 8.1.3 toolchain left an unresolved `__VITE_PRELOAD__` placeholder in the compiled
 page. That stopped initialization before the runtime or its fallback handler
-could run. The inline module avoids that build rewrite, and the output test
-asserts that Astro preserves its source exactly.
+could run. The inline module avoids that build rewrite. The integrated browser
+test verifies actual startup and playback rather than matching the loader's
+source text or looking for one particular build placeholder.
 
 The first local verification missed this because the installed website packages
 were stale (Astro 6.3.1 / Vite 7.3.2), despite newer versions in the checked-in
@@ -36,34 +40,47 @@ fix keeps the existing dependency versions and the immutable Motifs release.
 
 ## Presentation
 
-Framing follows direct measurements of the original live website:
+Container sizing follows measurements of the original 2026 website. Vertical
+fitting follows the user's subsequent correction and the live 2025 reference
+at https://2025.lisbonai.org/: its video uses `cover` with `50% 50%` positioning.
 
 - Below 900px, the artwork container occupies the hero's top half. The media is
-  twice the container height, full width, top-centered, and uses `object-fit: cover`.
+  twice the container height, full width, centered, and uses `object-fit: cover`.
 - At 900px and above, the container occupies the right 80% of the full hero height.
-  The media fills it with the same top-centered `cover` fitting.
+  The media fills it with the same centered `cover` fitting.
 
-The original intentionally clips the lower row in some window configurations.
+The vertical crop is now shared between the top and bottom rather than cutting
+only the bottom. At 1512×982, this moves the square image up about 163 CSS pixels.
+The 2025 site uses a narrower 70%-wide desktop video; the current site's 80%
+container remains unchanged. `cover` still clips art in some configurations.
 Do not replace this with `contain` to force all nine motifs into view: that makes
 intermediate sizes much smaller and shifts the composition to the right. No added
 scrim obscures the image. Poster and canvas have identical presentation, without
 changing motif masks, colours, timing or the renderer. The headline, buttons,
 sponsor layout and footer remain otherwise unchanged.
 
-## Accessibility and lifecycle
+## Startup, accessibility and lifecycle
+
+A synchronous inline script marks automatic startup before the image is parsed.
+CSS hides that image while `data-renderer="loading"` and reduced motion is off.
+The runtime keeps it hidden until the first frame. Module or renderer failure
+reveals the still. This avoids showing the 10.3-second pose and then jumping back
+to the loop's opening. It does not remove network/GPU setup time or skip authored
+entrance frames: the navy background remains while preparing the animation.
 
 - Reduced motion is the OS/browser's `prefers-reduced-motion: reduce` preference,
   not a speed or battery heuristic. Initial reduced-motion mode shows the
   **10.3-second still**, with no filter download, WebGL setup or animation loop.
 - No JavaScript, a failed module/image load or unavailable WebGL retains the
-  same local still. A failed renderer does not expose a nonfunctional button.
+  same local still.
   Network failures require a reload to retry; graphics-context restoration can
   recover automatically.
 - The decorative image has empty alt text and the canvas is hidden from assistive
-  technology. The Play/Pause button remains a real keyboard-accessible control.
-- Explicit Play permits motion even with reduced motion enabled. Changing the
-  preference to reduce pauses at the selected still frame. Disabling the
-  preference again does not silently override that pause.
+  technology. The conference hero has no page-level playback control, as requested;
+  the study retains its accessible Play/Pause controls. Reduced-motion support
+  does not provide a manual pause mechanism for other visitors.
+- Changing the preference to reduce pauses at the selected still frame. Disabling
+  the preference again does not silently override that pause; reload to autoplay.
 - Offscreen, hidden tabs and persisted page suspension stop the loop without
   catching up unseen time. Ordinary page teardown disposes listeners and GPU
   resources. Context restoration preserves playback intent and position.
@@ -73,20 +90,43 @@ sponsor layout and footer remain otherwise unchanged.
 
 ## Verification
 
-With the site running and Chrome's debugging port available:
+`npm test` runs the fast Node tests without building the website or requiring a
+browser. Browser coverage is a separate, opt-in local task:
 
 ```sh
-CHROME_DEBUG_URL=http://127.0.0.1:9223 npm run test:hero-browser
-# Set WEBSITE_URL to check a built or hosted preview instead of localhost:4321.
+bun install --frozen-lockfile
+npm test
+npm run test:e2e
 ```
+
+CI runs both commands. The end-to-end task builds once, and the Pages artifact is
+uploaded only after its browser checks pass. No browser is downloaded by either
+test command.
+
+`tests/hero.e2e.mjs` is a regular Node test. It starts Astro's static preview on an
+unused loopback port and a fresh headless Chrome/Chromium process with its own
+unused debugging port and temporary profile. Hooks close both processes and
+remove the profile after success or failure. It never attaches to a developer's
+browser or uses a previously running website.
+
+Chrome/Chromium is discovered on `PATH` or in standard macOS application paths.
+`CHROME_PATH` can specify another executable. A missing browser fails
+`test:e2e` rather than skipping coverage, but does not affect `npm test`.
+GitHub's Ubuntu runner already includes Chrome. Both local and CI checks use SwiftShader for WebGL without requiring a physical
+GPU. These are Chromium integration checks, not Firefox, Safari or physical-phone
+certification.
 
 `tests/fixtures/hero-video-layout.json` records measurements of the live original
 at 390, 600, 768, 899, 900, 1024, 1280, 1440 and 1920px widths, with varied heights.
 The host suite compares media boxes, clipping boxes and painted-frame positions
-against that independent fixture. It also compares poster/live framing, exercises
-DPR 2 and no-JavaScript states, and samples lower-row pixels where the original
-crop exposes them. A two-pixel painted-frame tolerance accounts for the original
-2158×2160 video's almost-square aspect ratio versus the square renderer.
+against that independent fixture, applying the newly selected centered fitting
+to both expected and actual frames. It checks absent playback controls, ordinary
+autoplay, advancing frames and reduced-motion pause, compares poster/live framing,
+exercises DPR 2 and no-JavaScript states, and samples exposed lower-row pixels.
+It holds the runtime request to check that autoplay never flashes the poster
+before initialization. Uncaught browser errors fail the test. A two-pixel
+painted-frame tolerance accounts for the original 2158×2160 video's almost-square
+aspect ratio versus the square renderer.
 
 The first integration's bottom scrim hid art. The first correction then
 inappropriately forced `contain` and right alignment. The fixture guards the

@@ -30,6 +30,9 @@ test('the homepage keeps an accessible local still without a video or study link
   assert.doesNotMatch(hero, /<video/);
   assert.match(component, /data-motifs-poster/);
   assert.match(component, /data-motifs-canvas hidden aria-hidden="true"/);
-  assert.match(component, /data-motifs-toggle hidden type="button"/);
+  assert.doesNotMatch(component, /<button|data-motifs-toggle/);
+  assert.match(component, /object-cover object-center/);
+  const prepaint = component.indexOf('document.currentScript.parentElement.dataset.renderer = "loading"');
+  assert.ok(prepaint >= 0 && prepaint < component.indexOf('<img'));
   assert.doesNotMatch(hero + component + footer, /href=[^\n]*(?:hero-lab|github\.com\/lisbon-ai\/motifs|github\.io\/motifs)/);
 });

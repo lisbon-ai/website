@@ -1,28 +1,42 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
+import { after, before, test } from 'node:test';
+import { preview } from 'astro';
 import { openBrowserPage } from './browser.mjs';
 
 const reference = JSON.parse(await readFile(new URL('./fixtures/hero-video-layout.json', import.meta.url)));
-const page = await openBrowserPage('about:blank');
-const url = process.env.WEBSITE_URL ?? 'http://127.0.0.1:4321/';
-try {
+let server, page, url;
+before(async () => {
+  server = await preview({ root: fileURLToPath(new URL('../', import.meta.url)), logLevel: 'silent', server: { host: '127.0.0.1', port: 0 } });
+  url = `http://127.0.0.1:${server.port}/`;
+  page = await openBrowserPage('about:blank');
+});
+after(async () => {
+  try { await page?.close(); } finally { await server?.stop(); }
+});
+
+test('the built homepage autoplays without a control and centers the responsive framing', { timeout: 120000 }, async () => {
   await page.command('Page.enable');
   await page.command('Runtime.enable');
   await page.command('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-motion', value: 'reduce' }] });
   for (const expected of reference.cases) {
     for (const deviceScaleFactor of expected.viewport.width === 390 || expected.viewport.width === 768 ? [1, 2] : [1]) {
       await page.command('Emulation.setDeviceMetricsOverride', { ...expected.viewport, deviceScaleFactor, mobile: false });
+      await page.command('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-motion', value: 'reduce' }] });
       await navigate();
       const poster = await inspect('poster', expected);
-      await page.waitFor("document.querySelector('[data-motifs-toggle]')?.hidden === false");
-      await page.evaluate(() => document.querySelector('[data-motifs-toggle]').click());
+      assert.equal(await page.evaluate(() => document.querySelector('[data-motifs-toggle]')), null);
+      await page.command('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-motion', value: 'no-preference' }] });
+      await navigate();
       await page.waitFor("document.querySelector('[data-motifs]')?.dataset.renderer === 'webgl2'");
-      await page.evaluate(() => document.querySelector('[data-motifs-toggle]').click());
+      await page.command('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-motion', value: 'reduce' }] });
+      await page.waitFor("document.querySelector('[data-motifs]').dataset.frame === '309'");
       const canvas = await inspect('canvas', expected);
       assert.deepEqual(canvas.media, poster.media, 'Live and fallback media boxes must agree.');
       assert.deepEqual(canvas.clip, poster.clip);
       assertBox(canvas.frame, poster.frame, 1e-6, 'Live and fallback framing');
-      console.log(`Original-site framing: ${expected.viewport.width}×${expected.viewport.height}, DPR ${deviceScaleFactor}`);
+      console.log(`Centered framing: ${expected.viewport.width}×${expected.viewport.height}, DPR ${deviceScaleFactor}`);
     }
   }
   const pausedFrame = await page.evaluate(() => document.querySelector('[data-motifs]').dataset.frame);
@@ -33,17 +47,50 @@ try {
     await inspect('canvas', expected);
     assert.equal(await page.evaluate(() => document.querySelector('[data-motifs]').dataset.frame), pausedFrame);
   }
+  await page.command('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-motion', value: 'no-preference' }] });
+  await page.command('Page.addScriptToEvaluateOnNewDocument', { source: `
+    window.__posterSeen = false;
+    function samplePoster() {
+      const poster = document.querySelector('[data-motifs-poster]');
+      if (poster?.naturalWidth && !poster.hidden && getComputedStyle(poster).visibility !== 'hidden') window.__posterSeen = true;
+      requestAnimationFrame(samplePoster);
+    }
+    requestAnimationFrame(samplePoster);
+  ` });
+  await page.command('Network.enable');
+  await page.command('Network.setCacheDisabled', { cacheDisabled: true });
+  await page.command('Fetch.enable', { patterns: [{ urlPattern: '*/motifs.js' }] });
+  try {
+    await page.command('Page.navigate', { url });
+    await page.waitFor("document.querySelector('[data-motifs-poster]')?.naturalWidth > 0");
+    await new Promise(resolve => setTimeout(resolve, 500));
+    const request = page.events.find(event => event.method === 'Fetch.requestPaused');
+    assert.ok(request, 'Hold the runtime request to exercise first paint before initialization.');
+    assert.equal(await page.evaluate(() => window.__posterSeen), false);
+    assert.equal(await page.evaluate(() => document.querySelector('[data-motifs]').dataset.renderer), 'loading');
+    await page.command('Fetch.continueRequest', { requestId: request.params.requestId });
+  } finally { await page.command('Fetch.disable'); }
+  await page.waitFor("document.querySelector('[data-motifs]')?.dataset.playing === 'true'");
+  assert.equal(await page.evaluate(() => window.__posterSeen), false, 'Autoplay must not flash the still before or during initialization.');
+  const startedFrame = await page.evaluate(() => document.querySelector('[data-motifs]').dataset.frame);
+  await page.waitFor(`document.querySelector('[data-motifs]').dataset.frame !== ${JSON.stringify(startedFrame)}`);
+  await page.command('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-motion', value: 'reduce' }] });
+  await page.waitFor("document.querySelector('[data-motifs]').dataset.playing === 'false'");
+  const stoppedFrame = await page.evaluate(() => document.querySelector('[data-motifs]').dataset.frame);
+  await new Promise(resolve => setTimeout(resolve, 200));
+  assert.equal(await page.evaluate(() => document.querySelector('[data-motifs]').dataset.frame), stoppedFrame);
+
   await page.command('Emulation.setScriptExecutionDisabled', { value: true });
   for (const width of [390, 768, 1440]) {
     const expected = reference.cases.find(item => item.viewport.width === width);
     await page.command('Emulation.setDeviceMetricsOverride', { ...expected.viewport, deviceScaleFactor: 1, mobile: false });
     await navigate();
     await inspect('poster', expected);
-    assert.equal(await page.evaluate(() => document.querySelector('[data-motifs-toggle]').hidden), true);
+    assert.equal(await page.evaluate(() => document.querySelector('[data-motifs-toggle]')), null);
   }
   assert.deepEqual(page.events.filter(event => event.method === 'Runtime.exceptionThrown'), []);
-  console.log('Original responsive crop, visible lower-row portions, live/poster and no-JavaScript checks passed.');
-} finally { await page.close(); }
+  console.log('Centered responsive crop, visible lower-row portions, live/poster and no-JavaScript checks passed.');
+});
 
 async function navigate() {
   await page.command('Page.navigate', { url });
@@ -67,7 +114,8 @@ async function inspect(kind, expected) {
   }, kind);
   assert.equal(state.hidden, false);
   assert.equal(state.fit, expected.fit);
-  assert.equal(state.position, expected.position);
+  // Keep the 2026 boxes, with the centered fitting confirmed on the 2025 site.
+  assert.equal(state.position, '50% 50%');
   assert.equal(state.overflow, false);
   const horizontalScale = state.clientWidth / expected.clientWidth;
   const scale = box => ({ ...box, x: box.x * horizontalScale, width: box.width * horizontalScale });
@@ -78,9 +126,8 @@ async function inspect(kind, expected) {
   // difference accounts for at most two CSS pixels across this matrix.
   assertBox(frame, coverFrame(scale(expected.media), reference.intrinsic), 2, 'Painted reference frame');
 
-  // Only check lower-row pixels where the ORIGINAL crop exposes them. Phones
-  // and wide/short windows intentionally hide that row. No added scrim should
-  // hide a portion that the original layout would show.
+  // Check lower-row pixels only where the centered cover exposes them. Mobile
+  // still clips the double-height media; no scrim may obscure exposed art.
   const region = {
     x: Math.max(state.clip.x, frame.x + frame.width * .83),
     y: Math.max(state.clip.y, frame.y + frame.height * .76),
@@ -94,7 +141,7 @@ async function inspect(kind, expected) {
 function coverFrame(box, intrinsic) {
   const scale = Math.max(box.width / intrinsic.width, box.height / intrinsic.height);
   const width = intrinsic.width * scale, height = intrinsic.height * scale;
-  return { x: box.x + (box.width - width) / 2, y: box.y, width, height };
+  return { x: box.x + (box.width - width) / 2, y: box.y + (box.height - height) / 2, width, height };
 }
 
 function assertBox(actual, expected, tolerance, message) {
