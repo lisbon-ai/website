@@ -9,11 +9,12 @@ catalogue, experiments and model/GPU tests have one owner there.
 
 ## Pinned build
 
-`src/components/HeroArtwork.astro` loads `public/motifs/1.2.0/motifs.js` from this
+`src/components/HeroArtwork.astro` loads `public/motifs/1.3.0/motifs.js` from this
 website's own origin. The adjacent image, 10.3-second poster, attribution and
-integrity manifest are copied as a unit from `motifs/public/releases/1.2.0/`.
-Release 1.2 changes startup presentation and makes the host toggle optional;
-the 1.1 material, still, score and timing are unchanged.
+integrity manifest are copied as a unit from `motifs/public/releases/1.3.0/`.
+Release 1.2 changed startup presentation and made the host toggle optional.
+Release 1.3 adds a 4% homepage zoom-out around the same camera anchor, with a
+matching regenerated still. The selected material, score and timing are unchanged.
 No iframe, external runtime service, video or GitHub fetch is involved. The
 conference website deliberately has no link to the study.
 
@@ -55,7 +56,11 @@ the drawing about 14% larger on wide screens. It now uses 70%.
   1512×982 this lowers the content by about 101px and puts the next divider at
   y=982. Short windows may grow beyond the fold rather than clip the content.
 
-The artwork remains centered in its container. Height is the space below the
+The artwork remains centered in its unchanged container. Projection zoom 0.96
+makes it 4% smaller around the same camera anchor, revealing more of the edges.
+This does not shrink or translate the CSS box, change the fold, or move the
+headline and sponsor row. Live rendering and the poster use the same zoom.
+Height is the space below the
 2026 header, not the 2025 video's full viewport height. `cover` still clips art
 in some configurations.
 Do not replace this with `contain` to force all nine motifs into view: that makes

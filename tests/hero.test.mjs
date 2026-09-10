@@ -12,6 +12,7 @@ test('the pinned Motifs build is complete and unmodified', async () => {
   assert.equal(manifest.version, version);
   assert.equal(manifest.stillTime, 10.3);
   assert.equal(manifest.crop, true);
+  assert.equal(manifest.zoom, 0.96);
   assert.match(manifest.treatment, /PT01 \/ Smaller \+ denser/);
   for (const [name, expected] of Object.entries(manifest.files)) {
     const bytes = await readFile(new URL(name, release));

@@ -116,8 +116,13 @@ async function inspect(kind, expected) {
     const css = getComputedStyle(media), hero = root.closest('section');
     let divider = hero.nextElementSibling;
     while (divider && divider.tagName !== 'SECTION') divider = divider.nextElementSibling;
+    let zoom = null;
+    if (kind === 'canvas') {
+      const gl = media.getContext('webgl2'), program = gl.getParameter(gl.CURRENT_PROGRAM);
+      zoom = gl.getUniform(program, gl.getUniformLocation(program, 'u_zoom'));
+    }
     return {
-      header: box(document.querySelector('header')), hero: box(hero),
+      zoom, header: box(document.querySelector('header')), hero: box(hero),
       sponsors: box(hero.querySelector('[data-sponsor-strip]')), divider: box(divider),
       hidden: media.hidden, fit: css.objectFit, position: css.objectPosition,
       intrinsic: kind === 'poster' ? { width: media.naturalWidth, height: media.naturalHeight } : { width: media.width, height: media.height },
@@ -127,6 +132,7 @@ async function inspect(kind, expected) {
     };
   }, kind);
   assert.equal(state.hidden, false);
+  if (kind === 'canvas') assert.ok(Math.abs(state.zoom - .96) < 1e-6, 'Use the matching 4% homepage zoom-out.');
   assert.equal(state.fit, expected.fit);
   assert.equal(state.position, expected.position);
   assert.equal(state.overflow, false);

@@ -62,10 +62,11 @@ JavaScript show the matching **10.3-second still**. Playback pauses offscreen an
 in hidden tabs. The decorative hero has no playback button. Autoplay begins
 without flashing the still first. Centered fitting and 70%-wide desktop artwork
 follow the 2025 reference. The header and hero fill the initial viewport, with
-short windows allowed to grow rather than clip the content.
+short windows allowed to grow rather than clip the content. The artwork is
+zoomed out a further 4% around the same camera anchor, without moving its box.
 
 `src/components/HeroArtwork.astro` owns the site's layout and responsive video framing.
-`public/motifs/1.2.0/` contains the generated build, filter image, poster,
+`public/motifs/1.3.0/` contains the generated build, filter image, poster,
 attribution and integrity manifest. Do not edit the generated files here.
 Copy a new version directory from Motifs and update the component's version.
 There is no runtime GitHub request and no public-facing link to the study.
