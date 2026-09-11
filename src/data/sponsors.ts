@@ -9,6 +9,7 @@ export type SponsorTier = {
   label: string;
   sponsors: Sponsor[];
   gridClass?: string; // Tailwind grid-cols override for this tier's logo grid
+  cols?: number; // logos per row; a short last row stretches to fill the width
   panelClass?: string; // optional background/border treatment for the tier panel
 };
 
@@ -48,9 +49,10 @@ export const sponsorTiers: SponsorTier[] = [
   },
   {
     label: "Community",
-    // Six logos as a uniform 3 x 2 grid. The nth-child rule drops the right
-    // border at the end of each row so it doesn't double up against the panel.
-    gridClass: "grid-cols-3 [&>*:nth-child(3n)]:border-r-0",
+    // Three logos per row, laid out on a six-unit track so a short last row
+    // can stretch across the full width rather than trail off into blanks.
+    gridClass: "grid-cols-6",
+    cols: 3,
     panelClass: "border-x border-white/10",
     sponsors: [
       { name: "tldraw", url: "https://tldraw.dev/", logo: "tldraw.svg", logoClass: "h-4" },
@@ -59,6 +61,13 @@ export const sponsorTiers: SponsorTier[] = [
       { name: "Sperid Labs", url: "https://speridlabs.com", logo: "sperid-labs.svg", logoClass: "h-4" },
       { name: "Neywa Labs", url: "https://neywalabs.ai", logo: "neywa-labs.svg", logoClass: "h-3.5" },
       { name: "QuiverAI", url: "https://quiver.ai/", logo: "quiver.svg", logoClass: "h-3.5" },
+      { name: "Augusta Labs", url: "https://www.augustalabs.ai", logo: "augusta-labs.svg", logoClass: "h-5" },
+      { name: "Todoist", url: "https://www.todoist.com", logo: "todoist.svg", logoClass: "h-5" },
+      { name: "Clevia", url: "https://www.clevia.ai", logo: "clevia.svg", logoClass: "h-4" },
+      { name: "Laika Ventures", url: "https://www.laikaventures.co", logo: "laika-ventures.svg", logoClass: "h-3" },
+      { name: "Kfund", url: "https://kfund.vc", logo: "kfund.svg", logoClass: "h-4" },
+      { name: "Superagent", url: "https://superagent.sh", logo: "superagent.svg", logoClass: "h-4" },
+      { name: "Capital Factory", url: "https://www.capitalfactory.com", logo: "capital-factory.svg", logoClass: "h-4" },
     ],
   },
 ];

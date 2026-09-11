@@ -272,7 +272,21 @@ const homepageSpeakers = [
       <div class="px-3 md:col-span-12 md:px-6">
         <div>
           {
-            sponsorTiers.map((tier) => (
+            sponsorTiers.map((tier) => {
+              // A tier that declares `cols` lays out on a track of twice that
+              // many units, so a short last row can stretch to fill the width
+              // instead of trailing off into empty cells: one leftover logo
+              // spans the row, two split it down the middle.
+              const count = tier.sponsors.length;
+              const rest = tier.cols ? count % tier.cols : 0;
+              const whole = count - rest; // logos that sit in complete rows
+              const spanFor = (i) =>
+                !tier.cols ? "" : i < whole ? "col-span-2" : rest === 1 ? "col-span-6" : "col-span-3";
+              // The divider belongs to position: every cell carries a right
+              // border except the one that closes its row.
+              const closesRow = (i) =>
+                tier.cols ? (i < whole ? (i + 1) % tier.cols === 0 : i === count - 1) : i === count - 1;
+              return (
               <div class:list={[tier.panelClass]}>
                 <div class="bg-slate-300/[0.02] py-4 pl-4 font-mono text-xs uppercase text-muted">
                   //{tier.label}{tier.label === "Community" ? "" : " sponsors"}
@@ -280,10 +294,11 @@ const homepageSpeakers = [
                 {tier.sponsors.length > 0 ? (
                   <div
                     data-shuffle={tier.sponsors.length > 1 ? "" : undefined}
+                    data-cols={tier.cols}
                     class:list={["grid border-t border-white/10", tier.gridClass ?? "grid-cols-2 sm:grid-cols-3 md:grid-cols-4"]}
                   >
                     {tier.sponsors.map(({ name, url, logo, logoClass }, i) => {
-                      const isLast = i === tier.sponsors.length - 1;
+                      const isLast = closesRow(i);
                       const img = (
                         <img
                           src={`${import.meta.env.BASE_URL}images/sponsors/${logo}`}
@@ -294,12 +309,12 @@ const homepageSpeakers = [
                       return url ? (
                         <a
                           href={url}
-                          class:list={["group flex items-center justify-center border-b border-white/10 p-3 min-h-16", { "border-r": !isLast }]}
+                          class:list={["group flex items-center justify-center border-b border-white/10 p-3 min-h-16", spanFor(i), { "border-r": !isLast }]}
                         >
                           {img}
                         </a>
                       ) : (
-                        <div class:list={["flex items-center justify-center border-b border-white/10 p-3 min-h-16", { "border-r": !isLast }]}>
+                        <div class:list={["flex items-center justify-center border-b border-white/10 p-3 min-h-16", spanFor(i), { "border-r": !isLast }]}>
                           {img}
                         </div>
                       );
@@ -309,7 +324,8 @@ const homepageSpeakers = [
                   <p class="font-mono text-xs text-faint">Coming soon</p>
                 )}
               </div>
-            ))
+              );
+            })
           }
         </div>
       </div>
@@ -364,11 +380,23 @@ const homepageSpeakers = [
       const j = Math.floor(Math.random() * (i + 1));
       [cells[i], cells[j]] = [cells[j], cells[i]];
     }
-    // The divider belongs to position, not to the logo that moved into it:
-    // every cell but the last carries the right border.
+    // Width and divider belong to the position, not to the logo that moved
+    // into it, so both are reapplied after the shuffle. The span classes
+    // assume the six-unit track a three-column tier lays out on.
+    const cols = Number(grid.dataset.cols ?? 0);
+    const count = cells.length;
+    const rest = cols ? count % cols : 0;
+    const whole = count - rest;
     cells.forEach((cell, i) => {
       grid.appendChild(cell);
-      cell.classList.toggle("border-r", i < cells.length - 1);
+      if (cols) {
+        cell.classList.remove("col-span-2", "col-span-3", "col-span-6");
+        cell.classList.add(i < whole ? "col-span-2" : rest === 1 ? "col-span-6" : "col-span-3");
+        const closesRow = i < whole ? (i + 1) % cols === 0 : i === count - 1;
+        cell.classList.toggle("border-r", !closesRow);
+      } else {
+        cell.classList.toggle("border-r", i < count - 1);
+      }
     });
   });
 </script>
