@@ -68,7 +68,9 @@ zoomed out a further 4% around the same camera anchor, without moving its box.
 `src/components/HeroArtwork.astro` owns the site's layout and responsive video framing.
 `public/motifs/1.3.0/` contains the generated build, filter image, poster,
 attribution and integrity manifest. Do not edit the generated files here.
-Copy a new version directory from Motifs and update the component's version.
+Copy a new version directory from Motifs, update the component's version and
+remove the previous copy. Ship only the current build; release history belongs
+in Motifs and Git.
 There is no runtime GitHub request and no public-facing link to the study.
 
 The nine-motif catalogue, source renderer, research notes, interactive experiments

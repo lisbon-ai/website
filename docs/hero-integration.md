@@ -19,7 +19,9 @@ No iframe, external runtime service, video or GitHub fetch is involved. The
 conference website deliberately has no link to the study.
 
 Do not edit generated files. For an update, build and test a new version in
-Motifs, copy its whole release directory and change the component's version.
+Motifs, copy its whole release directory, change the component's version and
+remove the previous copy. This website ships only the current build, not the
+release archive.
 `npm test` checks the copied manifest, file hashes and component contract using
 Node alone. `npm run test:e2e` builds the site and opens the compiled homepage in
 a managed browser. CI runs both and uploads that tested build only after all
