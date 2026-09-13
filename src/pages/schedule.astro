@@ -57,7 +57,9 @@ const topicAnchors = Object.fromEntries(
 
                   {slots.length > 0 ? (
                     <ul class="flex flex-col border-b border-white/10">
-                      {slots.map(({ start, end, title, subtitle, kind, host, org, speakers }, slotIndex) => (
+                      {slots.map(({ start, end, title, subtitle, kind, host, org, speakers }, slotIndex) => {
+                        const hostSpeaker = host && speakerByName.get(host.name);
+                        return (
                         <li
                           id={
                             anchoredAt.get(title) === `${dayIndex}-${slotIndex}`
@@ -90,6 +92,19 @@ const topicAnchors = Object.fromEntries(
                                           class="underline decoration-white/30 underline-offset-4 hover:decoration-white"
                                         >{host.name}</a>
                                         {subtitle.slice(subtitle.indexOf(host.name) + host.name.length)}
+                                        {hostSpeaker?.org && (
+                                          <span class="text-faint">
+                                            {" · "}
+                                            {hostSpeaker.orgUrl ? (
+                                              <a
+                                                href={hostSpeaker.orgUrl}
+                                                class="hover:text-cream focus-visible:text-cream focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-white/50"
+                                              >{hostSpeaker.org}</a>
+                                            ) : (
+                                              hostSpeaker.org
+                                            )}
+                                          </span>
+                                        )}
                                       </>
                                     ) : (
                                       subtitle
@@ -151,7 +166,8 @@ const topicAnchors = Object.fromEntries(
                             )}
                           </div>
                         </li>
-                      ))}
+                        );
+                      })}
                     </ul>
                   ) : (
                     <div class="border-t border-white/10 py-8">
