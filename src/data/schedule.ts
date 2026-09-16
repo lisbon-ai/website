@@ -135,8 +135,9 @@ export const days: Day[] = [
     slots: [
       { start: "09:00", end: "09:30", title: "Arrival & coffee", kind: "arrival" },
       { start: "09:30", end: "09:45", title: "Opening w/ Cloudflare", kind: "opening" },
-      // Steve opens the day from a product-and-interface perspective; Daniel
-      // makes that theme concrete; and Cristiana closes on higher-stakes,
+      // Steve opens with creative tools; Daniel moves into screen interaction;
+      // Francisco takes autonomy into the physical world with a field robotics
+      // prototype; and Cristiana closes on scientific application and
       // lab-validated outcomes.
       {
         start: "09:45",
@@ -145,6 +146,7 @@ export const days: Day[] = [
         speakers: [
           "Steve Ruiz",
           "Daniel Bukac",
+          "Francisco Leal",
           "Cristiana Carpinteiro",
         ],
       },

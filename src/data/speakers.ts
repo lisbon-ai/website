@@ -332,6 +332,23 @@ The session is a technical walkthrough of the architecture, APIs and runtime ver
 Two agents, split by job — a fast realtime voice model owns the conversation and its sub-second latencyA smarter model runs silently behind it — Claude reads the transcript + screenshots every few seconds and keeps the canonical state; the voice agent pulls it on demandWatching a screen cheaply — 5 fps capture, drop any frame that changed <10%, so a static screen costs zero vision tokensAlignment is just a wall clock — frames named by timestamp, no semantic matching; survives dropped frames and blips`,
   },
   {
+    name: "Francisco Leal",
+    role: "Cofounder & CTO",
+    org: "UB Robotics",
+    talk: "VdG: a Physical AI system that works without cloud, GPS, or reliable network",
+    talkType: "lightning",
+    profileUrl: "https://www.linkedin.com/in/lealfrancisco/",
+    orgUrl: "https://www.ubrobotics.ai/",
+    logo: "ub-robotics.svg",
+    image: "francisco.png",
+    bio: "Maker by heart, engineer by trade. Previously Talent Protocol (Blockchain), now cofounder at UB Robotics building autonomous rovers for search and rescue. Full-stack used to mean frontend to backend. These days it means everything that runs on the cloud to PCB building.",
+    abstract: `VdG is UBR’s current field robotics prototype.
+
+In this demo, I'll show what we have built so far: the robot, the control layer, the operator interface and the autonomy work behind it. The session will combine robot footage and hardware context with a screen share of the software used to monitor, control and improve the system.
+
+We’ll show what works even if it's rough, what we are learning from testing, and how VdG is evolving into a reliable field robot for real-world operations.`,
+  },
+  {
     name: "Harshil Agrawal",
     role: "Senior Developer Educator",
     org: "Cloudflare",
