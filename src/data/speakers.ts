@@ -24,7 +24,6 @@ const logoHeights: Record<string, string> = {
   "peecai.svg": "h-3",
   "quiver.svg": "h-3",
   "vercel.svg": "h-3",
-  "roboflow.svg": "h-5",
   "cloudflare.svg": "h-5",
   // Square marks and stacked lockups rather than single-line wordmarks, so
   // they need the most height for their type to stay legible.
@@ -202,21 +201,6 @@ Takeaways:
     image: "chema.png",
     bio: "Chema Garabito is founder of Sperid Labs, a Spatial AI lab building foundation models for understanding, reconstructing, simulating, and generating the 3D world.",
     abstract: "We will explore Spatial AI and 3D World Models: systems that move beyond generating pixels to building coherent, persistent, and queryable representations of the physical world. We will cover the fundamental problem we aim to solve, the key technical challenges involved, and the applications this shift could unlock across robotics, simulation, media, gaming, and other real-world industries.",
-  },
-  {
-    name: "Piotr Skalski",
-    role: "Open Source Lead",
-    org: "Roboflow",
-    talk: "Computer Vision, Meet Sports",
-    talkType: "full",
-    profileUrl: "https://x.com/skalskip92",
-    orgUrl: "https://roboflow.com",
-    logo: "roboflow.svg",
-    image: "piotr.png",
-    bio: "Piotr Skalski is Open Source Lead at Roboflow with nearly nine years in computer vision. He has built open-source projects totaling over 80,000 GitHub stars and has produced more than 40 blog posts plus over 60 YouTube videos on key models. His work includes sports applications such as Football AI and Basketball AI. He is also passionate about vision-language models.",
-    abstract: `What does it take to turn raw game footage into a full sports analytics dashboard? More than you’d think.
-
-This talk walks through the complete computer vision pipeline I built for basketball and football, from detecting players and tracking them through occlusions, to reading jersey numbers, mapping positions onto a 2D court, and computing real-time stats. Every model is open-source, and every step solves one problem while creating the next one.`,
   },
   {
     name: "Cristiana Carpinteiro",

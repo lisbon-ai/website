@@ -136,8 +136,8 @@ export const days: Day[] = [
       { start: "09:00", end: "09:30", title: "Arrival & coffee", kind: "arrival" },
       { start: "09:30", end: "09:45", title: "Opening w/ Cloudflare", kind: "opening" },
       // Steve opens the day from a product-and-interface perspective; Daniel
-      // makes that theme concrete; Piotr broadens it into an end-to-end applied
-      // pipeline; and Cristiana closes on higher-stakes, lab-validated outcomes.
+      // makes that theme concrete; and Cristiana closes on higher-stakes,
+      // lab-validated outcomes.
       {
         start: "09:45",
         end: "11:30",
@@ -145,7 +145,6 @@ export const days: Day[] = [
         speakers: [
           "Steve Ruiz",
           "Daniel Bukac",
-          "Piotr Skalski",
           "Cristiana Carpinteiro",
         ],
       },
