@@ -121,6 +121,7 @@ But what does it actually take to build an LLM trained on European Portuguese da
     logo: "haun.svg",
     image: "diogo.png",
     bio: "Diogo is a General Partner at Haun Ventures and co-founder of Anchorage Digital, the first federally chartered crypto-native bank in the US. He previously led security at Square and Docker, and holds a Ph.D. in computer science from Instituto Superior Técnico.",
+    abstract: "Abstract coming soon!",
   },
   {
     name: "Joan Rodriguez",
