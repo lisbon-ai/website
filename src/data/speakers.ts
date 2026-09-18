@@ -520,7 +520,7 @@ The core operational insight: increasing context size often decreases instructio
     profileUrl: "https://www.linkedin.com/in/v-ratyshnyi/",
     orgUrl: "https://www.harmix.ai/",
     image: "vitalii.png",
-    bio: "Lead Research Engineer @ Harmix.AI working on long-term memory for Agents (1-10B tokens inputs), ex-Quant, currently in Madrid.",
+    bio: "Vitalii Ratushnyi is Lead Research Engineer at Harmix. He works at the intersection of agentic memory, personalization, LLM infrastructure, and applied GenAI, benchmarking model capabilities across a range of long-horizon tasks. His current work processes knowledge bases of over 10bn tokens, compressing them into structured memory that agents can query without rereading the source, yet having reference to it.",
     abstract: `Context windows are barely working beyond 400k, and the context we work over across several days  easilty overcome 10-50M tokens. The community has no consensus over what memory looks like for long-running agents, with options ranging from classic vector stores as RAGs to file-based LLM wikis and beyond (Agentic RAG/SIRA). In this lightning talk I'll compress two years of research and production experience into how to organize scalable memory and share recipes that work.`,
   },
   {
