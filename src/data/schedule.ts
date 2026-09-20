@@ -156,13 +156,19 @@ export const days: Day[] = [
       // closes with the wider question of what AI means for creative design.
       {
         start: "12:00",
-        end: "13:15",
+        end: "13:10",
         title: "Applied AI",
         speakers: [
           "Lukas Wirth",
           "Aayush Kapoor",
           "Luis Monteiro",
         ],
+      },
+      {
+        start: "13:10",
+        end: "13:15",
+        title: "Intro to BSC AI Factory",
+        kind: "break",
       },
       { start: "13:15", end: "14:45", title: "Riverside lunch", kind: "break" },
       // Diogo's full session establishes the security stakes; Afonso grounds
