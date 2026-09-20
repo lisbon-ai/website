@@ -167,7 +167,7 @@ export const days: Day[] = [
       {
         start: "13:10",
         end: "13:15",
-        title: "Intro to BSC AI Factory",
+        title: "Intro to CNCA (BSC AI Factory)",
         kind: "break",
       },
       { start: "13:15", end: "14:45", title: "Riverside lunch", kind: "break" },
