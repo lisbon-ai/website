@@ -112,7 +112,7 @@ export const days: Day[] = [
       { start: "16:30", end: "17:00", title: "Coffee break", kind: "break" },
       // Will establishes the evaluation framework; Thom makes failure tangible;
       // Oğuz examines reward design; Yomi insists ideas survive measurement;
-      // Simão tackles evals at agent scale; and Jack closes on real outcomes.
+      // and Simão tackles evals at agent scale.
       {
         start: "17:00",
         end: "18:30",
@@ -123,7 +123,6 @@ export const days: Day[] = [
           "Oğuz Gültepe",
           "Yomi Eluwande",
           "Simão Nogueira",
-          "Jack Fitzsimons",
         ],
       },
       { start: "18:30", end: "20:00", title: "Sunset Party", kind: "social" },

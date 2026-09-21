@@ -364,23 +364,6 @@ We’ll show what works even if it's rough, what we are learning from testing, a
     abstract: "Containers have become the default for running AI-generated code, but for interactive apps, the cold start tax kills you. PromptMotion, my AI video generation app waited seconds for a container to spin up before a user could see a preview. The cost of keeping containers warm was unsustainable. The architecture — Durable Objects, networking, lifecycle management — was more complex than the app itself. This talk covers my migration from containers to V8 isolates (Dynamic Workers). Sub-millisecond cold starts, lower cost, faster previews. But the move wasn't free: I lost the file system, had to rethink how skills and tools work inside an isolate, and rebuilt the previewing, rendering, and download pipeline from scratch. I'll show what broke, what I used to replace the file system, how Artifacts solved versioning, and what I'd do differently if I started over.",
   },
   {
-    name: "Jack Fitzsimons",
-    role: "Co-founder & CTO",
-    org: "Oblivious",
-    orgUrl: "https://www.oblivious.com",
-    logo: "oblivious.svg",
-    talk: "The PR is the Eval",
-    talkType: "lightning",
-    profileUrl: "https://www.linkedin.com/in/jack-f-300810122/",
-    image: "jack.png",
-    bio: "Jack Fitzsimons is a founder and researcher whose work spans statistical machine learning, foundation-model systems and trustworthy AI. He holds a DPhil in Machine Learning from Oxford, where he researched scalable kernel methods, Bayesian learning, algorithmic fairness and quantum machine learning. He has applied AI at NASA JPL, ElectroRoute and Disperse, and co-founded Oblivious. Today, he focuses on building more capable and reliable LLM systems and the infrastructure and safeguards needed to deploy AI securely, privately and fairly.",
-    abstract: `Most coding agents are evaluated at the moment they answer. Software teams discover whether an answer was useful much later: a test fails, a reviewer requests changes, the pull request stalls, or the code ships. This talk shows how to turn those delayed signals into a continuous evaluation system. We instrument AI conversations, tool calls, diffs, commits, CI runs, review comments, and merge outcomes, then join them into one trace from prompt to production.
-
-Using a working implementation, I’ll walk through the event model, correlation logic, and queries that separate accepted work from rework and repeated failure. I’ll show the hard parts: carrying trace context across unrelated tools, distinguishing flaky CI from agent errors, protecting developer privacy, and avoiding vanity metrics. Finally, we’ll turn recurring corrections into human-approved candidate skills and test whether they improve first-pass CI, review rounds, and time-to-merge.
-
-Attendees will leave with a product-agnostic blueprint for outcome-based evaluation of coding agents.`,
-  },
-  {
     name: "Luis Monteiro",
     role: "Chief Design Officer",
     org: "Pixelmatters",
