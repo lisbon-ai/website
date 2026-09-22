@@ -143,6 +143,18 @@ const timeRange = (start: string, end: string) =>
                 </div>
               </article>
             ))}
+            <article class="tv-card" data-tv-detail={`${dayIndex + 1}-before`} hidden>
+              <div class="tv-eyebrow font-mono uppercase text-accent">
+                Starts tomorrow
+              </div>
+              <h2 class="tv-card-title font-display font-bold uppercase leading-none tracking-tight">
+                {day.label}
+              </h2>
+              <p class="tv-card-sub text-soft">
+                Doors open at {formatTime(day.slots[0].start)}. {day.slots.filter((slot) => slot.speakers).flatMap((slot) => slot.speakers!).length} talks across{" "}
+                {[...new Set(day.slots.filter((slot) => slot.speakers).map((slot) => slot.title))].join(", ")}.
+              </p>
+            </article>
             <article class="tv-card" data-tv-detail={`${dayIndex + 1}-end`} hidden>
               <div class="tv-eyebrow font-mono uppercase text-accent">
                 That's a wrap
@@ -415,22 +427,34 @@ const timeRange = (start: string, end: string) =>
     };
   };
 
-  const pickDay = (date: string) => {
-    if (forcedDay) {
-      return dayNodes.find((node) => node.dataset.tvDay === forcedDay) ?? dayNodes[0];
+  // Outside the two days the nearest one is shown as a whole: the eve of the
+  // conference previews Day 1, and afterwards Day 2 stays on its wrap card.
+  // A forced day or time is a preview, which skips that.
+  type Phase = "before" | "during" | "after";
+  const pickDay = (date: string): { day: HTMLElement; phase: Phase } => {
+    if (forcedDay || forcedTime) {
+      const day = dayNodes.find((node) => node.dataset.tvDay === forcedDay) ?? dayNodes[0];
+      return { day, phase: "during" };
     }
-    return dayNodes.find((node) => node.dataset.date === date) ?? dayNodes[0];
+    const match = dayNodes.find((node) => node.dataset.date === date);
+    if (match) return { day: match, phase: "during" };
+    const first = dayNodes[0];
+    if (date < first.dataset.date!) return { day: first, phase: "before" };
+    return { day: dayNodes[dayNodes.length - 1], phase: "after" };
   };
 
   const render = () => {
-    const { date, time, clock } = lisbonNow();
+    const { date, time: clockTimeOfDay, clock } = lisbonNow();
     const [hhmm, suffix = ""] = clock.split(" ");
     clockTime.textContent = hhmm;
     clockSuffix.textContent = suffix;
 
-    const day = pickDay(date);
+    const { day, phase } = pickDay(date);
     for (const node of dayNodes) node.hidden = node !== day;
     dayline.textContent = day.dataset.label ?? "";
+    // Off-day phases pin the time of day outside the programme so every row
+    // reads as upcoming or done.
+    const time = phase === "before" ? "00:00" : phase === "after" ? "24:00" : clockTimeOfDay;
 
     const rows = [...day.querySelectorAll<HTMLElement>("[data-tv-slot]")];
     const nowIndex = rows.findIndex(
@@ -441,12 +465,14 @@ const timeRange = (start: string, end: string) =>
     // the day is done.
     const nextIndex =
       nowIndex >= 0 ? nowIndex + 1 : afterEnd ? -1 : rows.findIndex((row) => row.dataset.start! > time);
+    // The eve of the conference lists tomorrow plainly, without a "Next" pill.
+    const pillNext = phase === "before" ? -1 : nextIndex;
 
     rows.forEach((row, index) => {
       const state =
         index === nowIndex
           ? "now"
-          : index === nextIndex
+          : index === pillNext
             ? "next"
             : afterEnd || index < nowIndex
               ? "past"
@@ -457,7 +483,12 @@ const timeRange = (start: string, end: string) =>
     });
 
     const shownIndex = nowIndex >= 0 ? nowIndex : nextIndex;
-    const shownKey = afterEnd || shownIndex < 0 ? `${day.dataset.tvDay}-end` : rows[shownIndex].dataset.tvSlot;
+    const shownKey =
+      phase === "before"
+        ? `${day.dataset.tvDay}-before`
+        : afterEnd || shownIndex < 0
+          ? `${day.dataset.tvDay}-end`
+          : rows[shownIndex].dataset.tvSlot;
     for (const card of day.querySelectorAll<HTMLElement>("[data-tv-detail]")) {
       const shown = card.dataset.tvDetail === shownKey;
       card.hidden = !shown;
