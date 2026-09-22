@@ -391,114 +391,61 @@ const timeRange = (start: string, end: string) =>
 </style>
 
 <script>
+  import { lisbonNow, resolveDay, slotStates } from "../lib/programme-clock";
+
   const root = document.querySelector<HTMLElement>("[data-tv]")!;
   const params = new URLSearchParams(location.search);
-  const forcedDay = params.get("day");
-  const forcedTime = params.get("time");
+  const forced = { day: params.get("day"), time: params.get("time") };
 
-  const dayNodes = [...root.querySelectorAll<HTMLElement>("[data-tv-day]")];
+  const dayNodes = [...root.querySelectorAll<HTMLElement>("[data-tv-day]")].map(
+    (node) => ({
+      node,
+      key: node.dataset.tvDay!,
+      date: node.dataset.date!,
+      rows: [...node.querySelectorAll<HTMLElement>("[data-tv-slot]")].map((row) => ({
+        row,
+        start: row.dataset.start!,
+        end: row.dataset.end!,
+      })),
+    }),
+  );
   const clockTime = root.querySelector<HTMLElement>("[data-tv-clock-time]")!;
   const clockSuffix = root.querySelector<HTMLElement>("[data-tv-clock-suffix]")!;
   const dayline = root.querySelector<HTMLElement>("[data-tv-dayline]")!;
 
-  // The laptop may sit in any timezone; the programme runs on Lisbon's.
-  const lisbon = (options: Intl.DateTimeFormatOptions) =>
-    new Intl.DateTimeFormat("en-GB", { timeZone: "Europe/Lisbon", ...options });
-  const dateFormat = lisbon({ year: "numeric", month: "2-digit", day: "2-digit" });
-  const timeFormat = lisbon({ hour: "2-digit", minute: "2-digit", hour12: false });
-  const clockFormat = new Intl.DateTimeFormat("en-US", {
-    timeZone: "Europe/Lisbon",
-    hour: "numeric",
-    minute: "2-digit",
-  });
-
-  const partsOf = (format: Intl.DateTimeFormat, date: Date) =>
-    Object.fromEntries(
-      format.formatToParts(date).map(({ type, value }) => [type, value]),
-    );
-
-  const lisbonNow = () => {
-    const now = new Date();
-    const d = partsOf(dateFormat, now);
-    const t = partsOf(timeFormat, now);
-    return {
-      date: `${d.year}-${d.month}-${d.day}`,
-      // en-GB with hour12 off can still print midnight as "24".
-      time: forcedTime ?? `${t.hour === "24" ? "00" : t.hour}:${t.minute}`,
-      clock: clockFormat.format(now),
-    };
-  };
-
-  // Outside the two days the nearest one is shown as a whole: the eve of the
-  // conference previews Day 1, and afterwards Day 2 stays on its wrap card.
-  // A forced day or time is a preview, which skips that.
-  type Phase = "before" | "during" | "after";
-  const pickDay = (date: string): { day: HTMLElement; phase: Phase } => {
-    if (forcedDay || forcedTime) {
-      const day = dayNodes.find((node) => node.dataset.tvDay === forcedDay) ?? dayNodes[0];
-      return { day, phase: "during" };
-    }
-    const match = dayNodes.find((node) => node.dataset.date === date);
-    if (match) return { day: match, phase: "during" };
-    const first = dayNodes[0];
-    if (date < first.dataset.date!) return { day: first, phase: "before" };
-    return { day: dayNodes[dayNodes.length - 1], phase: "after" };
-  };
-
   const render = () => {
-    const { date, time: clockTimeOfDay, clock } = lisbonNow();
-    const [hhmm, suffix = ""] = clock.split(" ");
+    const now = lisbonNow();
+    const [hhmm, suffix = ""] = now.clock.split(" ");
     clockTime.textContent = hhmm;
     clockSuffix.textContent = suffix;
 
-    const { day, phase } = pickDay(date);
-    for (const node of dayNodes) node.hidden = node !== day;
-    dayline.textContent = day.dataset.label ?? "";
-    // Off-day phases pin the time of day outside the programme so every row
-    // reads as upcoming or done.
-    const time = phase === "before" ? "00:00" : phase === "after" ? "24:00" : clockTimeOfDay;
+    const { day, phase, time } = resolveDay(dayNodes, now, forced);
+    for (const { node } of dayNodes) node.hidden = node !== day.node;
+    dayline.textContent = day.node.dataset.label ?? "";
 
-    const rows = [...day.querySelectorAll<HTMLElement>("[data-tv-slot]")];
-    const nowIndex = rows.findIndex(
-      (row) => row.dataset.start! <= time && time < row.dataset.end!,
-    );
-    const afterEnd = rows.length > 0 && time >= rows[rows.length - 1].dataset.end!;
-    // Before doors open the first slot is what matters; after the last slot
-    // the day is done.
-    const nextIndex =
-      nowIndex >= 0 ? nowIndex + 1 : afterEnd ? -1 : rows.findIndex((row) => row.dataset.start! > time);
-    // The eve of the conference lists tomorrow plainly, without a "Next" pill.
-    const pillNext = phase === "before" ? -1 : nextIndex;
-
-    rows.forEach((row, index) => {
-      const state =
-        index === nowIndex
-          ? "now"
-          : index === pillNext
-            ? "next"
-            : afterEnd || index < nowIndex
-              ? "past"
-              : "later";
+    const { nowIndex, nextIndex, afterEnd, states } = slotStates(day.rows, time, phase);
+    day.rows.forEach(({ row }, index) => {
+      const state = states[index];
       row.dataset.state = state;
-      const pill = row.querySelector<HTMLElement>("[data-tv-pill]")!;
-      pill.textContent = state === "now" ? "Now" : state === "next" ? "Next" : "";
+      row.querySelector<HTMLElement>("[data-tv-pill]")!.textContent =
+        state === "now" ? "Now" : state === "next" ? "Next" : "";
     });
 
     const shownIndex = nowIndex >= 0 ? nowIndex : nextIndex;
     const shownKey =
       phase === "before"
-        ? `${day.dataset.tvDay}-before`
+        ? `${day.key}-before`
         : afterEnd || shownIndex < 0
-          ? `${day.dataset.tvDay}-end`
-          : rows[shownIndex].dataset.tvSlot;
-    for (const card of day.querySelectorAll<HTMLElement>("[data-tv-detail]")) {
+          ? `${day.key}-end`
+          : day.rows[shownIndex].row.dataset.tvSlot;
+    for (const card of day.node.querySelectorAll<HTMLElement>("[data-tv-detail]")) {
       const shown = card.dataset.tvDetail === shownKey;
       card.hidden = !shown;
       if (!shown) continue;
       const label = card.querySelector<HTMLElement>("[data-tv-label]");
       if (label) label.textContent = nowIndex >= 0 ? "Now" : "Up next";
       const next = card.querySelector<HTMLElement>("[data-tv-next]");
-      const nextRow = nowIndex >= 0 && nextIndex < rows.length ? rows[nextIndex] : null;
+      const nextRow = nowIndex >= 0 && nextIndex >= 0 ? day.rows[nextIndex].row : null;
       if (next) {
         next.hidden = !nextRow;
         if (nextRow) {
