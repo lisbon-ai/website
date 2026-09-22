@@ -67,7 +67,7 @@ export const sponsorTiers: SponsorTier[] = [
       { name: "Laika Ventures", url: "https://www.laikaventures.co", logo: "laika-ventures.svg", logoClass: "h-3" },
       { name: "Kfund", url: "https://kfund.vc", logo: "kfund.svg", logoClass: "h-4" },
       { name: "Super Agent", url: "https://super-agent.com", logo: "super-agent.svg", logoClass: "h-3" },
-      { name: "Capital Factory", url: "https://www.capitalfactory.com", logo: "capital-factory.svg", logoClass: "h-4" },
+      { name: "Snyk", url: "https://snyk.io", logo: "snyk.svg", logoClass: "h-5" },
     ],
   },
 ];
