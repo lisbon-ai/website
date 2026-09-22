@@ -19,7 +19,7 @@ test('schedule titles link only organization names and preserve plain text', asy
   const expected = [
     { title: 'Opening', time: '9:30 AM – 9:45 AM', links: [] },
     { title: 'Opening w/ Cloudflare', time: '9:30 AM – 9:45 AM', links: [['Cloudflare', 'https://www.cloudflare.com/']] },
-    { title: 'Intro to CNCA (BSC AI Factory)', time: '1:10 PM – 1:15 PM', links: [['CNCA', 'https://www.acnca.pt/'], ['BSC AI Factory', 'https://bsc-aifactory.eu/']] },
+    { title: 'Intro to CNCA (BSC AI Factory)', time: '12:55 PM – 1:00 PM', links: [['CNCA', 'https://www.acnca.pt/'], ['BSC AI Factory', 'https://bsc-aifactory.eu/']] },
   ];
   for (const width of [1440, 390, 320]) {
     await page.command('Emulation.setDeviceMetricsOverride', { width, height: 1000, deviceScaleFactor: 1, mobile: width < 900 });
@@ -66,6 +66,71 @@ test('schedule titles link only organization names and preserve plain text', asy
     for (const [name] of expected.flatMap(slot => slot.links)) {
       assert.ok(nodes.some(node => node.role?.value === 'link' && node.name?.value === name), `${name}: accessible link name`);
     }
+  }
+});
+
+test('Alcides closes Security after the earlier Day 2 lunch, with matching talks and portraits', async () => {
+  const agents = ['Matt Carey', 'Marcelo Lebre', 'Vitalii Ratushnyi', 'Peter Kirkham', 'Pedro Rodrigues', 'Harshil Agrawal'];
+  const security = ['Diogo Mónica', 'Afonso Oliveira', 'Boda Zhao', 'Nina Torgunakova', 'Artur Goulão', 'Alcides Fonseca'];
+  const day2Times = [
+    '9:00 AM – 9:30 AM', '9:30 AM – 9:45 AM', '9:45 AM – 11:15 AM',
+    '11:15 AM – 11:45 AM', '11:45 AM – 12:55 PM', '12:55 PM – 1:00 PM',
+    '1:00 PM – 2:30 PM', '2:30 PM – 4:00 PM', '4:00 PM – 4:15 PM',
+    '4:15 PM – 5:45 PM', '5:45 PM – 8:00 PM',
+  ];
+  for (const width of [1440, 390, 320]) {
+    await page.command('Emulation.setDeviceMetricsOverride', { width, height: 1000, deviceScaleFactor: 1, mobile: width < 900 });
+    await page.command('Page.navigate', { url: `http://127.0.0.1:${server.port}/schedule/` });
+    await page.waitFor("document.readyState === 'complete' && !!document.querySelector('#security')");
+    await page.evaluate(() => document.fonts.ready.then(() => true));
+    const schedule = await page.evaluate(() => {
+      const blocks = [...document.querySelectorAll('li.scroll-mt-24')];
+      const names = id => [...document.querySelectorAll(`#${id} > div > ul > li`)].map(li => li.querySelector('.text-sm > span').textContent.trim());
+      const images = [...document.querySelectorAll('#security img')];
+      const title = document.querySelector('#security a[href="/talks/#alcides-fonseca"]');
+      const range = document.createRange();
+      range.selectNodeContents(title);
+      const box = title.parentElement.getBoundingClientRect();
+      return {
+        agents: names('agents'), security: names('security'),
+        day2Times: [...document.querySelector('#security').parentElement.children].map(li => li.firstElementChild.firstElementChild.textContent.trim()),
+        alcidesCount: document.querySelectorAll('a[href="/talks/#alcides-fonseca"]').length,
+        portraits: images.map(img => img.alt),
+        portraitsFit: images.every(img => {
+          const r = img.getBoundingClientRect(), parent = img.parentElement.getBoundingClientRect();
+          return img.naturalWidth > 0 && r.left >= parent.left && r.right <= parent.right && r.bottom <= parent.bottom;
+        }),
+        title: title.textContent.trim(),
+        clipped: [...range.getClientRects()].some(r => r.left < box.left - 1 || r.right > box.right + 1 || r.bottom > box.bottom + 1),
+        overflow: document.documentElement.scrollWidth > innerWidth,
+        talks: blocks.flatMap(slot => [...slot.querySelectorAll('a[href^="/talks/#"]')].map(a => ({
+          id: a.hash.slice(1), track: slot.firstElementChild.lastElementChild.textContent.trim(),
+        }))),
+      };
+    });
+    assert.deepEqual(schedule.agents, agents);
+    assert.deepEqual(schedule.security, security);
+    assert.deepEqual(schedule.day2Times, day2Times);
+    assert.equal(schedule.alcidesCount, 1);
+    assert.deepEqual(schedule.portraits, security);
+    assert.equal(schedule.portraitsFit, true);
+    assert.equal(schedule.title, 'Guardrailing your Agents with Types and Logic');
+    assert.equal(schedule.clipped, false);
+    assert.equal(schedule.overflow, false);
+
+    await page.command('Page.navigate', { url: `http://127.0.0.1:${server.port}/talks/#alcides-fonseca` });
+    await page.waitFor("document.readyState === 'complete' && !!document.querySelector('#alcides-fonseca')");
+    const talks = await page.evaluate(() => ({
+      entries: [...document.querySelectorAll('li[id]')].map(li => ({ id: li.id, track: li.firstElementChild.lastElementChild.textContent.trim() })),
+      target: document.querySelector(':target')?.id,
+      previous: document.querySelector('#alcides-fonseca').previousElementSibling.id,
+      overflow: document.documentElement.scrollWidth > innerWidth,
+    }));
+    assert.deepEqual(talks.entries, schedule.talks);
+    assert.deepEqual(talks.entries.at(-1), { id: 'alcides-fonseca', track: 'Security' });
+    assert.equal(talks.target, 'alcides-fonseca');
+    assert.equal(talks.previous, 'artur-goulao');
+    assert.equal(talks.overflow, false);
   }
 });
 

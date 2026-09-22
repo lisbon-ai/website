@@ -95,8 +95,8 @@ export const days: Day[] = [
       // Matt frames agent infrastructure at global scale; Marcelo grounds the
       // block in an operational harness; Vitalii carries that context into
       // durable memory; Peter closes the autonomous product loop; Pedro brings
-      // interactive apps into the conversation; Harshil covers the execution
-      // substrate; and Alcides closes on correctness and guardrails.
+      // interactive apps into the conversation; and Harshil closes on the
+      // execution substrate.
       {
         start: "14:30",
         end: "16:30",
@@ -108,7 +108,6 @@ export const days: Day[] = [
           "Peter Kirkham",
           "Pedro Rodrigues",
           "Harshil Agrawal",
-          "Alcides Fonseca",
         ],
       },
       { start: "16:30", end: "17:00", title: "Coffee break", kind: "break" },
@@ -148,7 +147,7 @@ export const days: Day[] = [
       // lab-validated outcomes.
       {
         start: "09:45",
-        end: "11:30",
+        end: "11:15",
         title: "Applied AI",
         speakers: [
           "Steve Ruiz",
@@ -157,13 +156,13 @@ export const days: Day[] = [
           "Cristiana Carpinteiro",
         ],
       },
-      { start: "11:30", end: "12:00", title: "Coffee break", kind: "break" },
+      { start: "11:15", end: "11:45", title: "Coffee break", kind: "break" },
       // Lukas provides an engineering-heavy reset after coffee; Aayush zooms
       // out from cheap implementation to product judgment and restraint; Luis
       // closes with the wider question of what AI means for creative design.
       {
-        start: "12:00",
-        end: "13:10",
+        start: "11:45",
+        end: "12:55",
         title: "Applied AI",
         speakers: [
           "Lukas Wirth",
@@ -172,8 +171,8 @@ export const days: Day[] = [
         ],
       },
       {
-        start: "13:10",
-        end: "13:15",
+        start: "12:55",
+        end: "13:00",
         title: "Intro to CNCA (BSC AI Factory)",
         titleLinks: [
           { text: "CNCA", url: "https://www.acnca.pt/" },
@@ -181,12 +180,14 @@ export const days: Day[] = [
         ],
         kind: "break",
       },
-      { start: "13:15", end: "14:45", title: "Riverside lunch", kind: "break" },
-      // Diogo's full session establishes the security stakes; Afonso grounds
+      { start: "13:00", end: "14:30", title: "Riverside lunch", kind: "break" },
+      // Diogo opens the security block; Afonso grounds
       // trust in a privacy trade-off; Boda maps the supply-chain threat; Nina
-      // demonstrates concrete inspection; and Artur closes on runtime proof.
+      // demonstrates concrete inspection; Artur demonstrates runtime identity,
+      // authorization, and enforcement; and Alcides closes on pre-execution
+      // domain correctness through types and logic.
       {
-        start: "14:45",
+        start: "14:30",
         end: "16:00",
         title: "Security",
         speakers: [
@@ -195,6 +196,7 @@ export const days: Day[] = [
           "Boda Zhao",
           "Nina Torgunakova",
           "Artur Goulão",
+          "Alcides Fonseca",
         ],
       },
       { start: "16:00", end: "16:15", title: "Closing", kind: "closing" },
