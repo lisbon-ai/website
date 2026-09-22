@@ -92,22 +92,21 @@ export const days: Day[] = [
         kind: "break",
         host: { name: "YLD", url: "https://yld.com" },
       },
-      // Matt frames agent infrastructure at global scale; Marcelo grounds the
-      // block in an operational harness; Vitalii carries that context into
-      // durable memory; Peter closes the autonomous product loop; Pedro brings
-      // interactive apps into the conversation; and Harshil closes on the
-      // execution substrate.
+      // Matt frames agent infrastructure at global scale; Harshil follows on
+      // the execution substrate; Marcelo grounds the block in an operational
+      // harness; Vitalii carries that context into durable memory; Peter closes
+      // the autonomous product loop; and Pedro closes with interactive apps.
       {
         start: "14:30",
         end: "16:30",
         title: "Agents",
         speakers: [
           "Matt Carey",
+          "Harshil Agrawal",
           "Marcelo Lebre",
           "Vitalii Ratushnyi",
           "Peter Kirkham",
           "Pedro Rodrigues",
-          "Harshil Agrawal",
         ],
       },
       { start: "16:30", end: "17:00", title: "Coffee break", kind: "break" },

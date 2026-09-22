@@ -70,7 +70,7 @@ test('schedule titles link only organization names and preserve plain text', asy
 });
 
 test('Alcides closes Security after the earlier Day 2 lunch, with matching talks and portraits', async () => {
-  const agents = ['Matt Carey', 'Marcelo Lebre', 'Vitalii Ratushnyi', 'Peter Kirkham', 'Pedro Rodrigues', 'Harshil Agrawal'];
+  const agents = ['Matt Carey', 'Harshil Agrawal', 'Marcelo Lebre', 'Vitalii Ratushnyi', 'Peter Kirkham', 'Pedro Rodrigues'];
   const security = ['Diogo Mónica', 'Afonso Oliveira', 'Boda Zhao', 'Nina Torgunakova', 'Artur Goulão', 'Alcides Fonseca'];
   const day2Times = [
     '9:00 AM – 9:30 AM', '9:30 AM – 9:45 AM', '9:45 AM – 11:15 AM',
