@@ -3,7 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 
-import { days, formatTime } from "../data/schedule";
+import { days, formatTime, type Slot } from "../data/schedule";
 import { speakers as siteSpeakers } from "../data/speakers";
 import TalkLine from "../components/TalkLine.astro";
 import Topics from "../components/Topics.astro";
@@ -33,6 +33,19 @@ days.forEach((day, dayIndex) =>
 const topicAnchors = Object.fromEntries(
   [...anchoredAt.keys()].map((track) => [track, slugify(track)]),
 );
+
+const titleSegments = (title: string, links: Slot["titleLinks"] = []) => {
+  const segments: { text: string; url?: string }[] = [];
+  let offset = 0;
+  for (const { text, url } of links) {
+    const index = title.indexOf(text, offset);
+    if (!text || index < 0) continue;
+    segments.push({ text: title.slice(offset, index) }, { text, url });
+    offset = index + text.length;
+  }
+  segments.push({ text: title.slice(offset) });
+  return segments;
+};
 ---
 
 <Layout
@@ -57,7 +70,7 @@ const topicAnchors = Object.fromEntries(
 
                   {slots.length > 0 ? (
                     <ul class="flex flex-col border-b border-white/10">
-                      {slots.map(({ start, end, title, subtitle, kind, host, org, speakers }, slotIndex) => {
+                      {slots.map(({ start, end, title, titleLinks, subtitle, kind, host, org, speakers }, slotIndex) => {
                         const hostSpeaker = host && speakerByName.get(host.name);
                         return (
                         <li
@@ -79,7 +92,12 @@ const topicAnchors = Object.fromEntries(
                           <div class="min-w-0 text-base md:flex-1 md:text-lg">
                             {!speakers && (
                               <>
-                                <div>{title}</div>
+                                <div>{titleSegments(title, titleLinks).map(({ text, url }) => url ? (
+                                  <a
+                                    href={url}
+                                    class="underline decoration-white/30 underline-offset-4 hover:decoration-white focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-white/50"
+                                  >{text}</a>
+                                ) : text)}</div>
                                 {subtitle && (
                                   <div class="mt-1 text-sm text-soft">
                                     {host && subtitle.includes(host.name) ? (

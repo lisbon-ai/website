@@ -5,6 +5,8 @@ export type Slot = {
   start: string;
   end: string;
   title: string;
+  // Exact, non-overlapping substrings in title order.
+  titleLinks?: { text: string; url: string }[];
   subtitle?: string;
   kind?: SlotKind;
   // Linked where the name appears inside `subtitle`. An `image` in
@@ -133,7 +135,13 @@ export const days: Day[] = [
     date: "September 24",
     slots: [
       { start: "09:00", end: "09:30", title: "Arrival & coffee", kind: "arrival" },
-      { start: "09:30", end: "09:45", title: "Opening w/ Cloudflare", kind: "opening" },
+      {
+        start: "09:30",
+        end: "09:45",
+        title: "Opening w/ Cloudflare",
+        titleLinks: [{ text: "Cloudflare", url: "https://www.cloudflare.com/" }],
+        kind: "opening",
+      },
       // Steve opens with creative tools; Daniel moves into screen interaction;
       // Francisco takes autonomy into the physical world with a field robotics
       // prototype; and Cristiana closes on scientific application and
@@ -167,6 +175,10 @@ export const days: Day[] = [
         start: "13:10",
         end: "13:15",
         title: "Intro to CNCA (BSC AI Factory)",
+        titleLinks: [
+          { text: "CNCA", url: "https://www.acnca.pt/" },
+          { text: "BSC AI Factory", url: "https://bsc-aifactory.eu/" },
+        ],
         kind: "break",
       },
       { start: "13:15", end: "14:45", title: "Riverside lunch", kind: "break" },

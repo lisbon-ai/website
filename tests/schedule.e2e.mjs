@@ -15,6 +15,60 @@ after(async () => {
   try { await page?.close(); } finally { await server?.stop(); }
 });
 
+test('schedule titles link only organization names and preserve plain text', async () => {
+  const expected = [
+    { title: 'Opening', time: '9:30 AM – 9:45 AM', links: [] },
+    { title: 'Opening w/ Cloudflare', time: '9:30 AM – 9:45 AM', links: [['Cloudflare', 'https://www.cloudflare.com/']] },
+    { title: 'Intro to CNCA (BSC AI Factory)', time: '1:10 PM – 1:15 PM', links: [['CNCA', 'https://www.acnca.pt/'], ['BSC AI Factory', 'https://bsc-aifactory.eu/']] },
+  ];
+  for (const width of [1440, 390, 320]) {
+    await page.command('Emulation.setDeviceMetricsOverride', { width, height: 1000, deviceScaleFactor: 1, mobile: width < 900 });
+    await page.command('Page.navigate', { url: `http://127.0.0.1:${server.port}/schedule/` });
+    await page.waitFor("document.readyState === 'complete' && !!document.querySelector('li.scroll-mt-24')");
+    await page.evaluate(() => document.fonts.ready.then(() => true));
+    const state = await page.evaluate(titles => {
+      const slots = [...document.querySelectorAll('li.scroll-mt-24')];
+      return {
+        overflow: document.documentElement.scrollWidth > innerWidth,
+        titles: titles.map(text => {
+          const slot = slots.find(slot => slot.children[1].firstElementChild.textContent === text);
+          if (!slot) return null;
+          const title = slot.children[1].firstElementChild;
+          const box = title.getBoundingClientRect(), range = document.createRange();
+          range.selectNodeContents(title);
+          return {
+            title: title.textContent,
+            time: slot.firstElementChild.textContent.trim(),
+            links: [...title.querySelectorAll('a')].map(a => [a.textContent, a.getAttribute('href')]),
+            forcedTargets: [...title.querySelectorAll('a')].some(a => a.hasAttribute('target')),
+            images: slot.querySelectorAll('img, [role="img"]').length,
+            clipped: [...range.getClientRects()].some(r => r.left < box.left - 1 || r.right > box.right + 1 || r.bottom > box.bottom + 1),
+          };
+        }),
+      };
+    }, expected.map(({ title }) => title));
+    assert.equal(state.overflow, false);
+    assert.deepEqual(state.titles, expected.map(slot => ({ ...slot, forcedTargets: false, images: 0, clipped: false })));
+    for (const [name, url] of expected.flatMap(slot => slot.links)) {
+      await page.evaluate(url => {
+        const links = [...document.querySelectorAll('a[href]')];
+        links[links.findIndex(a => a.getAttribute('href') === url) - 1].focus();
+      }, url);
+      await page.command('Input.dispatchKeyEvent', { type: 'keyDown', key: 'Tab', code: 'Tab', windowsVirtualKeyCode: 9 });
+      await page.command('Input.dispatchKeyEvent', { type: 'keyUp', key: 'Tab', code: 'Tab', windowsVirtualKeyCode: 9 });
+      const focused = await page.evaluate(() => {
+        const a = document.activeElement, style = getComputedStyle(a);
+        return { name: a.textContent, href: a.getAttribute('href'), visible: a.matches(':focus-visible'), outline: style.outlineStyle, width: style.outlineWidth, decoration: style.textDecorationLine };
+      });
+      assert.deepEqual(focused, { name, href: url, visible: true, outline: 'solid', width: '1px', decoration: 'underline' });
+    }
+    const { nodes } = await page.command('Accessibility.getFullAXTree');
+    for (const [name] of expected.flatMap(slot => slot.links)) {
+      assert.ok(nodes.some(node => node.role?.value === 'link' && node.name?.value === name), `${name}: accessible link name`);
+    }
+  }
+});
+
 test('schedule hosts show canonical affiliations without changing sponsor-only bylines', async () => {
   for (const width of [1440, 390, 320]) {
     await page.command('Emulation.setDeviceMetricsOverride', { width, height: 1000, deviceScaleFactor: 1, mobile: width < 900 });
