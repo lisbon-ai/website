@@ -4,11 +4,14 @@ import "../styles/global.css";
 interface Props {
 	title?: string;
 	description?: string;
+	// Keeps utility pages such as the lobby display out of search results.
+	noindex?: boolean;
 }
 
 const {
 	title = "Lisbon AI 2026: The Conference for Builders Shipping AI",
 	description = "Lisbon AI is a two-day event for AI practitioners and enthusiasts. It is where builders, engineers, and innovators deploying AI in the real-world converge.",
+	noindex = false,
 } = Astro.props;
 
 const canonicalUrl = new URL(
@@ -27,6 +30,7 @@ const canonicalUrl = new URL(
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 		<meta name="description" content={description} />
+		{noindex && <meta name="robots" content="noindex" />}
 		<link rel="canonical" href={canonicalUrl} />
 		<meta property="og:url" content={canonicalUrl} />
 		<meta property="og:type" content="website" />

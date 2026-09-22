@@ -1,0 +1,498 @@
+---
+import Layout from "../layouts/Layout.astro";
+import HeroArtwork from "../components/HeroArtwork.astro";
+import { days, formatTime } from "../data/schedule";
+import { speakers as siteSpeakers } from "../data/speakers";
+
+// Lobby display: the hero animation edge to edge with the day's programme
+// over it, meant for a browser in full screen on a TV. The clock (Lisbon
+// time) picks the day and the running slot; nothing here needs a reload
+// during the event. For a preview, `?day=2` forces the day and `?time=14:30`
+// the time of day.
+
+const base = import.meta.env.BASE_URL;
+const speakerByName = new Map(
+  siteSpeakers.map((speaker) => [speaker.name, speaker]),
+);
+
+// Slot dates come from the schedule's "September 23" labels so the two files
+// cannot drift; the year is the conference's.
+const isoDate = (date: string) =>
+  new Date(`${date} 2026 UTC`).toISOString().slice(0, 10);
+
+const timeRange = (start: string, end: string) =>
+  `${formatTime(start)} – ${formatTime(end)}`;
+---
+
+<Layout title="Lisbon AI 2026 — Lobby" noindex>
+  <main class="tv fixed inset-0 select-none overflow-hidden bg-ink" data-tv>
+    <HeroArtwork fill />
+    <div class="tv-shade absolute inset-0" aria-hidden="true"></div>
+
+    <header class="tv-brand absolute">
+      <div class="font-display font-bold uppercase leading-none tracking-tight">
+        Lisbon AI
+      </div>
+      <div class="tv-dayline font-mono uppercase text-muted" data-tv-dayline>
+        {days[0].label} · {days[0].date} · Centro Champalimaud
+      </div>
+    </header>
+
+    <div class="tv-clock absolute text-right">
+      <div class="font-mono tabular-nums leading-none" data-tv-clock>
+        <span data-tv-clock-time>&nbsp;</span><span
+          class="tv-clock-suffix text-muted"
+          data-tv-clock-suffix></span>
+      </div>
+      <div class="tv-dayline font-mono uppercase text-muted">
+        Lisbon · lisbonai.org
+      </div>
+    </div>
+
+    {
+      days.map((day, dayIndex) => (
+        <section
+          class="tv-day absolute"
+          data-tv-day={dayIndex + 1}
+          data-date={isoDate(day.date)}
+          data-label={`${day.label} · ${day.date} · Centro Champalimaud`}
+          hidden
+        >
+          <ol class="tv-list">
+            {day.slots.map((slot, slotIndex) => (
+              <li
+                class="tv-row"
+                data-tv-slot={`${dayIndex + 1}-${slotIndex}`}
+                data-start={slot.start}
+                data-end={slot.end}
+                data-title={slot.title}
+              >
+                <div class="tv-row-time font-mono text-faint">
+                  {timeRange(slot.start, slot.end)}
+                </div>
+                <div class="min-w-0">
+                  <div class="tv-row-title">
+                    <span>{slot.title}</span>
+                    <span class="tv-pill font-mono uppercase" data-tv-pill />
+                  </div>
+                  {slot.speakers && (
+                    <div class="tv-row-names text-muted">
+                      {slot.speakers.join(" · ")}
+                    </div>
+                  )}
+                  {!slot.speakers && slot.subtitle && (
+                    <div class="tv-row-names text-muted">{slot.subtitle}</div>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ol>
+
+          {/* One detail card per slot; the script reveals the running one. */}
+          <div class="tv-panel absolute">
+            {day.slots.map((slot, slotIndex) => (
+              <article
+                class="tv-card"
+                data-tv-detail={`${dayIndex + 1}-${slotIndex}`}
+                hidden
+              >
+                <div class="tv-eyebrow font-mono uppercase">
+                  <span class="text-accent" data-tv-label>Now</span>
+                  <span class="text-faint"> · {timeRange(slot.start, slot.end)}</span>
+                </div>
+                <h2 class="tv-card-title font-display font-bold uppercase leading-none tracking-tight">
+                  {slot.title}
+                </h2>
+                {slot.subtitle && (
+                  <p class="tv-card-sub text-soft">{slot.subtitle}</p>
+                )}
+                {slot.speakers && (
+                  <ul class="tv-talks">
+                    {slot.speakers.map((name) => {
+                      const speaker = speakerByName.get(name);
+                      return (
+                        <li class="tv-talk">
+                          {speaker?.image ? (
+                            <img
+                              src={`${base}images/speakers/${speaker.image}`}
+                              alt=""
+                              class="tv-talk-photo rounded-lg object-cover"
+                            />
+                          ) : (
+                            <span class="tv-talk-photo rounded-lg bg-white/10" />
+                          )}
+                          <div class="min-w-0">
+                            <div class="tv-talk-title text-cream/90">
+                              {speaker?.talk || "TBD"}
+                            </div>
+                            <div class="tv-talk-by text-muted">
+                              {name}
+                              {speaker?.org && (
+                                <span class="text-faint"> · {speaker.org}</span>
+                              )}
+                            </div>
+                          </div>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                )}
+                <div class="tv-next font-mono uppercase" data-tv-next hidden>
+                  <span class="text-faint">Up next · </span>
+                  <span class="text-soft" data-tv-next-text />
+                </div>
+              </article>
+            ))}
+            <article class="tv-card" data-tv-detail={`${dayIndex + 1}-end`} hidden>
+              <div class="tv-eyebrow font-mono uppercase text-accent">
+                That's a wrap
+              </div>
+              <h2 class="tv-card-title font-display font-bold uppercase leading-none tracking-tight">
+                {dayIndex + 1 < days.length
+                  ? `See you tomorrow`
+                  : `Thank you, Lisbon`}
+              </h2>
+              <p class="tv-card-sub text-soft">
+                {dayIndex + 1 < days.length
+                  ? `${days[dayIndex + 1].label} starts at ${formatTime(days[dayIndex + 1].slots[0].start)}.`
+                  : "Two days. No other place to be."}
+              </p>
+            </article>
+          </div>
+        </section>
+      ))
+    }
+
+    <div class="tv-hint absolute font-mono uppercase text-faint" data-tv-hint>
+      Click anywhere for full screen
+    </div>
+  </main>
+</Layout>
+
+<style>
+  /* Everything scales with the viewport height so a 1080p and a 4K TV give
+     the same composition; the animation sits behind all of it. */
+  .tv {
+    cursor: none;
+    --pad-x: 3.5vw;
+    --pad-y: 4vh;
+  }
+  .tv:not(:fullscreen) {
+    cursor: default;
+  }
+
+  /* Keeps the left column and the corners readable over the artwork while
+     the middle-right stays clear for the animation. */
+  .tv-shade {
+    background:
+      linear-gradient(
+        90deg,
+        var(--color-ink) 0%,
+        color-mix(in srgb, var(--color-ink) 94%, transparent) 34%,
+        color-mix(in srgb, var(--color-ink) 60%, transparent) 50%,
+        transparent 68%
+      ),
+      linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--color-ink) 70%, transparent) 0%,
+        transparent 22%,
+        transparent 78%,
+        color-mix(in srgb, var(--color-ink) 70%, transparent) 100%
+      );
+  }
+
+  .tv-brand {
+    left: var(--pad-x);
+    top: var(--pad-y);
+  }
+  .tv-brand > :first-child {
+    font-size: 7.5vh;
+  }
+  .tv-dayline {
+    margin-top: 1.4vh;
+    font-size: 1.5vh;
+    letter-spacing: 0.08em;
+  }
+
+  .tv-clock {
+    right: var(--pad-x);
+    top: var(--pad-y);
+  }
+  [data-tv-clock] {
+    font-size: 7vh;
+  }
+  .tv-clock-suffix {
+    margin-left: 0.25em;
+    font-size: 0.4em;
+    vertical-align: 0.9em;
+  }
+
+  .tv-day {
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .tv-list {
+    position: absolute;
+    left: var(--pad-x);
+    top: 18.5vh;
+    bottom: var(--pad-y);
+    width: 44vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    border-top: 1px solid rgb(255 255 255 / 0.1);
+  }
+  .tv-row {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 1.6vw;
+    align-items: baseline;
+    padding: 1vh 0 1vh 1.2vw;
+    border-bottom: 1px solid rgb(255 255 255 / 0.1);
+    border-left: 0.3vw solid transparent;
+    margin-left: -1.5vw;
+    transition: opacity 600ms ease, border-color 600ms ease;
+  }
+  .tv-row-time {
+    font-size: 1.65vh;
+    white-space: nowrap;
+  }
+  .tv-row-title {
+    font-size: 2.5vh;
+    line-height: 1.2;
+    color: var(--color-soft);
+  }
+  .tv-row-names {
+    margin-top: 0.3vh;
+    font-size: 1.75vh;
+    line-height: 1.35;
+  }
+  .tv-pill {
+    display: none;
+    margin-left: 0.8em;
+    padding: 0.15em 0.6em;
+    border-radius: 999px;
+    font-size: 0.5em;
+    vertical-align: 0.25em;
+    letter-spacing: 0.1em;
+  }
+  .tv-row[data-state="past"] {
+    opacity: 0.35;
+  }
+  .tv-row[data-state="now"] {
+    border-left-color: var(--color-accent);
+  }
+  .tv-row[data-state="now"] .tv-row-title {
+    color: var(--color-cream);
+  }
+  .tv-row[data-state="now"] .tv-row-names {
+    color: var(--color-soft);
+  }
+  .tv-row[data-state="now"] .tv-pill {
+    display: inline-block;
+    background: var(--color-accent);
+    color: var(--color-cream);
+  }
+  .tv-row[data-state="next"] .tv-pill {
+    display: inline-block;
+    border: 1px solid rgb(255 255 255 / 0.3);
+    color: var(--color-muted);
+  }
+
+  .tv-panel {
+    right: var(--pad-x);
+    bottom: var(--pad-y);
+    width: 36vw;
+  }
+  .tv-card {
+    padding: 3vh 2vw;
+    border: 1px solid rgb(255 255 255 / 0.12);
+    border-radius: 1.6vh;
+    background: color-mix(in srgb, var(--color-ink) 78%, transparent);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+  }
+  .tv-eyebrow {
+    font-size: 1.5vh;
+    letter-spacing: 0.1em;
+  }
+  .tv-card-title {
+    margin-top: 1.4vh;
+    font-size: 5vh;
+  }
+  .tv-card-sub {
+    margin-top: 1.2vh;
+    font-size: 1.9vh;
+    line-height: 1.35;
+  }
+  .tv-talks {
+    margin-top: 2.4vh;
+    display: flex;
+    flex-direction: column;
+    gap: 1.3vh;
+  }
+  .tv-talk {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.1vw;
+    align-items: center;
+  }
+  .tv-talk-photo {
+    display: block;
+    width: 5.2vh;
+    height: 5.2vh;
+  }
+  .tv-talk-title {
+    font-size: 2.05vh;
+    line-height: 1.25;
+    text-wrap: balance;
+  }
+  .tv-talk-by {
+    margin-top: 0.3vh;
+    font-size: 1.6vh;
+  }
+  .tv-next {
+    margin-top: 2.6vh;
+    padding-top: 1.8vh;
+    border-top: 1px solid rgb(255 255 255 / 0.1);
+    font-size: 1.5vh;
+    letter-spacing: 0.1em;
+  }
+
+  .tv-hint {
+    left: var(--pad-x);
+    bottom: 1.4vh;
+    font-size: 1.3vh;
+    letter-spacing: 0.1em;
+    transition: opacity 400ms ease;
+  }
+  .tv:fullscreen .tv-hint {
+    opacity: 0;
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>("[data-tv]")!;
+  const params = new URLSearchParams(location.search);
+  const forcedDay = params.get("day");
+  const forcedTime = params.get("time");
+
+  const dayNodes = [...root.querySelectorAll<HTMLElement>("[data-tv-day]")];
+  const clockTime = root.querySelector<HTMLElement>("[data-tv-clock-time]")!;
+  const clockSuffix = root.querySelector<HTMLElement>("[data-tv-clock-suffix]")!;
+  const dayline = root.querySelector<HTMLElement>("[data-tv-dayline]")!;
+
+  // The laptop may sit in any timezone; the programme runs on Lisbon's.
+  const lisbon = (options: Intl.DateTimeFormatOptions) =>
+    new Intl.DateTimeFormat("en-GB", { timeZone: "Europe/Lisbon", ...options });
+  const dateFormat = lisbon({ year: "numeric", month: "2-digit", day: "2-digit" });
+  const timeFormat = lisbon({ hour: "2-digit", minute: "2-digit", hour12: false });
+  const clockFormat = new Intl.DateTimeFormat("en-US", {
+    timeZone: "Europe/Lisbon",
+    hour: "numeric",
+    minute: "2-digit",
+  });
+
+  const partsOf = (format: Intl.DateTimeFormat, date: Date) =>
+    Object.fromEntries(
+      format.formatToParts(date).map(({ type, value }) => [type, value]),
+    );
+
+  const lisbonNow = () => {
+    const now = new Date();
+    const d = partsOf(dateFormat, now);
+    const t = partsOf(timeFormat, now);
+    return {
+      date: `${d.year}-${d.month}-${d.day}`,
+      // en-GB with hour12 off can still print midnight as "24".
+      time: forcedTime ?? `${t.hour === "24" ? "00" : t.hour}:${t.minute}`,
+      clock: clockFormat.format(now),
+    };
+  };
+
+  const pickDay = (date: string) => {
+    if (forcedDay) {
+      return dayNodes.find((node) => node.dataset.tvDay === forcedDay) ?? dayNodes[0];
+    }
+    return dayNodes.find((node) => node.dataset.date === date) ?? dayNodes[0];
+  };
+
+  const render = () => {
+    const { date, time, clock } = lisbonNow();
+    const [hhmm, suffix = ""] = clock.split(" ");
+    clockTime.textContent = hhmm;
+    clockSuffix.textContent = suffix;
+
+    const day = pickDay(date);
+    for (const node of dayNodes) node.hidden = node !== day;
+    dayline.textContent = day.dataset.label ?? "";
+
+    const rows = [...day.querySelectorAll<HTMLElement>("[data-tv-slot]")];
+    const nowIndex = rows.findIndex(
+      (row) => row.dataset.start! <= time && time < row.dataset.end!,
+    );
+    const afterEnd = rows.length > 0 && time >= rows[rows.length - 1].dataset.end!;
+    // Before doors open the first slot is what matters; after the last slot
+    // the day is done.
+    const nextIndex =
+      nowIndex >= 0 ? nowIndex + 1 : afterEnd ? -1 : rows.findIndex((row) => row.dataset.start! > time);
+
+    rows.forEach((row, index) => {
+      const state =
+        index === nowIndex
+          ? "now"
+          : index === nextIndex
+            ? "next"
+            : afterEnd || index < nowIndex
+              ? "past"
+              : "later";
+      row.dataset.state = state;
+      const pill = row.querySelector<HTMLElement>("[data-tv-pill]")!;
+      pill.textContent = state === "now" ? "Now" : state === "next" ? "Next" : "";
+    });
+
+    const shownIndex = nowIndex >= 0 ? nowIndex : nextIndex;
+    const shownKey = afterEnd || shownIndex < 0 ? `${day.dataset.tvDay}-end` : rows[shownIndex].dataset.tvSlot;
+    for (const card of day.querySelectorAll<HTMLElement>("[data-tv-detail]")) {
+      const shown = card.dataset.tvDetail === shownKey;
+      card.hidden = !shown;
+      if (!shown) continue;
+      const label = card.querySelector<HTMLElement>("[data-tv-label]");
+      if (label) label.textContent = nowIndex >= 0 ? "Now" : "Up next";
+      const next = card.querySelector<HTMLElement>("[data-tv-next]");
+      const nextRow = nowIndex >= 0 && nextIndex < rows.length ? rows[nextIndex] : null;
+      if (next) {
+        next.hidden = !nextRow;
+        if (nextRow) {
+          next.querySelector<HTMLElement>("[data-tv-next-text]")!.textContent =
+            `${nextRow.querySelector(".tv-row-time")!.textContent!.split(" – ")[0]} · ${nextRow.dataset.title}`;
+        }
+      }
+    }
+  };
+
+  render();
+  setInterval(render, 15_000);
+
+  // A TV set-up rarely has someone at the keyboard: keep the screen awake,
+  // and let one click put the page into full screen.
+  const keepAwake = async () => {
+    try {
+      if (document.visibilityState === "visible") {
+        await (navigator as any).wakeLock?.request("screen");
+      }
+    } catch {}
+  };
+  keepAwake();
+  document.addEventListener("visibilitychange", keepAwake);
+
+  root.addEventListener("click", () => {
+    if (document.fullscreenElement) document.exitFullscreen?.();
+    else root.requestFullscreen?.().catch(() => {});
+  });
+</script>
