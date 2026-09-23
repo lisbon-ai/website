@@ -1,0 +1,307 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
+import { days, formatTime } from "../data/schedule";
+import { speakers as siteSpeakers } from "../data/speakers";
+
+// The stream page: the X broadcast up top, what is on stage right now
+// beside it, and both days' programme underneath with the running slot
+// marked. The clock logic is shared with the lobby display in
+// src/lib/programme-clock.ts; `?day=2` and `?time=14:30` preview a moment.
+
+const base = import.meta.env.BASE_URL;
+const broadcastId = "1qJDzWdoQjOKV";
+const broadcastUrl = `https://x.com/i/broadcasts/${broadcastId}`;
+
+const speakerByName = new Map(
+  siteSpeakers.map((speaker) => [speaker.name, speaker]),
+);
+
+// Slot dates come from the schedule's "September 23" labels so the two files
+// cannot drift; the year is the conference's.
+const isoDate = (date: string) =>
+  new Date(`${date} 2026 UTC`).toISOString().slice(0, 10);
+
+const timeRange = (start: string, end: string) =>
+  `${formatTime(start)} – ${formatTime(end)}`;
+
+const linkClass =
+  "underline decoration-white/30 underline-offset-4 hover:decoration-white";
+---
+
+<Layout
+  title="Live — Lisbon AI 2026"
+  description="Watch Lisbon AI 2026 live from Centro Champalimaud, September 23-24, with the running programme alongside the stream."
+>
+  <Header />
+
+  <main>
+    <section class="border-t border-white/10">
+      <div class="mx-auto max-w-6xl py-16 px-6 md:px-8" data-live>
+        <div class="small-headline mb-4">/live</div>
+        <h1 class="font-display text-3xl font-bold uppercase tracking-tight mb-4">
+          Live from LisbonAI
+        </h1>
+        <p class="mb-10 max-w-xl text-lg leading-snug text-muted">
+          Every talk is streamed from the stage at Centro Champalimaud. Times
+          are Lisbon time (UTC+1).
+        </p>
+
+        <div class="grid gap-10 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] md:gap-12">
+          <!-- Programme -->
+          <div class="flex flex-col gap-12">
+            {days.map((day, dayIndex) => (
+              <div data-live-day={dayIndex + 1} data-date={isoDate(day.date)}>
+                <h2 class="font-display text-2xl font-bold uppercase tracking-tight mb-4">
+                  {day.label}, {day.date}
+                </h2>
+                <ol class="flex flex-col border-b border-white/10">
+                  {day.slots.map((slot, slotIndex) => (
+                    <li
+                      class="live-row border-t border-white/10 py-3"
+                      data-live-slot={`${dayIndex + 1}-${slotIndex}`}
+                      data-start={slot.start}
+                      data-end={slot.end}
+                    >
+                      <div class="font-mono text-xs text-faint">
+                        {timeRange(slot.start, slot.end)}
+                      </div>
+                      <div class="live-row-title mt-1 text-base">
+                        <span>{slot.title}</span>
+                        <span
+                          class="live-pill ml-2 rounded-full px-2 py-0.5 align-[0.15em] font-mono text-[10px] uppercase tracking-wider"
+                          data-live-pill
+                        />
+                      </div>
+                      {slot.speakers && (
+                        <div class="mt-0.5 text-sm text-muted">{slot.speakers.join(" · ")}</div>
+                      )}
+                      {!slot.speakers && slot.subtitle && (
+                        <div class="mt-0.5 text-sm text-muted">{slot.subtitle}</div>
+                      )}
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            ))}
+            <p class="font-mono text-xs text-faint">
+              Times are subject to change. The full programme with talk titles
+              is on the <a href={`${base}schedule/`} class={linkClass}>schedule</a>.
+            </p>
+          </div>
+
+          <!-- Stream, first on phones and pinned beside the programme on
+               wider screens. -->
+          <div class="order-first md:order-none">
+            <div class="flex flex-col gap-4 md:sticky md:top-24 md:max-h-[calc(100svh-7rem)] md:overflow-y-auto [&>*]:shrink-0">
+              <!-- X's official snippet is a blockquote plus widgets.js, which
+                   swaps in this same player iframe and sizes it from a message
+                   the player sends. The iframe goes straight in instead: a
+                   fixed 16:9 box and no third-party script. -->
+              <div class="overflow-hidden rounded-xl border border-white/10 bg-black">
+                <iframe
+                  src={`https://studio.x.com/embed/broadcast/${broadcastId}?dnt=true&lang=en`}
+                  title="Lisbon AI 2026 live broadcast"
+                  class="block aspect-video w-full"
+                  allow="autoplay; fullscreen; picture-in-picture"
+                  allowfullscreen
+                ></iframe>
+              </div>
+              <p class="-mt-2 text-right font-mono text-[10px] text-faint">
+                Player not loading? <a href={broadcastUrl} class={linkClass}>Watch on X</a>.
+              </p>
+
+              {/* One "now" and one "next" card per slot, keyed like the rows;
+                  the script reveals the pair that matches the clock. */}
+              <div class="rounded-xl border border-white/10 p-5">
+                {days.map((day, dayIndex) => (
+                  <>
+                    {day.slots.map((slot, slotIndex) => (
+                      <article data-live-now={`${dayIndex + 1}-${slotIndex}`} hidden>
+                        <div class="font-mono text-xs uppercase">
+                          <span class="text-accent" data-live-label>Now</span>
+                          <span class="text-faint"> · {timeRange(slot.start, slot.end)}</span>
+                        </div>
+                        <h2 class="mt-2 font-display text-2xl font-bold uppercase tracking-tight">
+                          {slot.title}
+                        </h2>
+                        {slot.subtitle && <p class="mt-1 text-sm text-soft">{slot.subtitle}</p>}
+                        {slot.speakers && (
+                          <ul class="mt-4 flex flex-col gap-3">
+                            {slot.speakers.map((name) => {
+                              const speaker = speakerByName.get(name);
+                              return (
+                                <li class="flex items-center gap-3">
+                                  {speaker?.image ? (
+                                    <img
+                                      src={`${base}images/speakers/${speaker.image}`}
+                                      alt=""
+                                      class="h-10 w-10 shrink-0 rounded-lg object-cover"
+                                    />
+                                  ) : (
+                                    <span class="h-10 w-10 shrink-0 rounded-lg bg-white/10" />
+                                  )}
+                                  <div class="min-w-0">
+                                    <div class="text-sm leading-snug text-cream/90">
+                                      {speaker?.talk || "TBD"}
+                                    </div>
+                                    <div class="text-xs text-muted">
+                                      {name}
+                                      {speaker?.org && <span class="text-faint"> · {speaker.org}</span>}
+                                    </div>
+                                  </div>
+                                </li>
+                              );
+                            })}
+                          </ul>
+                        )}
+                      </article>
+                    ))}
+                    <article data-live-now={`${dayIndex + 1}-before`} hidden>
+                      <div class="font-mono text-xs uppercase text-accent">Starts tomorrow</div>
+                      <h2 class="mt-2 font-display text-2xl font-bold uppercase tracking-tight">
+                        {day.label}, {day.date}
+                      </h2>
+                      <p class="mt-1 text-sm text-soft">
+                        Doors open at {formatTime(day.slots[0].start)}.
+                      </p>
+                    </article>
+                    <article data-live-now={`${dayIndex + 1}-end`} hidden>
+                      <div class="font-mono text-xs uppercase text-accent">That's a wrap</div>
+                      <h2 class="mt-2 font-display text-2xl font-bold uppercase tracking-tight">
+                        {dayIndex + 1 < days.length ? "See you tomorrow" : "Thank you, Lisbon"}
+                      </h2>
+                      <p class="mt-1 text-sm text-soft">
+                        {dayIndex + 1 < days.length
+                          ? `${days[dayIndex + 1].label} starts at ${formatTime(days[dayIndex + 1].slots[0].start)}.`
+                          : "Recordings land on the talks page as they are published."}
+                      </p>
+                    </article>
+                  </>
+                ))}
+              </div>
+
+              <div class="rounded-xl border border-white/10 p-5" data-live-next-card hidden>
+                {days.map((day, dayIndex) =>
+                  day.slots.map((slot, slotIndex) => (
+                    <article data-live-next={`${dayIndex + 1}-${slotIndex}`} hidden>
+                      <div class="font-mono text-xs uppercase">
+                        <span class="text-muted">Up next</span>
+                        <span class="text-faint"> · {formatTime(slot.start)}</span>
+                      </div>
+                      <h2 class="mt-1 font-display text-xl font-bold uppercase tracking-tight text-soft">
+                        {slot.title}
+                      </h2>
+                      {slot.speakers ? (
+                        <p class="mt-1 text-sm text-muted">{slot.speakers.join(" · ")}</p>
+                      ) : slot.subtitle ? (
+                        <p class="mt-1 text-sm text-muted">{slot.subtitle}</p>
+                      ) : null}
+                    </article>
+                  )),
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .live-pill {
+    display: none;
+  }
+  .live-row[data-state="past"] {
+    opacity: 0.45;
+  }
+  .live-row[data-state="now"] .live-row-title {
+    color: var(--color-cream);
+  }
+  .live-row[data-state="now"] .live-pill {
+    display: inline-block;
+    background: var(--color-accent);
+    color: var(--color-cream);
+  }
+  .live-row[data-state="next"] .live-pill {
+    display: inline-block;
+    border: 1px solid rgb(255 255 255 / 0.3);
+    color: var(--color-muted);
+  }
+  .live-row:not([data-state="now"]) .live-row-title {
+    color: var(--color-soft);
+  }
+</style>
+
+<script>
+  import { lisbonNow, resolveDay, slotStates } from "../lib/programme-clock";
+
+  const root = document.querySelector<HTMLElement>("[data-live]")!;
+  const params = new URLSearchParams(location.search);
+  const forced = { day: params.get("day"), time: params.get("time") };
+
+  const dayNodes = [...root.querySelectorAll<HTMLElement>("[data-live-day]")].map(
+    (node) => ({
+      node,
+      key: node.dataset.liveDay!,
+      date: node.dataset.date!,
+      rows: [...node.querySelectorAll<HTMLElement>("[data-live-slot]")].map((row) => ({
+        row,
+        start: row.dataset.start!,
+        end: row.dataset.end!,
+      })),
+    }),
+  );
+  const nowCards = [...root.querySelectorAll<HTMLElement>("[data-live-now]")];
+  const nextCard = root.querySelector<HTMLElement>("[data-live-next-card]")!;
+  const nextCards = [...root.querySelectorAll<HTMLElement>("[data-live-next]")];
+
+  const setPill = (row: HTMLElement, state: string) => {
+    row.dataset.state = state;
+    row.querySelector<HTMLElement>("[data-live-pill]")!.textContent =
+      state === "now" ? "Now" : state === "next" ? "Next" : "";
+  };
+
+  const render = () => {
+    const { day, phase, time } = resolveDay(dayNodes, lisbonNow(), forced);
+    const { nowIndex, nextIndex, afterEnd, states } = slotStates(day.rows, time, phase);
+
+    // Other days read as wholly done or wholly upcoming.
+    dayNodes.forEach((d) => {
+      if (d === day) {
+        d.rows.forEach(({ row }, index) => setPill(row, states[index]));
+      } else {
+        const state = d.key < day.key ? "past" : "later";
+        d.rows.forEach(({ row }) => setPill(row, state));
+      }
+    });
+
+    const shownIndex = nowIndex >= 0 ? nowIndex : nextIndex;
+    const nowKey =
+      phase === "before"
+        ? `${day.key}-before`
+        : afterEnd || shownIndex < 0
+          ? `${day.key}-end`
+          : day.rows[shownIndex].row.dataset.liveSlot;
+    for (const card of nowCards) {
+      card.hidden = card.dataset.liveNow !== nowKey;
+      const label = card.querySelector<HTMLElement>("[data-live-label]");
+      if (label && !card.hidden) label.textContent = nowIndex >= 0 ? "Now" : "Up next";
+    }
+
+    // The side card only earns its place while something is on and there
+    // is something after it.
+    const nextKey =
+      nowIndex >= 0 && nextIndex >= 0 ? day.rows[nextIndex].row.dataset.liveSlot : null;
+    nextCard.hidden = !nextKey;
+    for (const card of nextCards) card.hidden = card.dataset.liveNext !== nextKey;
+  };
+
+  render();
+  setInterval(render, 15_000);
+</script>
