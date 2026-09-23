@@ -1,0 +1,42 @@
+---
+import { days } from "../data/schedule";
+
+// A strip above the header pointing remote visitors to the stream. It sits
+// on every page with the header except /live itself, and only on the
+// conference days (Lisbon time), so it retires on its own once it is over.
+
+const base = import.meta.env.BASE_URL;
+const onLivePage = /\/live\/?$/.test(Astro.url.pathname);
+
+// Slot dates come from the schedule's "September 23" labels, as on /live.
+const isoDate = (date: string) =>
+  new Date(`${date} 2026 UTC`).toISOString().slice(0, 10);
+const dates = days.map((day) => isoDate(day.date)).join(" ");
+---
+
+{
+  !onLivePage && (
+    <div
+      data-live-banner
+      data-dates={dates}
+      class="border-b border-white/10 bg-accent/10 px-6 py-2 text-center font-mono text-xs md:px-8"
+    >
+      <span class="mr-1.5 inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-accent align-middle" aria-hidden="true" />
+      <span class="uppercase text-accent">Live now</span>
+      <span class="text-soft"> · Can't make it in person? </span>
+      <a href={`${base}live/`} class="text-cream underline underline-offset-4 hover:text-accent">
+        Watch the stream
+      </a>
+    </div>
+  )
+}
+
+<script>
+  import { lisbonNow } from "../lib/programme-clock";
+
+  const banner = document.querySelector<HTMLElement>("[data-live-banner]");
+  if (banner) {
+    const dates = (banner.dataset.dates ?? "").split(" ");
+    if (!dates.includes(lisbonNow().date)) banner.remove();
+  }
+</script>
