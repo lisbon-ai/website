@@ -7,7 +7,7 @@ const path = Astro.url.pathname.replace(/\/$/, "");
 const isActive = (href: string) => path === href.replace(/\/$/, "");
 
 const navLinks = [
-  { href: `${base}live/`, label: "Live", live: true },
+  { href: `${base}live/`, label: "Live" },
   { href: `${base}about/`, label: "About" },
   { href: `${base}schedule/`, label: "Schedule" },
   { href: `${base}speakers/`, label: "Speakers" },
@@ -17,8 +17,8 @@ const navLinks = [
 ];
 
 // The conference days, from the schedule's "September 23" labels as on
-// /live. Live-only bits (the banner, the dot by "Live") show on these
-// Lisbon dates alone.
+// /live. Live-only bits such as the banner show on these Lisbon dates
+// alone.
 const isoDate = (date: string) =>
   new Date(`${date} 2026 UTC`).toISOString().slice(0, 10);
 const liveDates = days.map((day) => isoDate(day.date)).join(" ");
@@ -44,15 +44,8 @@ const liveDates = days.map((day) => isoDate(day.date)).join(" ");
   <!-- Desktop nav -->
   <nav class="hidden items-center gap-6 text-sm md:flex">
     {
-      navLinks.map(({ href, label, live }) => (
+      navLinks.map(({ href, label }) => (
         <a href={href} class:list={{ "text-white": isActive(href) }}>
-          {live && (
-            <span
-              class="mr-1.5 inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-accent align-middle"
-              aria-hidden="true"
-              data-live-only
-            />
-          )}
           {label}
         </a>
       ))
@@ -91,15 +84,8 @@ const liveDates = days.map((day) => isoDate(day.date)).join(" ");
     <div class="overflow-hidden">
       <nav class="flex flex-col gap-4 px-6 pb-4 text-sm">
         {
-          navLinks.map(({ href, label, live }) => (
+          navLinks.map(({ href, label }) => (
             <a href={href} class:list={{ "text-white": isActive(href) }}>
-              {live && (
-                <span
-                  class="mr-1.5 inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-accent align-middle"
-                  aria-hidden="true"
-                  data-live-only
-                />
-              )}
               {label}
             </a>
           ))
