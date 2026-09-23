@@ -58,10 +58,20 @@ const linkClass =
                   {day.label}, {day.date}
                 </h2>
                 <ol class="flex flex-col border-b border-white/10">
+                  {/* Stands in for the slots already done; the script fills
+                      the count and hides it while nothing is past. */}
+                  <li class="border-t border-white/10" data-live-earlier hidden>
+                    <button
+                      type="button"
+                      class="w-full py-3 text-left font-mono text-xs text-faint hover:text-cream"
+                      aria-expanded="false"
+                    />
+                  </li>
                   {day.slots.map((slot, slotIndex) => (
                     <li
                       class="live-row border-t border-white/10 py-3"
                       data-live-slot={`${dayIndex + 1}-${slotIndex}`}
+                      data-talks={slot.speakers?.length ?? 0}
                       data-start={slot.start}
                       data-end={slot.end}
                     >
@@ -257,6 +267,16 @@ const linkClass =
       })),
     }),
   );
+  // Days whose earlier slots the visitor opened; kept across re-renders.
+  const expanded = new Set<string>();
+  for (const d of dayNodes) {
+    d.node.querySelector("[data-live-earlier] button")!.addEventListener("click", () => {
+      if (expanded.has(d.key)) expanded.delete(d.key);
+      else expanded.add(d.key);
+      render();
+    });
+  }
+
   const nowCards = [...root.querySelectorAll<HTMLElement>("[data-live-now]")];
   const nextCard = root.querySelector<HTMLElement>("[data-live-next-card]")!;
   const nextCards = [...root.querySelectorAll<HTMLElement>("[data-live-next]")];
@@ -280,6 +300,23 @@ const linkClass =
         d.rows.forEach(({ row }) => setPill(row, state));
       }
     });
+
+    // Fold what already happened behind a single "N earlier talks" row.
+    for (const d of dayNodes) {
+      const past = d.rows.filter(({ row }) => row.dataset.state === "past");
+      const open = expanded.has(d.key);
+      const toggle = d.node.querySelector<HTMLElement>("[data-live-earlier]")!;
+      const button = toggle.querySelector("button")!;
+      toggle.hidden = past.length === 0;
+      d.rows.forEach(({ row }) => (row.hidden = !open && row.dataset.state === "past"));
+      const talks = past.reduce((sum, { row }) => sum + Number(row.dataset.talks), 0);
+      const label =
+        talks > 0
+          ? `${talks} earlier talk${talks === 1 ? "" : "s"}`
+          : `${past.length} earlier session${past.length === 1 ? "" : "s"}`;
+      button.textContent = open ? `− Hide ${label}` : `+ ${label}`;
+      button.setAttribute("aria-expanded", String(open));
+    }
 
     const shownIndex = nowIndex >= 0 ? nowIndex : nextIndex;
     const nowKey =
