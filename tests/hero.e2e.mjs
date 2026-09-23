@@ -106,6 +106,9 @@ async function navigate() {
   await page.command('Page.navigate', { url });
   await page.waitFor("document.readyState === 'complete' && document.querySelector('[data-motifs-poster]')?.naturalWidth > 0");
   await page.evaluate(() => document.fonts.ready.then(() => true));
+  // The live banner shows only on the conference days; the framing is
+  // measured as it stands the rest of the year.
+  await page.evaluate(() => { document.querySelectorAll('[data-live-only]').forEach(el => el.remove()); return true; });
 }
 
 async function inspect(kind, expected) {
