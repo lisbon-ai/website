@@ -208,7 +208,7 @@ Takeaways:
     name: "Cristiana Carpinteiro",
     role: "ML Engineer",
     org: "Loka",
-    talk: "LLMs learned to read and write human language",
+    talk: "Foundation Models for Drug Discovery: from Hype to the Lab",
     talkType: "full",
     profileUrl: "https://www.linkedin.com/in/crscarpinteiro/",
     orgUrl: "https://www.loka.com",
