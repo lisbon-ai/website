@@ -1,12 +1,13 @@
 ---
 import LiveBanner from "./LiveBanner.astro";
+import { days } from "../data/schedule";
 
 const base = import.meta.env.BASE_URL;
 const path = Astro.url.pathname.replace(/\/$/, "");
 const isActive = (href: string) => path === href.replace(/\/$/, "");
 
 const navLinks = [
-  { href: `${base}live/`, label: "Live" },
+  { href: `${base}live/`, label: "Live", live: true },
   { href: `${base}about/`, label: "About" },
   { href: `${base}schedule/`, label: "Schedule" },
   { href: `${base}speakers/`, label: "Speakers" },
@@ -14,11 +15,19 @@ const navLinks = [
   { href: `${base}conduct/`, label: "Conduct" },
   { href: "https://tickets.lisbonai.org/lisbonai-2026", label: "Tickets" },
 ];
+
+// The conference days, from the schedule's "September 23" labels as on
+// /live. Live-only bits (the banner, the dot by "Live") show on these
+// Lisbon dates alone.
+const isoDate = (date: string) =>
+  new Date(`${date} 2026 UTC`).toISOString().slice(0, 10);
+const liveDates = days.map((day) => isoDate(day.date)).join(" ");
 ---
 
 <LiveBanner />
 
 <header
+  data-live-dates={liveDates}
   class="sticky top-0 z-50 flex h-header items-center justify-between border-b border-white/10 bg-ink/90 px-6 md:h-header-desktop md:px-8 backdrop-blur"
 >
   <a
@@ -35,8 +44,15 @@ const navLinks = [
   <!-- Desktop nav -->
   <nav class="hidden items-center gap-6 text-sm md:flex">
     {
-      navLinks.map(({ href, label }) => (
+      navLinks.map(({ href, label, live }) => (
         <a href={href} class:list={{ "text-white": isActive(href) }}>
+          {live && (
+            <span
+              class="mr-1.5 inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-accent align-middle"
+              aria-hidden="true"
+              data-live-only
+            />
+          )}
           {label}
         </a>
       ))
@@ -75,8 +91,15 @@ const navLinks = [
     <div class="overflow-hidden">
       <nav class="flex flex-col gap-4 px-6 pb-4 text-sm">
         {
-          navLinks.map(({ href, label }) => (
+          navLinks.map(({ href, label, live }) => (
             <a href={href} class:list={{ "text-white": isActive(href) }}>
+              {live && (
+                <span
+                  class="mr-1.5 inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-accent align-middle"
+                  aria-hidden="true"
+                  data-live-only
+                />
+              )}
               {label}
             </a>
           ))
@@ -87,6 +110,13 @@ const navLinks = [
 </header>
 
 <script>
+  import { lisbonNow } from "../lib/programme-clock";
+
+  const liveDates = document.querySelector<HTMLElement>("[data-live-dates]")?.dataset.liveDates;
+  if (liveDates && !liveDates.split(" ").includes(lisbonNow().date)) {
+    document.querySelectorAll("[data-live-only]").forEach((el) => el.remove());
+  }
+
   const frames = ["⣷", "⣯", "⣟", "⡿", "⢿", "⣻", "⣽", "⣾"];
   const el = document.querySelector<HTMLElement>(".braille-spinner");
   if (el) {
