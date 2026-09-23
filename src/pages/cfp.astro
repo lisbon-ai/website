@@ -2,73 +2,13 @@
 import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-import type { Faq } from "../data/faqs";
 
 const contactEmail = "speakers@lisbonai.org";
-
-const nextSteps = [
-    {
-        date: "July 15",
-        label: "CFP closes",
-        description: "Submissions are now closed.",
-    },
-    {
-        date: "July 16–31",
-        label: "Review",
-        description:
-            "We review for technical depth, originality, usefulness, and fit for a builder audience.",
-    },
-    {
-        date: "By August 7",
-        label: "Notifications",
-        description:
-            "We will let every applicant know and start confirming the program.",
-    },
-    {
-        date: "August 21",
-        label: "Program details",
-        description:
-            "Confirm your title, abstract, short bio, social handles, and headshot. We'll publish these on the main conference website.",
-    },
-    {
-        date: "Before September",
-        label: "Outline review",
-        description:
-            "Share a draft outline of your talk with us. We'll do a 30-minute review call if you'd like one.",
-    },
-    {
-        date: "3 days before",
-        label: "Slides and logistics",
-        description:
-            "Get us your slides, if possible, so we can work out logistics ahead of time.",
-    },
-    {
-        date: "Day-of",
-        label: "Tech check",
-        description:
-            "We'll do a tech and sound check to make sure you look your best, and then the stage is yours.",
-    },
-];
-
-const faqs: Faq[] = [
-    {
-        q: "I submitted a proposal. What happens now?",
-        a: "We are reviewing submissions and will email every applicant by August 7.",
-    },
-    {
-        q: "Can I still submit or suggest a speaker?",
-        a: "The public CFP is closed. For exceptional speaker questions or corrections, email speakers@lisbonai.org.",
-    },
-    {
-        q: "When will the program be announced?",
-        a: "We are announcing confirmed speakers on the website as they are locked in, with the full program coming after speaker confirmations.",
-    },
-];
 ---
 
 <Layout
     title="CFP Closed — Lisbon AI 2026"
-    description="The Lisbon AI 2026 call for proposals is now closed. We are now reviewing and we'll be in touch."
+    description="The Lisbon AI 2026 call for proposals is now closed."
 >
     <Header />
 
@@ -92,17 +32,14 @@ const faqs: Faq[] = [
                         Submissions for Lisbon AI 2026 are now closed. Thanks
                         to everyone who submitted their proposal.
                     </p>
-                    <p class="text-cream">
-                        We are now reviewing and we'll be in touch.
-                    </p>
                 </div>
 
                 <div class="mt-8 flex flex-wrap items-center gap-5">
                     <a
-                        href={`${import.meta.env.BASE_URL}speakers/`}
+                        href={`${import.meta.env.BASE_URL}schedule/`}
                         class="btn-primary"
                     >
-                        See announced speakers &rarr;
+                        See the schedule &rarr;
                     </a>
                     <a
                         href="https://tickets.lisbonai.org/lisbonai-2026"
@@ -118,58 +55,6 @@ const faqs: Faq[] = [
                         class="underline hover:text-cream">{contactEmail}</a
                     >
                 </p>
-            </div>
-        </section>
-
-        <section class="border-t border-white/10">
-            <div class="mx-auto grid max-w-[90rem] gap-12 px-6 py-20 md:grid-cols-12">
-                <div class="md:col-span-4">
-                    <h2 class="small-headline">/next-steps</h2>
-                </div>
-                <div class="md:col-span-8">
-                    <ol>
-                        {
-                            nextSteps.map((item) => (
-                                <li class="grid gap-4 border-b border-white/10 py-6 md:grid-cols-12 md:gap-8">
-                                    <div class="font-mono text-xs uppercase text-muted md:col-span-3">
-                                        {item.date}
-                                    </div>
-                                    <div class="md:col-span-9">
-                                        <h3 class="text-2xl">{item.label}</h3>
-                                        <p class="mt-2 text-muted">
-                                            {item.description}
-                                        </p>
-                                    </div>
-                                </li>
-                            ))
-                        }
-                    </ol>
-                </div>
-            </div>
-        </section>
-
-        <section class="border-t border-white/10">
-            <div class="mx-auto grid max-w-[90rem] gap-12 px-6 py-20 md:grid-cols-12">
-                <div class="md:col-span-4">
-                    <h2 class="small-headline">/faq</h2>
-                </div>
-                <div class="md:col-span-8">
-                    {
-                        faqs.map((faq) => (
-                            <details class="group border-b border-white/10 py-5">
-                                <summary class="flex cursor-pointer list-none items-center justify-between gap-6 text-lg md:text-2xl">
-                                    <span>{faq.q}</span>
-                                    <span class="font-mono text-xs text-faint transition group-open:rotate-45">
-                                        +
-                                    </span>
-                                </summary>
-                                <p class="mt-4 max-w-2xl text-base leading-relaxed text-muted">
-                                    {faq.a}
-                                </p>
-                            </details>
-                        ))
-                    }
-                </div>
             </div>
         </section>
     </main>
