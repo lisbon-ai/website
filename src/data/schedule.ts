@@ -187,7 +187,7 @@ export const days: Day[] = [
       // domain correctness through types and logic.
       {
         start: "14:30",
-        end: "16:00",
+        end: "16:15",
         title: "Security",
         speakers: [
           "Diogo Mónica",
@@ -198,10 +198,10 @@ export const days: Day[] = [
           "Alcides Fonseca",
         ],
       },
-      { start: "16:00", end: "16:15", title: "Closing", kind: "closing" },
+      { start: "16:15", end: "16:30", title: "Closing", kind: "closing" },
       {
-        start: "16:15",
-        end: "17:45",
+        start: "16:30",
+        end: "18:00",
         title: "Coffee break",
         subtitle: "Tell us about your side project with David Gomes",
         kind: "break",
@@ -211,7 +211,7 @@ export const days: Day[] = [
           image: "david.png",
         },
       },
-      { start: "17:45", end: "20:00", title: "Networking", kind: "social" },
+      { start: "18:00", end: "20:00", title: "Networking", kind: "social" },
     ],
   },
 ];

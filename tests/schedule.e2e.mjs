@@ -75,8 +75,8 @@ test('Alcides closes Security after the earlier Day 2 lunch, with matching talks
   const day2Times = [
     '9:00 AM – 9:30 AM', '9:30 AM – 9:45 AM', '9:45 AM – 11:15 AM',
     '11:15 AM – 11:45 AM', '11:45 AM – 12:55 PM', '12:55 PM – 1:00 PM',
-    '1:00 PM – 2:30 PM', '2:30 PM – 4:00 PM', '4:00 PM – 4:15 PM',
-    '4:15 PM – 5:45 PM', '5:45 PM – 8:00 PM',
+    '1:00 PM – 2:30 PM', '2:30 PM – 4:15 PM', '4:15 PM – 4:30 PM',
+    '4:30 PM – 6:00 PM', '6:00 PM – 8:00 PM',
   ];
   for (const width of [1440, 390, 320]) {
     await page.command('Emulation.setDeviceMetricsOverride', { width, height: 1000, deviceScaleFactor: 1, mobile: width < 900 });
@@ -166,7 +166,7 @@ test('schedule hosts show canonical affiliations without changing sponsor-only b
     assert.equal(state.text, 'Tell us about your side project with David Gomes · SpaceXAI');
     assert.deepEqual(state.links, [['David Gomes', 'https://x.com/davidgomes'], ['SpaceXAI', 'https://x.ai']]);
     assert.equal(state.title, 'Coffee break');
-    assert.equal(state.time, '4:15 PM – 5:45 PM');
+    assert.equal(state.time, '4:30 PM – 6:00 PM');
     assert.equal(state.images, 1);
     const size = width >= 900 ? 72 : 56;
     assert.deepEqual(state.image, ['/images/speakers/david.png', 'David Gomes', size, size, true]);
