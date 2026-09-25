@@ -1,13 +1,9 @@
 ---
-import LiveBanner from "./LiveBanner.astro";
-import { days } from "../data/schedule";
-
 const base = import.meta.env.BASE_URL;
 const path = Astro.url.pathname.replace(/\/$/, "");
 const isActive = (href: string) => path === href.replace(/\/$/, "");
 
 const navLinks = [
-  { href: `${base}live/`, label: "Live" },
   { href: `${base}about/`, label: "About" },
   { href: `${base}schedule/`, label: "Schedule" },
   { href: `${base}speakers/`, label: "Speakers" },
@@ -15,19 +11,9 @@ const navLinks = [
   { href: `${base}conduct/`, label: "Conduct" },
   // { href: "https://tickets.lisbonai.org/lisbonai-2026", label: "Tickets" },
 ];
-
-// The conference days, from the schedule's "September 23" labels as on
-// /live. Live-only bits such as the banner show on these Lisbon dates
-// alone.
-const isoDate = (date: string) =>
-  new Date(`${date} 2026 UTC`).toISOString().slice(0, 10);
-const liveDates = days.map((day) => isoDate(day.date)).join(" ");
 ---
 
-<LiveBanner />
-
 <header
-  data-live-dates={liveDates}
   class="sticky top-0 z-50 flex h-header items-center justify-between border-b border-white/10 bg-ink/90 px-6 md:h-header-desktop md:px-8 backdrop-blur"
 >
   <a
@@ -96,13 +82,6 @@ const liveDates = days.map((day) => isoDate(day.date)).join(" ");
 </header>
 
 <script>
-  import { lisbonNow } from "../lib/programme-clock";
-
-  const liveDates = document.querySelector<HTMLElement>("[data-live-dates]")?.dataset.liveDates;
-  if (liveDates && !liveDates.split(" ").includes(lisbonNow().date)) {
-    document.querySelectorAll("[data-live-only]").forEach((el) => el.remove());
-  }
-
   const frames = ["⣷", "⣯", "⣟", "⡿", "⢿", "⣻", "⣽", "⣾"];
   const el = document.querySelector<HTMLElement>(".braille-spinner");
   if (el) {
