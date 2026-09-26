@@ -24,6 +24,17 @@ test('the pinned Motifs build is complete and unmodified', async () => {
   assert.equal(typeof module.mountMotifs, 'function');
 });
 
+test('the hero links to both daily recaps above the headline', async () => {
+  const hero = await readFile(new URL('../src/components/Hero.astro', import.meta.url), 'utf8');
+  const badge = hero.slice(hero.indexOf('<span>Watch the recap</span>'), hero.indexOf('<h1'));
+  assert.ok(badge.startsWith('<span>Watch the recap</span>'));
+  const links = [...badge.matchAll(/<a\s+href="([^"]+)"\s+aria-label="([^"]+)"[^>]*>([\s\S]*?)<\/a>/g)];
+  assert.deepEqual(links.map(([, href, label, content]) => [href, label, content.replace(/<[^>]+>/g, '').trim()]), [
+    ['https://x.com/lisbonai_/status/2102754898647609419', 'Watch the Day 1 recap', 'Day 1 ↗'],
+    ['https://x.com/lisbonai_/status/2103036958499029218', 'Watch the Day 2 recap', 'Day 2 ↗'],
+  ]);
+});
+
 test('the homepage keeps an accessible local still without a video or study link', async () => {
   const hero = await readFile(new URL('../src/components/Hero.astro', import.meta.url), 'utf8');
   const footer = await readFile(new URL('../src/components/Footer.astro', import.meta.url), 'utf8');
